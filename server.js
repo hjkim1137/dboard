@@ -3,8 +3,8 @@ const express = require('express');
 const app = express();
 
 app.use(express.static(__dirname + '/public'));
-// EJS 코드
-app.set('');
+// EJS 세팅
+app.set('view engine', 'ejs');
 
 const { MongoClient } = require('mongodb');
 
