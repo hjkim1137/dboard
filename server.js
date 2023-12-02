@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // monogoDB 연결
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 let db;
 const url =
   'mongodb+srv://test:test1234@cluster0.0v3t3as.mongodb.net/?retryWrites=true&w=majority';
@@ -92,6 +92,29 @@ app.get('/write', (req, res) => {
 //   }
 // });
 
+// 수정기능1
+app.get('/edit/:id', async (req, res) => {
+  // 팁: 서버에서 정보를 찾을 수 없으면 - 유저에게 보내라고 하거나/DB에서 꺼내보거나
+
+  let result = await db
+    .collection('post')
+    .findOne({ _id: new ObjectId(req.params.id) });
+  res.render('edit.ejs', { result: result });
+  console.log('result', result);
+});
+
+// 수정기능(DB 전송)
+app.post('/edit', async (req, res) => {
+  // 팁: 서버에서 정보를 찾을 수 없으면 - 유저에게 보내라고 하거나/DB에서 꺼내보거나
+  await db
+    .collection('post')
+    .updateOne(
+      { _id: new ObjectId(req.body.id) },
+      { $set: { title: req.body.title, content: req.body.content } }
+    );
+  res.redirect('/list');
+});
+
 // (try-catch 문을 이용한 예외처리 방법)
 app.post('/add', async (req, res) => {
   // 유저가 입력한 데이터를 서버로 전송하고 터미널에 출력
@@ -112,5 +135,27 @@ app.post('/add', async (req, res) => {
     // 에러나면 여기 코드 실행
     console.log(e); // 에러 메세지 출력
     res.status(500).send('서버 에러남');
+  }
+});
+
+// 상세페이지 만들기(url 파라미터)
+// detail 다음에 아무 문자를 입력하면
+app.get('/detail/:id', async (req, res) => {
+  // db에 id가 ~인 게시물 가져오기
+
+  // 예외처리
+  try {
+    let result = await db
+      .collection('post')
+      .findOne({ _id: new ObjectId(req.params.id) });
+    res.render('detail.ejs', { result: result });
+
+    // null 처리(parameter가 길이는 맞는데 틀리는 경우 등)
+    if (result == null) {
+      res.status(400).send('이상한 url 입력함');
+    }
+  } catch (e) {
+    console.log(e);
+    res.status(400).send('이상한 url 입렵함');
   }
 });
