@@ -11,6 +11,10 @@ app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// method-override
+const methodOverride = require('method-override');
+app.use(methodOverride('_method'));
+
 // monogoDB 연결
 const { MongoClient, ObjectId } = require('mongodb');
 let db;
@@ -104,16 +108,38 @@ app.get('/edit/:id', async (req, res) => {
 });
 
 // 수정기능(DB 전송)
-app.post('/edit', async (req, res) => {
+app.put('/edit', async (req, res) => {
   // 팁: 서버에서 정보를 찾을 수 없으면 - 유저에게 보내라고 하거나/DB에서 꺼내보거나
-  await db
-    .collection('post')
-    .updateOne(
-      { _id: new ObjectId(req.body.id) },
-      { $set: { title: req.body.title, content: req.body.content } }
-    );
-  res.redirect('/list');
+  try {
+    await db
+      .collection('post')
+      .updateOne(
+        { _id: new ObjectId(req.body.id) },
+        { $set: { title: req.body.title, content: req.body.content } }
+      );
+    res.redirect('/list');
+  } catch (e) {
+    console.log(e);
+  }
 });
+
+// 수정기능(DB 전송)
+app.put('/edit', async (req, res) => {
+  // 팁: 서버에서 정보를 찾을 수 없으면 - 유저에게 보내라고 하거나/DB에서 꺼내보거나
+  try {
+    await db.collection('post').updateOne({ _id: 1 }, { $inc: { like: 2 } });
+    // 기존값에 +/- 하라는 뜻 2-> +2, -2 -> -2
+    res.redirect('/list');
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+// 동시에 document 여러개 수정
+// await db.collection('post').updateMany({ _id: 1 }, { $set: { like: 2 } });
+
+// 동시에 document 여러개 수정 - 조건식 입력(like가 10 이상인 것 일괄 수정)
+// await db.collection('post').updateMany({ like:{$gt:10} }, { $set: { like: 2 } });
 
 // (try-catch 문을 이용한 예외처리 방법)
 app.post('/add', async (req, res) => {
