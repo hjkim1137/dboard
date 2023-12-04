@@ -14,11 +14,23 @@
       <div class="list-box">
         <h4>
           <a href="/detail/<%=글목록[i]._id%>"><%=글목록[i].title %></a>
-          <a href="/edit/<%=글목록[i]._id %>">✏️수정</a>
+          <a href="/edit/<%=글목록[i]._id %>">✏️ 수정</a>
+          <span class="delete">🗑️ 삭제</span>
         </h4>
         <p><%=글목록[i].content %></p>
       </div>
       <% } %>
     </div>
+
+    <script>
+      let target = document.querySelectorAll('.delete')[0];
+      target.addEventListener('click', function () {
+        if (window.confirm('삭제하시겠습니까?')) {
+          fetch('/delete', {
+            method: 'DELETE',
+          });
+        }
+      });
+    </script>
   </body>
 </html>

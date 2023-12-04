@@ -128,7 +128,7 @@ app.put('/edit', async (req, res) => {
   // 팁: 서버에서 정보를 찾을 수 없으면 - 유저에게 보내라고 하거나/DB에서 꺼내보거나
   try {
     await db.collection('post').updateOne({ _id: 1 }, { $inc: { like: 2 } });
-    // 기존값에 +/- 하라는 뜻 2-> +2, -2 -> -2
+    // $inc는 기존값에 +/- 하라는 뜻 예) 2-> +2, -2 -> -2
     res.redirect('/list');
   } catch (e) {
     console.log(e);
@@ -173,7 +173,7 @@ app.get('/detail/:id', async (req, res) => {
   try {
     let result = await db
       .collection('post')
-      .findOne({ _id: new ObjectId(req.params.id) });
+      .findOne({ _id: new ObjectId(req.params.id) }); //db에 저장된 id와 대조
     res.render('detail.ejs', { result: result });
 
     // null 처리(parameter가 길이는 맞는데 틀리는 경우 등)
@@ -182,6 +182,17 @@ app.get('/detail/:id', async (req, res) => {
     }
   } catch (e) {
     console.log(e);
-    res.status(400).send('이상한 url 입렵함');
+    res.status(400).send('이상한 url 입력함');
+  }
+});
+
+app.delete('/delete', async (req, res) => {
+  try {
+    await db.collection('post').deleteOne({}); // 공백이면 첫번째 게시글 삭제
+    console.log('삭제완료');
+    res.redirect('/list'); // 왜 여기서 오류가 나지?
+  } catch (e) {
+    console.log(e);
+    res.send('서버 에러남');
   }
 });
