@@ -32,11 +32,16 @@
         btn.addEventListener('click', function (e) {
           let id = e.target.dataset.id;
           if (window.confirm('삭제하시겠습니까?')) {
+            // 자바스크립트 변수 넣고 싶으면 '+' 사용하여 합치기
             fetch('/delete?docId=' + id, {
               method: 'DELETE',
-            });
+            })
+              // ajax 성공 시 서버에서 온 응답 콘솔에 출력하는 방법
+              .then((res) => res.text()) // array, object 면 res.json
+              .then((res) => {
+                e.target.parentElement.parentElement.style.display = 'none';
+              });
           }
-          // 자바스크립트 변수 넣고 싶으면 '+' 사용하여 합치기
         });
       });
     </script>
