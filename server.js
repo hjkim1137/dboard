@@ -187,12 +187,15 @@ app.get('/detail/:id', async (req, res) => {
 });
 
 app.delete('/delete', async (req, res) => {
+  console.log(req.query);
   try {
-    await db.collection('post').deleteOne({}); // 공백이면 첫번째 게시글 삭제
-    console.log('삭제완료');
-    res.redirect('/list'); // 왜 여기서 오류가 나지?
+    await db
+      .collection('post')
+      .deleteOne({ _id: new ObjectId(req.query.docId) });
+    res.send('삭제완료');
+    // (참고) ajax 요청 사용시 새고로침 안하는게 장점이라 쓰는거라
+    // res.redirect, res.render 사용 안하는게 나음
   } catch (e) {
     console.log(e);
-    res.send('서버 에러남');
   }
 });

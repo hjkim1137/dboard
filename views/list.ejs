@@ -15,21 +15,29 @@
         <h4>
           <a href="/detail/<%=글목록[i]._id%>"><%=글목록[i].title %></a>
           <a href="/edit/<%=글목록[i]._id %>">✏️ 수정</a>
-          <span class="delete">🗑️ 삭제</span>
-        </h4>
+          <span class="delete" data-id="<%=글목록[i]._id %>">🗑️ 삭제</span>
+          <!-- html에 _id 숨겨놨다가 가져오는 법:
+          <span class="delete" data-어쩌구="저저구">🗑️ 삭제</span> 
+          예시: <span class="delete" data-id="<%=글목록[i]._id %>">🗑️ 삭제</span> 
+        --></h4>
         <p><%=글목록[i].content %></p>
       </div>
       <% } %>
     </div>
 
     <script>
-      let target = document.querySelectorAll('.delete')[0];
-      target.addEventListener('click', function () {
-        if (window.confirm('삭제하시겠습니까?')) {
-          fetch('/delete', {
-            method: 'DELETE',
-          });
-        }
+      // 위에 숨긴 데이터 가져오는 방법(더 안전한 방법)
+      let deleteBtns = document.querySelectorAll('.delete');
+      deleteBtns.forEach((btn) => {
+        btn.addEventListener('click', function (e) {
+          let id = e.target.dataset.id;
+          if (window.confirm('삭제하시겠습니까?')) {
+            fetch('/delete?docId=' + id, {
+              method: 'DELETE',
+            });
+          }
+          // 자바스크립트 변수 넣고 싶으면 '+' 사용하여 합치기
+        });
       });
     </script>
   </body>
