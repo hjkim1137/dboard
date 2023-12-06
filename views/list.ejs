@@ -25,6 +25,23 @@
       <% } %>
     </div>
 
+    <!-- 페이지네이션 만들기-->
+    <div class="pages">
+      <a href="/list/1" id="page">1</a>
+      <a href="/list/2" id="page">2</a>
+      <a href="/list/3" id="page">3</a>
+      <a href="/list/4" id="page">4</a>
+    </div>
+
+    <!-- 다음 버튼 만들기-->
+    <!-- 예를 들어 list/1 페이지로 들어갔을 때, 총 글 목록은 5개고, 
+      마지막 글의 id가 파라미터로 넘어가게 됨 -->
+    <div class="nextBtn">
+      <a href="/list/next/<%=글목록[글목록.length-1]._id %>" class="nextBtn"
+        >다음</a
+      >
+    </div>
+
     <script>
       // 위에 숨긴 데이터 가져오는 방법(더 안전한 방법)
       let deleteBtns = document.querySelectorAll('.delete');
