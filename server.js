@@ -44,6 +44,9 @@ const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 
+// connect-mongo 세팅하기
+const MongoStore = require('connect-mongo');
+
 app.use(passport.initialize());
 app.use(
   session({
@@ -53,33 +56,96 @@ app.use(
     saveUninitialized: false,
     // 로그인 안해도 세션 만들것인지
     cookie: { maxAge: 60 * 60 * 1000 }, // 세션 document 유효기간 변경가능
+    store: MongoStore.create({
+      // connect-mongo
+      mongoUrl:
+        'mongodb+srv://test:test1234@cluster0.0v3t3as.mongodb.net/?retryWrites=true&w=majority',
+      dbName: 'forum',
+    }),
+  })
+);
+app.use(passport.session());
+
+// passport 라이브러리 사용하기(외우지 말고 그냥 보면됨)
+passport.use(
+  // 유저가 제출한 로그인 계정정보 검사하는 로직
+  new LocalStrategy(async (입력한아이디, 입력한비번, cb) => {
+    let result = await db
+      .collection('user')
+      .findOne({ username: 입력한아이디 });
+    if (!result) {
+      return cb(null, false, { message: '아이디 DB에 없음' });
+    }
+    // 해싱된 비밀번호와 비교
+    if (await bcrypt.compare(입력한비번, result.password)) {
+      // (유저가 입력한값, DB에 해시되어 저장된값)
+      return cb(null, result);
+    } else {
+      return cb(null, false, { message: '비번불일치' });
+    }
   })
 );
 
-app.use(passport.session());
+// passport.serializeUser() -> 로그인 성공 시 세션 보내주는 코드
+// req.login() 쓰면 아래 코드 자동 실행됨
+passport.serializeUser((user, done) => {
+  console.log('로그인중인 유저 정보', user); // user는 로그인중인 user
+  process.nextTick(() => {
+    // 내부 코드를 비동기적으로 처리해줌
+    done(null, { id: user._id, username: user.username });
+  });
+});
 
-// app.~ 함수들
-// 1. 누가 / 접속시 app.get() 함수 실행됨
-// 2. 그 다음 콜백함수 실행됨
+// passport.authenticate('local')() -> passport.serializeUser 로직 실행(=유저가 전송버튼 누르면)
+// 라이브러리 사용법이니까 외우지 말고 그냥 작성하면 됨
+// error: 비교작업 실패, info: 실패이유, user: 비교작업 성공
+app.post('/login', async (req, res, next) => {
+  passport.authenticate('local', (error, user, info) => {
+    if (error) return res.status(500).json(error);
+    if (!user) return res.status(401).json(info.message);
+    req.logIn(user, (err) => {
+      if (err) return next(err);
+      res.redirect('/');
+    });
+  })(req, res, next);
+});
+
+// deserializeUser -> 유저가 보낸 쿠키를 분석하는 역할
+// API 부분 어디에서나 req.user 입력하면 현재 로그인된 유저정보를 알려준다
+// 좋은 관습: 세션데이터가 좀 오래되면 최신 유저이름과 좀 다를 수 있기에
+// 세션에 적힌 유저정보를 가져와서 최신 회원 정보를 DB에서 가져오고, 그걸 req.user에 집어넣기
+
+// 비효율 포인트
+// 현재는 모든 요청에 대해서 db 조회를 하고 있는데, 특정 API 한해 deserialize 실행 가능하게도 할 수 있다
+passport.deserializeUser(async (user, done) => {
+  let result = await db
+    .collection('user')
+    .findOne({ _id: new ObjectId(user.id) });
+  delete result.password; // 보안을 위해 user 비번 삭제
+  process.nextTick(() => {
+    console.log('로그인 완료 유저정보', result);
+    // 내부 코드를 비동기적으로 처리해줌
+    return done(null, result); // result에 넣은게 API의 req.user에 들어감
+  });
+});
+
+// 로그인 여부 확인 함수
+function isLogin(req, res, next) {
+  if (req.user) {
+    next();
+  } else {
+    res.render('fail.ejs'); // 미로그인 상태면 로그인 요청 페이지로 안내
+  }
+}
+
+// ********** API 함수 시작 **********
+// 메인페이지
 app.get('/', (요청, 응답) => {
   // html 파일 보내는 법
   응답.sendFile(__dirname + '/index.html');
 });
 
-app.get('/about', (요청, 응답) => {
-  응답.sendFile(__dirname + '/about.html');
-});
-
-app.get('/news', (요청, 응답) => {
-  // db에 저장하는 코드
-  db.collection('post').insertOne({ title: '어쩌구' });
-  // 응답.send('뉴스 페이지');
-});
-
-app.get('/shop', (요청, 응답) => {
-  응답.send('쇼핑 페이지 입니다');
-});
-
+// 목록 페이지
 app.get('/list', async (요청, 응답) => {
   let result = await db.collection('post').find().toArray();
   // 응답.send(result[0].title);
@@ -97,8 +163,15 @@ app.get('/time', (요청, 응답) => {
   응답.render('time.ejs', { data: new Date() });
 });
 
-// 게시물 작성 기능
-app.get('/write', (req, res) => {
+// 마이페이지
+app.get('/mypage', isLogin, (req, res) => {
+  console.log('마이페이지 유저 정보', req.user);
+  res.render('mypage.ejs', { user: req.user });
+});
+
+// 게시물 작성 페이지 (+로그인한 사람만 글 작성 가능)
+app.get('/write', isLogin, (req, res) => {
+  console.log('글작성 페이지 유저 정보', req.user);
   res.render('write.ejs');
 });
 
@@ -118,52 +191,7 @@ app.get('/write', (req, res) => {
 //   }
 // });
 
-// 수정기능1
-app.get('/edit/:id', async (req, res) => {
-  // 팁: 서버에서 정보를 찾을 수 없으면 - 유저에게 보내라고 하거나/DB에서 꺼내보거나
-
-  let result = await db
-    .collection('post')
-    .findOne({ _id: new ObjectId(req.params.id) });
-  res.render('edit.ejs', { result: result });
-  console.log('result', result);
-});
-
-// 수정기능(DB 전송)
-app.put('/edit', async (req, res) => {
-  // 팁: 서버에서 정보를 찾을 수 없으면 - 유저에게 보내라고 하거나/DB에서 꺼내보거나
-  try {
-    await db
-      .collection('post')
-      .updateOne(
-        { _id: new ObjectId(req.body.id) },
-        { $set: { title: req.body.title, content: req.body.content } }
-      );
-    res.redirect('/list');
-  } catch (e) {
-    console.log(e);
-  }
-});
-
-// 수정기능(DB 전송)
-app.put('/edit', async (req, res) => {
-  // 팁: 서버에서 정보를 찾을 수 없으면 - 유저에게 보내라고 하거나/DB에서 꺼내보거나
-  try {
-    await db.collection('post').updateOne({ _id: 1 }, { $inc: { like: 2 } });
-    // $inc는 기존값에 +/- 하라는 뜻 예) 2-> +2, -2 -> -2
-    res.redirect('/list');
-  } catch (e) {
-    console.log(e);
-  }
-});
-
-// 동시에 document 여러개 수정
-// await db.collection('post').updateMany({ _id: 1 }, { $set: { like: 2 } });
-
-// 동시에 document 여러개 수정 - 조건식 입력(like가 10 이상인 것 일괄 수정)
-// await db.collection('post').updateMany({ like:{$gt:10} }, { $set: { like: 2 } });
-
-// (try-catch 문을 이용한 예외처리 방법)
+// 게시물 작성 (try-catch 문을 이용한 예외처리 방법)
 app.post('/add', async (req, res) => {
   // 유저가 입력한 데이터를 서버로 전송하고 터미널에 출력
   console.log(req.body);
@@ -186,7 +214,51 @@ app.post('/add', async (req, res) => {
   }
 });
 
-// 상세페이지 만들기(url 파라미터)
+// 게시물 수정기능(조회)
+app.get('/edit/:id', async (req, res) => {
+  // 팁: 서버에서 정보를 찾을 수 없으면 - 유저에게 보내라고 하거나/DB에서 꺼내보거나
+  let result = await db
+    .collection('post')
+    .findOne({ _id: new ObjectId(req.params.id) });
+  res.render('edit.ejs', { result: result });
+  console.log('result', result);
+});
+
+// 게시물 수정기능(DB 전송 - $set)
+app.put('/edit', async (req, res) => {
+  // 팁: 서버에서 정보를 찾을 수 없으면 - 유저에게 보내라고 하거나/DB에서 꺼내보거나
+  try {
+    await db
+      .collection('post')
+      .updateOne(
+        { _id: new ObjectId(req.body.id) },
+        { $set: { title: req.body.title, content: req.body.content } }
+      );
+    res.redirect('/list');
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+// 게시물 수정기능(DB 전송 - $inc)
+app.put('/edit', async (req, res) => {
+  // 팁: 서버에서 정보를 찾을 수 없으면 - 유저에게 보내라고 하거나/DB에서 꺼내보거나
+  try {
+    await db.collection('post').updateOne({ _id: 1 }, { $inc: { like: 2 } });
+    // $inc는 기존값에 +/- 하라는 뜻 예) 2-> +2, -2 -> -2
+    res.redirect('/list');
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+// 동시에 document 여러개 수정
+// await db.collection('post').updateMany({ _id: 1 }, { $set: { like: 2 } });
+
+// 동시에 document 여러개 수정 - 조건식 입력(like가 10 이상인 것 일괄 수정)
+// await db.collection('post').updateMany({ like:{$gt:10} }, { $set: { like: 2 } });
+
+// 게시물 상세페이지(url 파라미터)
 // detail 다음에 아무 문자를 입력하면
 app.get('/detail/:id', async (req, res) => {
   // db에 id가 ~인 게시물 가져오기
@@ -208,6 +280,7 @@ app.get('/detail/:id', async (req, res) => {
   }
 });
 
+// 게시물 삭제 기능
 app.delete('/delete', async (req, res) => {
   console.log(req.query);
   try {
@@ -249,69 +322,6 @@ app.get('/list/next/:id', async (req, res) => {
   res.render('list.ejs', { 글목록: result });
 });
 
-// passport 라이브러리 사용하기
-// 외우지 말고 그냥 보면됨
-passport.use(
-  // 유저가 제출한 계정정보 검사하는 로직
-  new LocalStrategy(async (입력한아이디, 입력한비번, cb) => {
-    let result = await db
-      .collection('user')
-      .findOne({ username: 입력한아이디 });
-    if (!result) {
-      return cb(null, false, { message: '아이디 DB에 없음' });
-    }
-    // 해싱된 비밀번호와 비교가 필요하다
-    if (await bcrypt.compare(입력한비번, result.password)) {
-      // (유저가 입력한값, DB에 해시되어 저장된값)
-      return cb(null, result);
-    } else {
-      return cb(null, false, { message: '비번불일치' });
-    }
-  })
-);
-
-// 로그인 성공 시 세션 보내주는 코드 -> passport.serializeUser()
-// req.login() 쓰면 아래 코드 자동 실행됨
-passport.serializeUser((user, done) => {
-  console.log('로그인중인 유저 정보', user); // user는 로그인중인 user
-  process.nextTick(() => {
-    // 내부 코드를 비동기적으로 처리해줌
-    done(null, { id: user._id, username: user.username });
-  });
-});
-
-// passport.serializeUser 로직 실행하고 싶으면(유저가 전송버튼 누르면)
-// 아래 passport.authenticate('local')() 사용
-// 라이브러리 사용법이니까 외우지 말고 그냥 작성하면 됨
-// error: 비교작업 실패, info: 실패이유, user: 비교작업 성공
-app.post('/login', async (req, res, next) => {
-  passport.authenticate('local', (error, user, info) => {
-    if (error) return res.status(500).json(error);
-    if (!user) return res.status(401).json(info.message);
-    req.logIn(user, (err) => {
-      if (err) return next(err);
-      res.redirect('/');
-    });
-  })(req, res, next);
-});
-
-// 유저가 보낸 쿠키를 분석하는 역할: deserializeUser
-// 아래 코드가 세팅된 곳 밑의 아무데서 req.user 입력하면 현재 로그인된 유저정보를 알려준다
-// 세션데이터가 좀 오래됐거나 그럴 경우엔 최신 유저이름과 좀 다를 수 있기에 좋은 관습은
-// 세션에 적힌 유저정보를 가져와서 최신 회원 정보를 DB에서 가져오고
-// 그걸 req.user에 집어넣는 식으로 코드짜는게 좋습니다.
-passport.deserializeUser(async (user, done) => {
-  let result = await db
-    .collection('user')
-    .findOne({ _id: new ObjectId(user.id) });
-  delete result.password; // 보안을 위해 user 비번 삭제
-  process.nextTick(() => {
-    console.log('로그인 완료 유저정보', result);
-    // 내부 코드를 비동기적으로 처리해줌
-    return done(null, result); // result에 넣은게 API의 req.user에 들어감
-  });
-});
-
 // login 화면 get 요청하기
 // 현재 로그인된 유저 정보 출력은 API 들 안에서 req.user 하면됨
 app.get('/login', async (req, res) => {
@@ -320,20 +330,7 @@ app.get('/login', async (req, res) => {
   res.render('login.ejs');
 });
 
-app.get('/mypage', isLogin, (req, res) => {
-  console.log('마이페이지 유저 정보', req.user);
-  res.render('mypage.ejs', { user: req.user });
-});
-
-// 마이페이지 진입 전 로그인 여부 확인
-function isLogin(req, res, next) {
-  if (req.user) {
-    next();
-  } else {
-    res.render('fail.ejs'); // 미로그인 상태면 로그인 요청 페이지로 안내
-  }
-}
-
+// 비저상적인 접근(로그인한 유저만 접근 가능한 페이지에 임의 접근했을 경우)
 app.get('/fail', (req, res) => {
   res.render('fail.ejs');
 });
@@ -352,11 +349,18 @@ app.post('/register', async (req, res) => {
     if (data) {
       res.send('이미 존재하는 ID 입니다. 새로운 ID를 입력해주세요.');
     } else {
-      if (req.body.username == '' || req.body.password == '') {
+      if (
+        req.body.username == '' ||
+        req.body.password == '' ||
+        req.body.password2 == ''
+      ) {
         res.send('아이디 또는 비번을 입력하세요.');
       }
       if (req.body.password.length < 8) {
         res.send('비밀번호를 8자 이상 입력하세요.');
+      }
+      if (req.body.password != req.body.password2) {
+        res.send('비밀번호가 일치하지 않습니다.');
       } else {
         // 비밀번호 해싱하기
         let hash = await bcrypt.hash(req.body.password, 10);
