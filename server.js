@@ -252,7 +252,7 @@ app.get('/list/next/:id', async (req, res) => {
 // passport 라이브러리 사용하기
 // 외우지 말고 그냥 보면됨
 passport.use(
-  // 유저가 체출한 계정정보 검사하는 로직
+  // 유저가 제출한 계정정보 검사하는 로직
   new LocalStrategy(async (입력한아이디, 입력한비번, cb) => {
     let result = await db
       .collection('user')
@@ -260,7 +260,9 @@ passport.use(
     if (!result) {
       return cb(null, false, { message: '아이디 DB에 없음' });
     }
-    if (result.password == 입력한비번) {
+    // 해싱된 비밀번호와 비교가 필요하다
+    if (await bcrypt.compare(입력한비번, result.password)) {
+      // (유저가 입력한값, DB에 해시되어 저장된값)
       return cb(null, result);
     } else {
       return cb(null, false, { message: '비번불일치' });
@@ -356,9 +358,12 @@ app.post('/register', async (req, res) => {
       if (req.body.password.length < 8) {
         res.send('비밀번호를 8자 이상 입력하세요.');
       } else {
+        // 비밀번호 해싱하기
+        let hash = await bcrypt.hash(req.body.password, 10);
+
         await db.collection('user').insertOne({
           username: req.body.username,
-          password: req.body.password,
+          password: hash,
         });
         res.redirect('/');
       }
