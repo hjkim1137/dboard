@@ -1,6 +1,9 @@
 const express = require('express');
 const app = express();
 
+// dotenv 세팅
+require('dotenv').config();
+
 // public 폴더 등록
 app.use(express.static(__dirname + '/public'));
 
@@ -21,8 +24,7 @@ app.use(methodOverride('_method'));
 // monogoDB 연결
 const { MongoClient, ObjectId } = require('mongodb');
 let db;
-const url =
-  'mongodb+srv://test:test1234@cluster0.0v3t3as.mongodb.net/?retryWrites=true&w=majority';
+const url = process.env.DB_URL;
 new MongoClient(url)
   .connect()
   .then((client) => {
@@ -30,9 +32,8 @@ new MongoClient(url)
     db = client.db('forum'); // forum db 연결
 
     // 서버 시작 코드 여기로 옮기기
-    const PORT = 8080;
-    app.listen(PORT, () => {
-      console.log(`http://localhost:${PORT} 에서 서버 실행중`);
+    app.listen(process.env.PORT, () => {
+      console.log(`http://localhost:${process.env.PORT} 에서 서버 실행중`);
     });
   })
   .catch((err) => {
@@ -58,8 +59,7 @@ app.use(
     cookie: { maxAge: 60 * 60 * 1000 }, // 세션 document 유효기간 변경가능
     store: MongoStore.create({
       // connect-mongo
-      mongoUrl:
-        'mongodb+srv://test:test1234@cluster0.0v3t3as.mongodb.net/?retryWrites=true&w=majority',
+      mongoUrl: process.env.DB_URL,
       dbName: 'forum',
     }),
   })
@@ -69,15 +69,13 @@ app.use(passport.session());
 // passport 라이브러리 사용하기(외우지 말고 그냥 보면됨)
 passport.use(
   // 유저가 제출한 로그인 계정정보 검사하는 로직
-  new LocalStrategy(async (입력한아이디, 입력한비번, cb) => {
-    let result = await db
-      .collection('user')
-      .findOne({ username: 입력한아이디 });
+  new LocalStrategy(async (inputID, inputPW, cb) => {
+    let result = await db.collection('user').findOne({ username: inputID });
     if (!result) {
       return cb(null, false, { message: '아이디 DB에 없음' });
     }
     // 해싱된 비밀번호와 비교
-    if (await bcrypt.compare(입력한비번, result.password)) {
+    if (await bcrypt.compare(inputPW, result.password)) {
       // (유저가 입력한값, DB에 해시되어 저장된값)
       return cb(null, result);
     } else {
@@ -86,8 +84,20 @@ passport.use(
   })
 );
 
-// passport.serializeUser() -> 로그인 성공 시 세션 보내주는 코드
-// req.login() 쓰면 아래 코드 자동 실행됨
+// 로그인/회원가입시 빈칸이면 알림하는 미들웨어 함수
+function isblank(req, res, next) {
+  if (
+    req.body.username == '' ||
+    req.body.password == '' ||
+    req.body.password2 == ''
+  )
+    res.send('아이디 또는 비밀번호가 빈칸입니다.');
+  else {
+    next();
+  }
+}
+
+// 1. passport.serializeUser() -> 로그인 성공 시 세션 보내주는 코드
 passport.serializeUser((user, done) => {
   console.log('로그인중인 유저 정보', user); // user는 로그인중인 user
   process.nextTick(() => {
@@ -96,27 +106,12 @@ passport.serializeUser((user, done) => {
   });
 });
 
-// passport.authenticate('local')() -> passport.serializeUser 로직 실행(=유저가 전송버튼 누르면)
-// 라이브러리 사용법이니까 외우지 말고 그냥 작성하면 됨
-// error: 비교작업 실패, info: 실패이유, user: 비교작업 성공
-app.post('/login', async (req, res, next) => {
-  passport.authenticate('local', (error, user, info) => {
-    if (error) return res.status(500).json(error);
-    if (!user) return res.status(401).json(info.message);
-    req.logIn(user, (err) => {
-      if (err) return next(err);
-      res.redirect('/');
-    });
-  })(req, res, next);
-});
-
-// deserializeUser -> 유저가 보낸 쿠키를 분석하는 역할
+// 2. passport.deserializeUser -> 유저가 보낸 쿠키를 분석하는 역할
 // API 부분 어디에서나 req.user 입력하면 현재 로그인된 유저정보를 알려준다
 // 좋은 관습: 세션데이터가 좀 오래되면 최신 유저이름과 좀 다를 수 있기에
 // 세션에 적힌 유저정보를 가져와서 최신 회원 정보를 DB에서 가져오고, 그걸 req.user에 집어넣기
 
-// 비효율 포인트
-// 현재는 모든 요청에 대해서 db 조회를 하고 있는데, 특정 API 한해 deserialize 실행 가능하게도 할 수 있다
+// 비효율 포인트: 현재는 모든 요청에 대해서 db 조회를 하고 있는데, 특정 API 한해 deserialize 실행 가능하게도 할 수 있다
 passport.deserializeUser(async (user, done) => {
   let result = await db
     .collection('user')
@@ -129,38 +124,60 @@ passport.deserializeUser(async (user, done) => {
   });
 });
 
-// 로그인 여부 확인 함수
+// passport.serializeUser 로직 실행하는 코드
+// 라이브러리 사용법이니까 외우지 말고 그냥 작성하면 됨
+// error: 비교작업 실패, info: 실패이유, user: 비교작업 성공
+app.post('/login', isblank, async (req, res, next) => {
+  passport.authenticate('local', (error, user, info) => {
+    if (error) return res.status(500).json(error);
+    if (!user) return res.status(401).json(info.message);
+    // req.login() => 유저가 전송버튼 누름-> passport.serializeUser 실행
+    req.logIn(user, (err) => {
+      if (err) return next(err);
+      res.redirect('/');
+    });
+  })(req, res, next);
+});
+
+// 로그인 여부 확인 함수(미들웨어 함수)
 function isLogin(req, res, next) {
-  if (req.user) {
-    next();
-  } else {
+  if (!req.user) {
     res.render('fail.ejs'); // 미로그인 상태면 로그인 요청 페이지로 안내
   }
+  next(); // 써줘야지 무한 로딩상태에 안빠짐
 }
 
-// ********** API 함수 시작 **********
+// ****************************** API 함수 시작 ******************************
+// login 화면 get 요청하기
+// 현재 로그인된 유저 정보 출력은 API 들 안에서 req.user 하면됨
+app.get('/login', async (req, res) => {
+  console.log('현재 로그인한 유저정보', req.user);
+  // 로그인 이후에 /login 접속하면 req.user 콘솔에 찍힘. 로그인 전이면 undefined 뜸
+  res.render('login.ejs');
+});
+
 // 메인페이지
-app.get('/', (요청, 응답) => {
+app.get('/', (req, res) => {
   // html 파일 보내는 법
-  응답.sendFile(__dirname + '/index.html');
+  res.sendFile(__dirname + '/index.html');
 });
 
 // 목록 페이지
-app.get('/list', async (요청, 응답) => {
+app.get('/list', async (req, res) => {
   let result = await db.collection('post').find().toArray();
-  // 응답.send(result[0].title);
-  응답.render('list.ejs', { 글목록: result });
+  // res.send(result[0].title);
+  res.render('list.ejs', { 글목록: result });
 });
 
 // (번외) 서버 time 보여주는 기능
-// app.get('/time', (요청, 응답) => {
+// app.get('/time', (req, res) => {
 //   let time = new Date();
-//   응답.render('time.ejs', { time });
+//   res.render('time.ejs', { time });
 // });
 
 // 또는 이렇게 한번에 작성 가능
-app.get('/time', (요청, 응답) => {
-  응답.render('time.ejs', { data: new Date() });
+app.get('/time', (req, res) => {
+  res.render('time.ejs', { data: new Date() });
 });
 
 // 마이페이지
@@ -322,14 +339,6 @@ app.get('/list/next/:id', async (req, res) => {
   res.render('list.ejs', { 글목록: result });
 });
 
-// login 화면 get 요청하기
-// 현재 로그인된 유저 정보 출력은 API 들 안에서 req.user 하면됨
-app.get('/login', async (req, res) => {
-  console.log('현재 로그인한 유저정보', req.user);
-  // 로그인 이후에 /login 접속하면 req.user 콘솔에 찍힘. 로그인 전이면 undefined 뜸
-  res.render('login.ejs');
-});
-
 // 비저상적인 접근(로그인한 유저만 접근 가능한 페이지에 임의 접근했을 경우)
 app.get('/fail', (req, res) => {
   res.render('fail.ejs');
@@ -340,7 +349,7 @@ app.get('/register', (req, res) => {
   res.render('register.ejs');
 });
 
-app.post('/register', async (req, res) => {
+app.post('/register', isblank, async (req, res) => {
   console.log('유저가 회원가입 형식에 입력한 내용', req.body);
   try {
     let data = await db
@@ -349,13 +358,6 @@ app.post('/register', async (req, res) => {
     if (data) {
       res.send('이미 존재하는 ID 입니다. 새로운 ID를 입력해주세요.');
     } else {
-      if (
-        req.body.username == '' ||
-        req.body.password == '' ||
-        req.body.password2 == ''
-      ) {
-        res.send('아이디 또는 비번을 입력하세요.');
-      }
       if (req.body.password.length < 8) {
         res.send('비밀번호를 8자 이상 입력하세요.');
       }
