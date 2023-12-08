@@ -11,6 +11,9 @@ app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// bcrypt 세팅
+const bcrypt = require('bcrypt');
+
 // method-override
 const methodOverride = require('method-override');
 app.use(methodOverride('_method'));
@@ -331,4 +334,36 @@ function isLogin(req, res, next) {
 
 app.get('/fail', (req, res) => {
   res.render('fail.ejs');
+});
+
+// 회원가입기능
+app.get('/register', (req, res) => {
+  res.render('register.ejs');
+});
+
+app.post('/register', async (req, res) => {
+  console.log('유저가 회원가입 형식에 입력한 내용', req.body);
+  try {
+    let data = await db
+      .collection('user')
+      .findOne({ username: req.body.username });
+    if (data) {
+      res.send('이미 존재하는 ID 입니다. 새로운 ID를 입력해주세요.');
+    } else {
+      if (req.body.username == '' || req.body.password == '') {
+        res.send('아이디 또는 비번을 입력하세요.');
+      }
+      if (req.body.password.length < 8) {
+        res.send('비밀번호를 8자 이상 입력하세요.');
+      } else {
+        await db.collection('user').insertOne({
+          username: req.body.username,
+          password: req.body.password,
+        });
+        res.redirect('/');
+      }
+    }
+  } catch (e) {
+    console.log(e);
+  }
 });
