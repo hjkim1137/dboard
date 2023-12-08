@@ -115,3 +115,31 @@ div {
 .nextBtn > a:hover {
   background-color: lightblue;
 }
+
+.toLogin {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+.errorMsg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 26px;
+  color: gray;
+  margin-bottom: 20px;
+}
+
+.toLogin > a {
+  text-decoration: none;
+  background-color: #fff;
+  color: gray;
+  font-size: 26px;
+  text-align: center;
+  justify-content: center;
+  border: none;
+  border-radius: 16px;
+  padding: 20px;
+}

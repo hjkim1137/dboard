@@ -36,6 +36,26 @@ new MongoClient(url)
     console.error('DB 연결 실패:', err);
   });
 
+// passport 라이브러리 세팅
+const session = require('express-session');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+
+app.use(passport.initialize());
+app.use(
+  session({
+    secret: '암호화에 쓸 비번',
+    resave: false,
+    // 유저가 서버로 요청할 때마다 세션 갱신할 지 여부(보통은 false로 둠)
+    saveUninitialized: false,
+    // 로그인 안해도 세션 만들것인지
+    cookie: { maxAge: 60 * 60 * 1000 }, // 세션 document 유효기간 변경가능
+  })
+);
+
+app.use(passport.session());
+
+// app.~ 함수들
 // 1. 누가 / 접속시 app.get() 함수 실행됨
 // 2. 그 다음 콜백함수 실행됨
 app.get('/', (요청, 응답) => {
@@ -224,4 +244,91 @@ app.get('/list/next/:id', async (req, res) => {
     .limit(5)
     .toArray();
   res.render('list.ejs', { 글목록: result });
+});
+
+// passport 라이브러리 사용하기
+// 외우지 말고 그냥 보면됨
+passport.use(
+  // 유저가 체출한 계정정보 검사하는 로직
+  new LocalStrategy(async (입력한아이디, 입력한비번, cb) => {
+    let result = await db
+      .collection('user')
+      .findOne({ username: 입력한아이디 });
+    if (!result) {
+      return cb(null, false, { message: '아이디 DB에 없음' });
+    }
+    if (result.password == 입력한비번) {
+      return cb(null, result);
+    } else {
+      return cb(null, false, { message: '비번불일치' });
+    }
+  })
+);
+
+// 로그인 성공 시 세션 보내주는 코드 -> passport.serializeUser()
+// req.login() 쓰면 아래 코드 자동 실행됨
+passport.serializeUser((user, done) => {
+  console.log('로그인중인 유저 정보', user); // user는 로그인중인 user
+  process.nextTick(() => {
+    // 내부 코드를 비동기적으로 처리해줌
+    done(null, { id: user._id, username: user.username });
+  });
+});
+
+// passport.serializeUser 로직 실행하고 싶으면(유저가 전송버튼 누르면)
+// 아래 passport.authenticate('local')() 사용
+// 라이브러리 사용법이니까 외우지 말고 그냥 작성하면 됨
+// error: 비교작업 실패, info: 실패이유, user: 비교작업 성공
+app.post('/login', async (req, res, next) => {
+  passport.authenticate('local', (error, user, info) => {
+    if (error) return res.status(500).json(error);
+    if (!user) return res.status(401).json(info.message);
+    req.logIn(user, (err) => {
+      if (err) return next(err);
+      res.redirect('/');
+    });
+  })(req, res, next);
+});
+
+// 유저가 보낸 쿠키를 분석하는 역할: deserializeUser
+// 아래 코드가 세팅된 곳 밑의 아무데서 req.user 입력하면 현재 로그인된 유저정보를 알려준다
+// 세션데이터가 좀 오래됐거나 그럴 경우엔 최신 유저이름과 좀 다를 수 있기에 좋은 관습은
+// 세션에 적힌 유저정보를 가져와서 최신 회원 정보를 DB에서 가져오고
+// 그걸 req.user에 집어넣는 식으로 코드짜는게 좋습니다.
+passport.deserializeUser(async (user, done) => {
+  let result = await db
+    .collection('user')
+    .findOne({ _id: new ObjectId(user.id) });
+  delete result.password; // 보안을 위해 user 비번 삭제
+  process.nextTick(() => {
+    console.log('로그인 완료 유저정보', result);
+    // 내부 코드를 비동기적으로 처리해줌
+    return done(null, result); // result에 넣은게 API의 req.user에 들어감
+  });
+});
+
+// login 화면 get 요청하기
+// 현재 로그인된 유저 정보 출력은 API 들 안에서 req.user 하면됨
+app.get('/login', async (req, res) => {
+  console.log('현재 로그인한 유저정보', req.user);
+  // 로그인 이후에 /login 접속하면 req.user 콘솔에 찍힘. 로그인 전이면 undefined 뜸
+  res.render('login.ejs');
+});
+
+app.get('/mypage', isLogin, (req, res) => {
+  console.log('마이페이지 유저 정보', req.user);
+  res.render('mypage.ejs', { user: req.user });
+});
+
+// 마이페이지 진입 전 로그인 여부 확인
+function isLogin(req, res, next) {
+  if (req.user) {
+    next();
+  } else {
+    res.render('fail.ejs'); // 미로그인 상태면 로그인 요청 페이지로 안내
+  }
+}
+
+app.get('/fail', (req, res) => {
+  res.render('fail.ejs');
 });
