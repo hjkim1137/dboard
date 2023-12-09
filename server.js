@@ -1,10 +1,14 @@
 const express = require('express');
 const app = express();
 
+// dotenv 세팅
+require('dotenv').config();
+
 // multer 세팅
 const { S3Client } = require('@aws-sdk/client-s3');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
+
 const s3 = new S3Client({
   region: 'ap-northeast-2',
   credentials: {
@@ -22,9 +26,6 @@ const upload = multer({
     },
   }),
 });
-
-// dotenv 세팅
-require('dotenv').config();
 
 // public 폴더 등록
 app.use(express.static(__dirname + '/public'));
@@ -215,26 +216,34 @@ app.get('/write', isLogin, (req, res) => {
 });
 
 // 게시물 작성 (+try-catch 문을 이용한 예외처리 방법)
-app.post('/add', upload.single('img1'), async (req, res) => {
+app.post('/add', async (req, res) => {
   // 유저가 입력한 데이터를 서버로 전송하고 터미널에 출력
-  console.log(req.file); // 이미지 url
-  // try {
-  //   // 여기 코드 실행해보고
-  //   //(예외처리1. 유저가 빈칸 보내면 DB 저장X 하는 코드 삽입)
-  //   if (req.body.title == '' || req.body.content == '') {
-  //     res.send('제목 또는 내용을 입력하세요.');
-  //   } else {
-  //     await db
-  //       .collection('post')
-  //       .insertOne({ title: req.body.title, content: req.body.content });
-  //     // 서버 기능 실행이 끝나면 응답해주기
-  //     res.redirect('/list'); // 유저를 다른페이지로 이동
-  //   }
-  // } catch (e) {
-  //   // 에러나면 여기 코드 실행
-  //   console.log(e); // 에러 메세지 출력
-  //   res.status(500).send('서버 에러남');
-  // }
+  console.log(req.file.location); // 업로드한 이미지 정보 객체
+
+  upload.single('img1')(req, res, async (err) => {
+    if (err) return res.send('이미지 업로드 에러');
+    else {
+      try {
+        // 여기 코드 실행해보고
+        //(예외처리1. 유저가 빈칸 보내면 DB 저장X 하는 코드 삽입)
+        if (req.body.title == '' || req.body.content == '') {
+          res.send('제목 또는 내용을 입력하세요.');
+        } else {
+          await db.collection('post').insertOne({
+            title: req.body.title,
+            content: req.body.content,
+            img: req.file.location,
+          });
+          // 서버 기능 실행이 끝나면 응답해주기
+          res.redirect('/list'); // 유저를 다른페이지로 이동
+        }
+      } catch (e) {
+        // 에러나면 여기 코드 실행
+        console.log(e); // 에러 메세지 출력
+        res.status(500).send('서버 에러남');
+      }
+    }
+  });
 });
 
 // 게시물 수정기능(조회)
