@@ -12,19 +12,17 @@ app.use(express.static(__dirname + '/public'));
 // EJS 세팅
 app.set('view engine', 'ejs');
 
-// bcrypt 세팅
-const bcrypt = require('bcrypt');
-
-// method-override
+// (form 태그 put, delete 요청 가능케 하는 method-override)
 const methodOverride = require('method-override');
 app.use(methodOverride('_method'));
-let connectDB = require('./database.js');
 
 // req.body 쓰기 위한 사전 세팅
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// monogoDB 연결
+// monogoDB 연결(이 코드 최상단에 두면 안됨)
+let connectDB = require('./database.js');
+
 let db;
 connectDB
   .then((client) => {

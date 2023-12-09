@@ -1,6 +1,7 @@
 const router = require('express').Router();
 let connectDB = require('../database');
 const { isBlank } = require('../middleware/index');
+const bcrypt = require('bcrypt'); // bcrypt 세팅
 
 // monogoDB 연결
 let db;

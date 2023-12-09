@@ -14,7 +14,7 @@ connectDB
   });
 
 // 게시물 삭제 기능
-router.delete('/delete', async (req, res) => {
+router.delete('/', async (req, res) => {
   console.log(req.query);
   try {
     await db
