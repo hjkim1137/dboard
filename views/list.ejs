@@ -19,6 +19,7 @@
         .addEventListener('click', function () {
           let userInput = document.querySelector('.search').value;
           location.href = '/search?keyword=' + userInput;
+          // 이것과 동일한 기능: fetch('/search?keyword=' + userInput);
         });
     </script>
 
