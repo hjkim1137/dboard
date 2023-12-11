@@ -9,6 +9,19 @@
   <body class="grey-bg">
     <%- include('nav.ejs')%>
 
+    <!-- 검색기능 -->
+    <input class="search" placeholder="게시글을 검색하세요." />
+    <button class="searchBtn">검색하기</button>
+
+    <script>
+      document
+        .querySelector('.searchBtn')
+        .addEventListener('click', function () {
+          let userInput = document.querySelector('.search').value;
+          location.href = '/search?keyword=' + userInput;
+        });
+    </script>
+
     <div class="white-bg">
       <% for(let i=0; i<글목록.length; i++) { %>
       <div class="list-box">
@@ -16,10 +29,7 @@
           <a href="/detail/<%=글목록[i]._id%>"><%=글목록[i].title %></a>
           <a href="/edit/<%=글목록[i]._id %>">✏️ 수정</a>
           <span class="delete" data-id="<%=글목록[i]._id %>">🗑️ 삭제</span>
-          <!-- html에 _id 숨겨놨다가 가져오는 법:
-          <span class="delete" data-어쩌구="저저구">🗑️ 삭제</span> 
-          예시: <span class="delete" data-id="<%=글목록[i]._id %>">🗑️ 삭제</span> 
-        --></h4>
+        </h4>
         <p><%=글목록[i].content %></p>
       </div>
       <% } %>

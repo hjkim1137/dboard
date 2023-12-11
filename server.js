@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const { isBlank } = require('./middleware/index.js');
 const { ObjectId } = require('mongodb');
+const bcrypt = require('bcrypt'); // bcrypt 세팅
 
 // dotenv 세팅
 require('dotenv').config();
@@ -26,10 +27,10 @@ let connectDB = require('./database.js');
 let db;
 connectDB
   .then((client) => {
-    console.log('DB연결성공');
+    console.log('서버- DB 연결성공');
     db = client.db('forum'); // forum db 연결
 
-    // 서버 시작 코드 여기로 옮기기
+    // 서버 시작 코드
     app.listen(process.env.PORT, () => {
       console.log(`http://localhost:${process.env.PORT} 에서 서버 실행중`);
     });
@@ -163,3 +164,4 @@ app.use('/delete', require('./routes/delete.js'));
 app.use('/register', require('./routes/register.js'));
 app.use('/mypage', require('./routes/mypage.js'));
 app.use('/list', require('./routes/list.js'));
+app.use('/search', require('./routes/search.js'));

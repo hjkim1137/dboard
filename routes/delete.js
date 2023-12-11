@@ -6,7 +6,7 @@ const { ObjectId } = require('mongodb');
 let db;
 connectDB
   .then((client) => {
-    console.log('DB연결성공');
+    console.log('Delete 섹션-DB 연결성공');
     db = client.db('forum'); // forum db 연결
   })
   .catch((err) => {

@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt'); // bcrypt 세팅
 let db;
 connectDB
   .then((client) => {
-    console.log('DB연결성공');
+    console.log('register 섹션-DB 연결성공');
     db = client.db('forum'); // forum db 연결
   })
   .catch((err) => {
