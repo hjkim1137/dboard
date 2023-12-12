@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { ObjectId } = require('mongodb');
 let connectDB = require('../database');
 
 // monogoDB 연결
@@ -50,17 +51,45 @@ router.get('/', async (req, res) => {
     {
       $search: {
         index: 'title_index', // 몽고 DB에서 만든 index 이름
-        text: { query: req.query.keyword, path: 'title' }, // path: 검색하는 필드명(위의 인덱스는 미리 만들어놔야함)
+        text: { query: req.query.keyword, path: 'title' },
+        // query: 검색어, path: 검색하는 필드목록(위의 인덱스는 미리 만들어놔야함)
       },
     },
-    // { $limit: 10 }, // 결과 수 개수 제한
-    // { $sort: { _id: 1 } }, // id순 오름차순 정렬
+    // { $sort: { _id: 1 } }, // id순 오름차순 정렬(1은 숫자가 아니라 차순 구분임)
     // { $project: { title: 0 } }, // title 필드 숨기기:0, 보이기:1
   ];
 
   try {
     let result = await db.collection('post').aggregate(검색조건).toArray();
     res.render('search.ejs', { 글목록: result });
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+// 3-1. 응용-검색 페이지네이션 만들기(오류 있음)
+router.get('/:pageId', async (req, res) => {
+  console.log('페이지 ID', req.params.pageId);
+  const keyword = req.query.keyword;
+
+  let conditions = [
+    {
+      $search: {
+        index: 'title_index',
+        text: {
+          query: keyword,
+          // 오류 : text.query is required(매번 검색하지 않고, 첫 검색어를 계속 활용하는 방안을 고민해야 함..)
+          path: 'title',
+        },
+      },
+    },
+    { $skip: (req.params.pageId - 1) * 5 },
+    { $limit: 5 },
+  ];
+
+  try {
+    let result = await db.collection('post').aggregate(conditions).toArray();
+    res.render('search.ejs', { 글목록: result, userInput: keyword });
   } catch (e) {
     console.log(e);
   }

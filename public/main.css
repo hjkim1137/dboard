@@ -144,16 +144,23 @@ div {
   padding: 18px;
 }
 
+.searchBox {
+  display: flex;
+  margin: 20px;
+}
 .search {
-  margin-top: 20px;
-  margin-left: 20px;
-  padding: 5px;
+  padding: 7px;
+  margin-right: 10px;
 }
 
 .searchBtn {
-  padding: 6px 10px;
+  padding: 8px;
+  align-self: center;
   background: lightgray;
   border: none;
   border-radius: 5px;
-  vertical-align: middle;
+  /* vertical-align: middle; */
+}
+.result {
+  margin: 20px;
 }

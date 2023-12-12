@@ -8,10 +8,10 @@
   </head>
   <body class="grey-bg">
     <%- include('nav.ejs')%>
-    
+
     <!-- 검색기능 -->
     <div class="searchBox">
-      <input class="search" placeholder="게시글을 검색하세요."></input>
+      <input class="search" placeholder="게시글을 검색하세요." />
       <button class="searchBtn">검색하기</button>
     </div>
 
@@ -24,19 +24,27 @@
         });
     </script>
 
-    <h4>검색결과</h4>
+    <h4 class="result">검색결과</h4>
 
     <div class="white-bg">
       <% for(let i=0; i<글목록.length; i++) { %>
       <div class="list-box">
         <h4>
-          <a href="/detail/<%=글목록[i]._id%>" ><%=글목록[i].title %></a>
+          <a href="/detail/<%=글목록[i]._id%>"><%=글목록[i].title %></a>
           <a href="/edit/<%=글목록[i]._id %>">✏️ 수정</a>
           <span class="delete" data-id="<%=글목록[i]._id %>">🗑️ 삭제</span>
         </h4>
         <p><%=글목록[i].content %></p>
       </div>
       <% } %>
+    </div>
+
+    <!-- 페이지네이션 만들기-->
+    <div class="pages">
+      <a href="/search/1" id="page">1</a>
+      <a href="/search/2" id="page">2</a>
+      <a href="/search/3" id="page">3</a>
+      <a href="/search/4" id="page">4</a>
     </div>
   </body>
 </html>
