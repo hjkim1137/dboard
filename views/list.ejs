@@ -31,7 +31,12 @@
         <h4>
           <a href="/detail/<%=글목록[i]._id%>"><%=글목록[i].title %></a>
           <a href="/edit/<%=글목록[i]._id %>">✏️ 수정</a>
-          <span class="delete" data-id="<%=글목록[i]._id %>">🗑️ 삭제</span>
+          <span
+            class="delete"
+            data-id="<%=글목록[i]._id %>"
+            data-userID="<%=글목록[i].user %>"
+            >🗑️ 삭제</span
+          >
         </h4>
         <p><%=글목록[i].content %></p>
       </div>
@@ -56,23 +61,51 @@
     </div>
 
     <script>
-      // 위에 숨긴 데이터 가져오는 방법(더 안전한 방법)
+      // 작성자 일때만 삭제 버튼 보이게(현재 오류 있음)
       let deleteBtns = document.querySelectorAll('.delete');
+
       deleteBtns.forEach((btn) => {
-        btn.addEventListener('click', function (e) {
-          let id = e.target.dataset.id;
-          if (window.confirm('삭제하시겠습니까?')) {
-            // 자바스크립트 변수 넣고 싶으면 '+' 사용하여 합치기
-            fetch('/delete?docId=' + id, {
-              method: 'DELETE',
-            })
-              // ajax 성공 시 서버에서 온 응답 콘솔에 출력하는 방법
-              .then((res) => res.text()) // array, object 면 res.json
-              .then((res) => {
-                e.target.parentElement.parentElement.style.display = 'none';
-              });
+        let user_id = btn.dataset.userID;
+        console.log('작성자 userid', user_id);
+
+        // 로그인 이전으로 userID가 undefined이거나 null이면 기본값을 설정하거나 처리
+        if (user_id === undefined || user_id === null) {
+          // 원하는 기본값을 설정하거나 다른 처리를 수행
+          user_id = 'undefined';
+        }
+
+        // 현재 로그인한 유저와 작성자 id 비교하기 시작
+        let loginUser = btn.dataset.loginUser;
+        console.log('loginUser/로그인유저', loginUser);
+
+        if (user_id) {
+          if (loginUser == user_id) {
+            btn.style.display = 'block';
+            // 위에 숨긴 데이터 가져오는 방법(더 안전한 방법)
+            btn.addEventListener('click', function (e) {
+              let id = e.target.dataset.id;
+              if (window.confirm('삭제하시겠습니까?')) {
+                // 자바스크립트 변수 넣고 싶으면 '+' 사용하여 합치기
+                fetch('/delete?docId=' + id, {
+                  method: 'DELETE',
+                })
+                  // ajax 성공 시 서버에서 온 응답 콘솔에 출력하는 방법(오류중)
+                  .then((response) => response.json())
+                  .then((data) => {
+                    console.log('삭제완료', data);
+                    e.target.parentElement.parentElement.style.display = 'none';
+                  })
+                  .catch((error) => {
+                    console.error('오류 발생 또는 삭제권한 없음', error);
+                    e.target.parentElement.parentElement.style.display =
+                      'block';
+                  });
+              }
+            });
+          } else {
+            btn.style.display = 'none';
           }
-        });
+        }
       });
     </script>
   </body>

@@ -44,6 +44,7 @@ router.get('/', isLogin, (req, res) => {
 
 // 게시물 작성 (+try-catch 문을 이용한 예외처리 방법)
 router.post('/add', upload.single('img1'), async (req, res) => {
+  console.log('로그인한 유저', req.user);
   try {
     if (req.body.title == '' || req.body.content == '') {
       return res.send('제목 또는 내용을 입력하세요.');
@@ -53,8 +54,10 @@ router.post('/add', upload.single('img1'), async (req, res) => {
     await db.collection('post').insertOne({
       title: req.body.title,
       content: req.body.content,
-      // 이미지가 업로드된 경우에만 img 속성 추가
-      img: req.file ? req.file.location : null,
+      img: req.file ? req.file.location : null, // 이미지가 업로드된 경우에만 img 속성 추가
+      // post 시 user 정보도 함께 저장
+      user: req.user._id,
+      username: req.user.username,
     });
 
     res.redirect('/list');

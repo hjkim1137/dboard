@@ -1,6 +1,7 @@
 const router = require('express').Router();
 let connectDB = require('../database');
 const { ObjectId } = require('mongodb');
+const { isLogin } = require('../middleware/index');
 
 // monogoDB 연결
 let db;
@@ -14,17 +15,23 @@ connectDB
   });
 
 // 게시물 삭제 기능
-router.delete('/', async (req, res) => {
+router.delete('/', isLogin, async (req, res) => {
   console.log(req.query);
   try {
     await db
       .collection('post')
-      .deleteOne({ _id: new ObjectId(req.query.docId) });
+      // 작성자 본인만 삭제 가능하게 구현 (id 일치와 user 일치 조건 모두 해당)
+      .deleteOne({
+        _id: new ObjectId(req.query.docId),
+        user: user ? new ObjectId(req.user._id) : null,
+      });
     res.send('삭제완료');
     // (참고) ajax 요청 사용시 새고로침 안하는게 장점이라 쓰는거라
     // res.redirect, res.render 사용 안하는게 나음
   } catch (e) {
+    res.send('오류 발생 또는 삭제권한 없음');
     console.log(e);
   }
 });
+
 module.exports = router;

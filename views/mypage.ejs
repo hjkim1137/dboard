@@ -9,11 +9,21 @@
   <body class="grey-bg">
     <%- include('nav.ejs')%>
 
-    <form class="form-box" action="/mypage" method="POST">
+    <form class="form-box" action="/mypage/edit?_method=PUT" method="POST">
       <h4>마이페이지</h4>
-      <input name="username" value="<%=user.username %>" />
-      <input name="password" type="password" value="<%=user.password %>" />
-      <button type="submit">수정하기</button>
+      <input
+        class="username"
+        name="username"
+        value="<%=user.username %>"
+        disabled
+      />
+      <input
+        name="password"
+        type="password"
+        placeholder="수정할 비밀번호 입력"
+      />
+      <input name="password2" type="password" placeholder="비밀번호 재입력" />
+      <button type="submit">비밀번호 수정하기</button>
     </form>
   </body>
 </html>

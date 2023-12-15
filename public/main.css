@@ -3,12 +3,21 @@ body {
 }
 .nav {
   display: flex;
-  padding: 15px;
-  align-items: center;
+  padding: 8px;
   background: white;
 }
 .nav a {
-  margin-right: 10px;
+  text-decoration: none;
+  color: #a2a2a2;
+  font-size: 20px;
+  padding: 5px 8px;
+  border-radius: 3px;
+  width: 70px;
+  text-align: center;
+}
+.nav > a:hover {
+  background-color: #a2a2a2;
+  color: #fff;
 }
 .logo {
   font-weight: bold;
@@ -61,7 +70,8 @@ div {
 .detail-bg {
   background: white;
   padding: 15px;
-  margin-top: 10px;
+  margin: 10px;
+  border-radius: 8px;
 }
 
 .delete {
@@ -163,4 +173,37 @@ div {
 }
 .result {
   margin: 20px;
+}
+
+.comment-wrapper {
+  background: white;
+  padding: 15px;
+  margin: 10px;
+  border-radius: 8px;
+}
+
+.comment-box {
+  display: flex;
+  margin: 10px 0;
+}
+
+.comment-box > div {
+  margin-right: 10px;
+}
+
+.home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.welcome {
+  font-size: 26px;
+  color: gray;
+}
+
+.username {
+  color: #a2a2a2;
 }

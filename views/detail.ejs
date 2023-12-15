@@ -14,5 +14,27 @@
       <p><%=result.content %></p>
       <img src="<%=result.img %>"></p>
     </div>
+    
+    <div class="comment-wrapper">
+      <h4>댓글 목록</h4>
+      <div>
+        <% for(let i=0; i<comment.length; i++) { %>
+          <div class="comment-box">
+            <div><strong><%=comment[i].writer %></strong></div>
+            <div><%=comment[i].comment %></div>
+          </div>
+        <% } %>
+      </div> 
+
+      <form
+      action="/detail/comment"
+      method="POST"
+    >
+      <input name="comment" />
+      <input name="parentId" 
+      style="display: none" value="<%=result._id %>"/>
+      <button type="submit">댓글작성</button>
+      </form>
+    </div>
   </body>
 </html>

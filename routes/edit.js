@@ -1,6 +1,7 @@
 const router = require('express').Router();
 let connectDB = require('../database');
 const { ObjectId } = require('mongodb');
+const { isLogin } = require('../middleware/index');
 
 // monogoDB 연결
 let db;
@@ -14,7 +15,7 @@ connectDB
   });
 
 // 게시물 수정기능(조회)
-router.get('/:id', async (req, res) => {
+router.get('/:id', isLogin, async (req, res) => {
   // 팁: 서버에서 정보를 찾을 수 없으면 - 유저에게 보내라고 하거나/DB에서 꺼내보거나
   let result = await db
     .collection('post')
@@ -24,15 +25,14 @@ router.get('/:id', async (req, res) => {
 });
 
 // 게시물 수정기능(DB 전송 - $set)
-router.put('/', async (req, res) => {
+router.put('/', isLogin, async (req, res) => {
   // 팁: 서버에서 정보를 찾을 수 없으면 - 유저에게 보내라고 하거나/DB에서 꺼내보거나
   try {
-    await db
-      .collection('post')
-      .updateOne(
-        { _id: new ObjectId(req.body.id) },
-        { $set: { title: req.body.title, content: req.body.content } }
-      );
+    await db.collection('post').updateOne(
+      // 2개 조건 만족- 게시물 id와 user id를 동시에 만족하는 post를 찾아서 업데이트($set)
+      { _id: new ObjectId(req.body.id), user: new ObjectId(req.user._id) },
+      { $set: { title: req.body.title, content: req.body.content } }
+    );
     res.redirect('/list');
   } catch (e) {
     console.log(e);
@@ -40,7 +40,7 @@ router.put('/', async (req, res) => {
 });
 
 // 게시물 수정기능(DB 전송 - $inc)
-router.put('/', async (req, res) => {
+router.put('/', isLogin, async (req, res) => {
   // 팁: 서버에서 정보를 찾을 수 없으면 - 유저에게 보내라고 하거나/DB에서 꺼내보거나
   try {
     await db.collection('post').updateOne({ _id: 1 }, { $inc: { like: 2 } });

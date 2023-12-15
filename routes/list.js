@@ -16,7 +16,9 @@ connectDB
 // 목록 페이지
 router.get('/', async (req, res) => {
   let result = await db.collection('post').find().toArray();
-  // res.send(result[0].title);
+
+  // let 로그인유저 = req.user._id;
+  // console.log('로그인유저', 로그인유저); // new ObjectId("6572f1f76c7ada0bdbcd069e")
   res.render('list.ejs', { 글목록: result });
 });
 
@@ -32,6 +34,7 @@ router.get('/:id', async (req, res) => {
     .skip((req.params.id - 1) * 5)
     .limit(5)
     .toArray();
+  // let 로그인유저 = req.user._id;
   res.render('list.ejs', { 글목록: result });
 });
 
@@ -44,6 +47,7 @@ router.get('/next/:id', async (req, res) => {
     .find({ _id: { $gt: new ObjectId(req.params.id) } })
     .limit(5)
     .toArray();
+  // let 로그인유저 = req.user._id;
   res.render('list.ejs', { 글목록: result });
 });
 

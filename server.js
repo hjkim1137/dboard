@@ -137,7 +137,7 @@ app.get('/login', async (req, res) => {
 // 메인페이지
 app.get('/', (req, res) => {
   // html 파일 보내는 법
-  res.sendFile(__dirname + '/index.html');
+  res.render('home.ejs');
 });
 
 // (번외) 서버 time 보여주는 기능
