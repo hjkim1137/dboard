@@ -9,18 +9,17 @@
   <body class="grey-bg">
     <%- include('nav.ejs')%>
 
-    <% for(let i=0; i<chatlist.length; i++) { %>
-      <% let parentId = chatlist[i].parentId.toString() %>
       <div class="white-bg">
+        <% for(let i=0; i<chatlist.length; i++) { %>
         <div class="list-box">
           <h4>
-            <a href="/chatdetail/<%= parentId %>"><%= chatlist[i].chat %></a>
-            <span> ➡️ 채팅 나가기</span>
+            <a href="/chat/detail/<%= chatlist[i]._id %>">상세페이지</a>
           </h4>
-          <p><%= chatlist[i].chat %></p>
+          <p>채팅방설명</p>
         </div>
+        <% } %>
       </div>
-    <% } %>
+    
     
   </body>
 </html>

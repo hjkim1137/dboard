@@ -4,6 +4,12 @@ const { isBlank } = require('./middleware/index.js');
 const { ObjectId } = require('mongodb');
 const bcrypt = require('bcrypt'); // bcrypt 세팅
 
+// socket.io 세팅
+const { createServer } = require('http');
+const { Server } = require('socket.io');
+const server = createServer(app);
+const io = new Server(server);
+
 // dotenv 세팅
 require('dotenv').config();
 
@@ -31,7 +37,7 @@ connectDB
     db = client.db('forum'); // forum db 연결
 
     // 서버 시작 코드
-    app.listen(process.env.PORT, () => {
+    server.listen(process.env.PORT, () => {
       console.log(`http://localhost:${process.env.PORT} 에서 서버 실행중`);
     });
   })
@@ -165,5 +171,32 @@ app.use('/register', require('./routes/register.js'));
 app.use('/mypage', require('./routes/mypage.js'));
 app.use('/list', require('./routes/list.js'));
 app.use('/search', require('./routes/search.js'));
-app.use('/chatlist', require('./routes/chatlist.js'));
-app.use('/chatdetail', require('./routes/chatdetail.js'));
+app.use('/chat', require('./routes/chat.js'));
+
+// 웹소켓 관련 시작
+// 서버는 누가 웹소켓 연결시 특정 코드를 실행하고 싶으면 아래 처럼 작성
+io.on('connection', (socket) => {
+  // 소켓 연결시마다 이 안의 코드 내용이 실행됨
+
+  // 유저 -> 서버 데이터 수신
+  // (형식)
+  // socket.on('age', (data) => {
+  //   console.log('유저가 보낸거', data); // 20
+  // });
+
+  // 유저를 room에 넣는 법
+  // 그 전에 유저가 서버에게 룸에 조인해달라 요청 보내야 함
+  socket.on('ask-join', (data) => {
+    socket.join(data); // 유저가 요청한대로 1이라는 room에 넣음
+  });
+
+  // 서버는 메세지 수신 시 룸에 전달
+  socket.on('message', (data) => {
+    console.log(data);
+    // 특정 룸에만 메세지 전달
+    io.to(data.room).emit('hello', data.msg);
+  });
+
+  // 서버 -> 모든유저 데이터 전송(크게 필요없는 기능)
+  io.emit('데이터이름작명', '데이터'); // "name", "kim"
+});
