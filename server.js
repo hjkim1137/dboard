@@ -165,3 +165,5 @@ app.use('/register', require('./routes/register.js'));
 app.use('/mypage', require('./routes/mypage.js'));
 app.use('/list', require('./routes/list.js'));
 app.use('/search', require('./routes/search.js'));
+app.use('/chatlist', require('./routes/chatlist.js'));
+app.use('/chatdetail', require('./routes/chatdetail.js'));

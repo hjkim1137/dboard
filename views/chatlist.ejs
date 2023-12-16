@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link href="/main.css" rel="stylesheet" />
+  </head>
+  <body class="grey-bg">
+    <%- include('nav.ejs')%>
+
+    <% for(let i=0; i<chatlist.length; i++) { %>
+      <% let parentId = chatlist[i].parentId.toString() %>
+      <div class="white-bg">
+        <div class="list-box">
+          <h4>
+            <a href="/chatdetail/<%= parentId %>"><%= chatlist[i].chat %></a>
+            <span> ➡️ 채팅 나가기</span>
+          </h4>
+          <p><%= chatlist[i].chat %></p>
+        </div>
+      </div>
+    <% } %>
+    
+  </body>
+</html>

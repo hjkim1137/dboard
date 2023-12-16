@@ -47,10 +47,10 @@ router.post('/comment', isLogin, async (req, res) => {
     if (req.body.comment == '') {
       return res.send('댓글을 입력하세요.');
     }
+
     await db.collection('comment').insertOne({
       comment: req.body.comment,
       parentId: new ObjectId(req.body.parentId),
-
       writerId: new ObjectId(req.user._id),
       writer: req.user.username,
     });
