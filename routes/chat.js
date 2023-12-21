@@ -1,6 +1,7 @@
 const router = require('express').Router();
 let connectDB = require('../database');
 const { ObjectId } = require('mongodb');
+const { isLogin } = require('../middleware/index');
 
 // monogoDB 연결
 let db;
@@ -16,8 +17,9 @@ connectDB
 // 채팅방 개설하기(detail 페이지에서 채팅하기 누를때)
 // 현재 채팅방에 속해있는 유저만 조회 하도록 수정
 router.get('/request', async (req, res) => {
-  await db.collection('chat').insertOne({
-    member: [req.user._id, new ObjectId(req.query.writerId)], // 로그인한 유저, 글 작성자
+  await db.collection('chatroom').insertOne({
+    chatName: req.query.chatName,
+    member: [new ObjectId(req.query.writerId), req.user._id], // 글 작성자, 로그인한 유저
     date: new Date(),
   });
   res.redirect('/chat/list');
@@ -25,20 +27,22 @@ router.get('/request', async (req, res) => {
 
 // 채팅방 목록 페이지
 // 현재 채팅방에 속해있는 유저만 조회 하도록 수정
-router.get('/list', async (req, res) => {
+router.get('/list', isLogin, async (req, res) => {
   let chatlist = await db
-    .collection('chat')
-    .find({ member: req.user._id }) // "내가" 속한 채팅방 꺼내오기
+    .collection('chatroom')
+    .find({ member: req.user._id }) // 로그인한 "내가" 속한 채팅방 꺼내오기
     .toArray();
   res.render('chatList.ejs', { chatlist: chatlist });
 });
 
 // 채팅방 상세페이지(chatList 페이지에서 채팅방 이름 누를때)
 // 현재 채팅방에 속해있는 유저만 조회 하도록 수정
-router.get('/detail/:id', async (req, res) => {
+// id는 내가 속한 모든 채팅방의 id 들
+router.get('/detail/:id', isLogin, async (req, res) => {
   let chats = await db
     .collection('chat')
-    .findOne({ _id: new ObjectId(req.params.id) });
+    .find({ roomId: new ObjectId(req.params.id) })
+    .toArray();
   res.render('chatDetail.ejs', { chats: chats });
 });
 

@@ -1,14 +1,44 @@
 const express = require('express');
 const app = express();
+
 const { isBlank } = require('./middleware/index.js');
 const { ObjectId } = require('mongodb');
 const bcrypt = require('bcrypt'); // bcrypt 세팅
 
-// socket.io 세팅
+// socket.io 세팅 - confirmed - 시작
 const { createServer } = require('http');
 const { Server } = require('socket.io');
 const server = createServer(app);
 const io = new Server(server);
+// - 끝 (app.listen -> server.listen으로 변경)
+
+// const server = createServer(app);
+
+// socket.io express-session 세팅 시작
+// const { join } = require('path');
+// const session = require('express-session');
+// const port = process.env.PORT || 3000;
+// const httpServer = createServer(app);
+
+// const sessionMiddleware = session({
+//   secret: 'changeit',
+//   resave: true,
+//   saveUninitialized: true,
+// });
+// app.use(sessionMiddleware);
+
+// app.post('/incr', (req, res) => {
+//   const session = req.session;
+//   session.count = (session.count || 0) + 1;
+//   res.status(200).end('' + session.count);
+// });
+
+// const io = new Server(httpServer);
+
+// httpServer.listen(port, () => {
+//   console.log(`application is running at: http://localhost:${port}`);
+// });
+// socket.io express-session 세팅 끝
 
 // dotenv 세팅
 require('dotenv').config();
@@ -31,10 +61,19 @@ app.use(express.urlencoded({ extended: true }));
 let connectDB = require('./database.js');
 
 let db;
+let changeStream;
 connectDB
   .then((client) => {
     console.log('서버- DB 연결성공');
     db = client.db('forum'); // forum db 연결
+
+    // change stream 기능(서버 띄울때 한번만 실행하도록 효율적으로 작성)
+    // insert 일때만 조건 걸 수도 있음
+    let condition = [{ $match: { operationType: 'insert' } }];
+    // title이 바보 인것만 변동사항 발생할 때 조건 걸기
+    // let condition = [{ $match: { 'fullDocument.title': '바보' } }];
+
+    changeStream = db.collection('post').watch(condition);
 
     // 서버 시작 코드
     server.listen(process.env.PORT, () => {
@@ -173,30 +212,53 @@ app.use('/list', require('./routes/list.js'));
 app.use('/search', require('./routes/search.js'));
 app.use('/chat', require('./routes/chat.js'));
 
-// 웹소켓 관련 시작
+// 웹소켓 관련 시작(채팅 전송 기능)
 // 서버는 누가 웹소켓 연결시 특정 코드를 실행하고 싶으면 아래 처럼 작성
 io.on('connection', (socket) => {
-  // 소켓 연결시마다 이 안의 코드 내용이 실행됨
+  console.log('websocket 연결됨');
 
-  // 유저 -> 서버 데이터 수신
-  // (형식)
-  // socket.on('age', (data) => {
-  //   console.log('유저가 보낸거', data); // 20
-  // });
+  socket.on('message-send', async (data) => {
+    console.log('message from client:', data);
+    let msg = (socket.msg = data.msg);
+    let roomId = (socket.roomId = data.roomId);
+    let date = (socket.date = data.date);
 
-  // 유저를 room에 넣는 법
-  // 그 전에 유저가 서버에게 룸에 조인해달라 요청 보내야 함
-  socket.on('ask-join', (data) => {
-    socket.join(data); // 유저가 요청한대로 1이라는 room에 넣음
+    socket.join(roomId);
+
+    await db.collection('chat').insertOne({
+      chats: msg,
+      roomId: new ObjectId(roomId),
+      date: date,
+    });
+    io.to(roomId).emit('message-send', data.msg);
+  });
+});
+
+// SSE 구현하기
+app.get('/stream/list', (req, res) => {
+  res.writeHead(200, {
+    // http 요청을 끊지 않고 연결해줌
+    Connection: 'keep-alive',
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
   });
 
-  // 서버는 메세지 수신 시 룸에 전달
-  socket.on('message', (data) => {
-    console.log(data);
-    // 특정 룸에만 메세지 전달
-    io.to(data.room).emit('hello', data.msg);
-  });
+  // res.write('event: msg\n');
+  // res.write('data: 바보\n\n');
 
-  // 서버 -> 모든유저 데이터 전송(크게 필요없는 기능)
-  io.emit('데이터이름작명', '데이터'); // "name", "kim"
+  // 유저가 요청안해도 서버 맘대로 데이터 전송 가능
+  // setInterval(() => {
+  //   // 아래 형식 잘 맞춰야 데이터 잘감(스페이스바, 개행 문자 유의)
+  //   res.write('event: msg\n');
+  //   res.write('data: 바보\n\n');
+  // }, 1000);
+
+  // post 컬렉션의 doc 변동 사항 발생시(현재는 insert시만 조건) 안의 코드 실행됨
+  changeStream.on('change', (result) => {
+    console.log(result.fullDocument); // 새로 추가된 doc
+
+    res.write('event: msg\n');
+    res.write(`data: ${JSON.stringify(result.fullDocument)}\n\n`);
+    // array, object 형은 JSON.stringfy 사용
+  });
 });

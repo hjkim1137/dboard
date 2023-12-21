@@ -11,11 +11,14 @@
 
     <div class="detail-bg">
       <div class="chat-screen">
-        <div class="chat-box"><span>안녕하세요</span></div>
-        <div class="chat-box"><span>안녕하세요</span></div>
-        <div class="chat-box mine"><span>안녕하세요</span></div>
+        <% if(chats && chats.length > 0) { %>
+          <% for(let i=0; i<chats.length; i++) { %>
+            <div class="chat-box"><span><%=chats[i].chats %></span></div>
+            <% } %>
+        <% } %>
       </div>
     </div>
+
     <div class="chat-form">
       <input class="chat-input" />
       <button class="chat-button">전송</button>
@@ -27,28 +30,35 @@
       // 유저의 웹소켓 연결코드
       const socket = io();
 
-      // (형식)유저 -> 서버 데이터 전송
-      // socket.emit('데이터이름작명', '데이터'); // age, 20
+      // 현재 접속되어 있는 서버로 메시지를 송신
+      // 형식: socket.emit("event_name", msg);
 
-      // 유저 -> 서버 room 조인 요청 "ask-join" 은 임의 이름
-      // ask-join 이라은 이름으로 1이라는 room에 넣어주셈
-      socket.emit('ask-join', 1);
-
-      // 유저 -> 서버 : 메세지 룸에 조인 요청
       document
         .querySelector('.chat-button')
         .addEventListener('click', function () {
-          socket.emit('message', { msg: '반가워', room: '1' });
+          // 유저가 전송한 값 보내기
+          let userInput = document.querySelector('.chat-input').value;
+          socket.emit('message-send', {
+            msg: userInput,
+            roomId: "<%= chats.roomId %>",
+            date: new Date(),
+          });
         });
 
-      // (형식) 서버 -> 유저 데이터 수신
-      // socket.on('name', (data) => {
-      //   console.log(data); // kim
+      // 현재 접속되어 있는 서버로부터의 메시지를 수신
+      // 형식
+      // socket.on("event_name", function(data) {
+        // console.log('Message from Server: ' + data);
       // });
-
-      // 유저가 룸데이터 수신 하려면
-      socket.on('hello', (data) => {
-        console.log(data);
+      
+      socket.on('message-hello', (data) => {
+        // 유저는 서버메세지 받으면 html에 넣기
+        document
+          .querySelector('.chat-screen')
+          .insertAdjacentHTML(
+            'beforeend',
+            `<div class="chat-box"><span>${data}</span></div>`
+          );
       });
     </script>
   </body>
