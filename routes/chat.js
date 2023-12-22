@@ -41,15 +41,18 @@ router.get('/list', isLogin, async (req, res) => {
 // --> 현재 로그인한 유저가 속한 채팅방들의 정보(채팅방 id, 채팅방 이름, 참여자id List, date)
 
 router.get('/detail/:roomId', isLogin, async (req, res) => {
+  console.log('현재 로그인한 유저:', req.user.username);
+
   let chats = await db
     .collection('chat')
     .find({ roomId: new ObjectId(req.params.roomId) })
     .toArray();
 
   res.render('chatDetail.ejs', {
+    chats: chats,
     roomId: req.params.roomId,
     userId: new ObjectId(req.user._id),
-    chats: chats,
+    username: req.user.username,
   });
 });
 

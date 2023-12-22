@@ -222,8 +222,9 @@ io.on('connection', (socket) => {
 
     await db.collection('chat').insertOne({
       chats: data.msg,
-      userId: new ObjectId(data.userId),
       roomId: new ObjectId(data.roomId),
+      userId: new ObjectId(data.userId),
+      userName: data.userName,
       date: data.date,
     });
     console.log('db 데이터 저장 완료');

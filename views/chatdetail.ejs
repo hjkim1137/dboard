@@ -13,7 +13,8 @@
       <div class="chat-screen">
         <% if(chats && chats.length > 0) { %>
           <% for(let i=0; i<chats.length; i++) { %>
-            <div class="chat-box"><span><%=chats[i].chats %></span></div>
+            <div class="chat-box"><span><%= username %>: <%=chats[i].chats %></span></div>
+            <div class="chat-box-mine"><span><%= username %>: <%=chats[i].chats %></span></div>
             <% } %>
         <% } %>
       </div>
@@ -35,22 +36,28 @@
       let sendButton = document.querySelector('.chat-button')
       let userInput = document.querySelector('.chat-input')
 
-      // 서버가 보내준 현재 채팅룸 id, 유저 ID
+      // chat.js가 보내준 현재 채팅룸 id, 유저 ID
       let roomID = "<%= roomId %>"
       console.log('roomID', roomID)
-
-      let userID= "<%= userId %>"
-      console.log('log-in User', userID)
-      
+      let userID = "<%= userId %>"
+      console.log('userId', userID)
+      let username = "<%= username %>"
+      console.log('username', username)
+    
       sendButton.addEventListener('click', function () {
           if (userInput.value) {
-            socket.emit('msg-send', {
-            msg: userInput.value,
-            userId: userID,
-            roomId: roomID,
-            date:new Date(),
-          });
-          userInput.value=""
+
+            // data
+            let msgObject = {
+              msg: userInput.value,
+              roomId: roomID,
+              userId: userID,
+              userName : username,
+              date:new Date(),
+            }
+
+          socket.emit('msg-send', msgObject);
+          userInput.value= "";
           console.log("클라에서 서버 데이터 송신 완료") // 브라우저 콘솔에 찍힘
       }})
       
