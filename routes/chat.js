@@ -30,20 +30,27 @@ router.get('/request', async (req, res) => {
 router.get('/list', isLogin, async (req, res) => {
   let chatlist = await db
     .collection('chatroom')
-    .find({ member: req.user._id }) // 로그인한 "내가" 속한 채팅방 꺼내오기
+    .find({ member: req.user._id })
     .toArray();
+  // 현재 로그인한 유저가 속한 채팅방들을 꺼내어 Chalist로 render
   res.render('chatList.ejs', { chatlist: chatlist });
 });
 
 // 채팅방 상세페이지(chatList 페이지에서 채팅방 이름 누를때)
-// 현재 채팅방에 속해있는 유저만 조회 하도록 수정
-// id는 내가 속한 모든 채팅방의 id 들
-router.get('/detail/:id', isLogin, async (req, res) => {
+// detail/id == chatlist[i]._id
+// --> 현재 로그인한 유저가 속한 채팅방들의 정보(채팅방 id, 채팅방 이름, 참여자id List, date)
+
+router.get('/detail/:roomId', isLogin, async (req, res) => {
   let chats = await db
     .collection('chat')
-    .find({ roomId: new ObjectId(req.params.id) })
+    .find({ roomId: new ObjectId(req.params.roomId) })
     .toArray();
-  res.render('chatDetail.ejs', { chats: chats });
+
+  res.render('chatDetail.ejs', {
+    roomId: req.params.roomId,
+    userId: new ObjectId(req.user._id),
+    chats: chats,
+  });
 });
 
 module.exports = router;

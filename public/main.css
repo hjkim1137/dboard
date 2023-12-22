@@ -219,6 +219,7 @@ div {
 .chat-box span {
   padding: 10px;
   background: #eee;
+  border-radius: 15px;
 }
 .mine {
   justify-content: end;

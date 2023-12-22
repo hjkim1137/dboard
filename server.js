@@ -212,25 +212,26 @@ app.use('/list', require('./routes/list.js'));
 app.use('/search', require('./routes/search.js'));
 app.use('/chat', require('./routes/chat.js'));
 
-// 웹소켓 관련 시작(채팅 전송 기능)
-// 서버는 누가 웹소켓 연결시 특정 코드를 실행하고 싶으면 아래 처럼 작성
 io.on('connection', (socket) => {
   console.log('websocket 연결됨');
 
-  socket.on('message-send', async (data) => {
-    console.log('message from client:', data);
-    let msg = (socket.msg = data.msg);
-    let roomId = (socket.roomId = data.roomId);
-    let date = (socket.date = data.date);
-
-    socket.join(roomId);
+  // 2번
+  socket.on('msg-send', async (data) => {
+    console.log('서버에서 클라 데이터 수신 완료');
+    console.log('서버가 클라에게 수신한 데이터', data);
 
     await db.collection('chat').insertOne({
-      chats: msg,
-      roomId: new ObjectId(roomId),
-      date: date,
+      chats: data.msg,
+      userId: new ObjectId(data.userId),
+      roomId: new ObjectId(data.roomId),
+      date: data.date,
     });
-    io.to(roomId).emit('message-send', data.msg);
+    console.log('db 데이터 저장 완료');
+
+    // 3번
+    io.emit('msg-send', JSON.stringify(data)); // 필수
+    console.log('서버에서 클라로 데이터 송신하는 데이터', JSON.stringify(data));
+    console.log('서버에서 클라로 데이터 송신 완료');
   });
 });
 
