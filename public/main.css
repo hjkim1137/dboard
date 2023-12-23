@@ -213,18 +213,10 @@ div {
 .chat-screen {
   width: 100%;
 }
-.chat-box {
+
+.mine {
   display: flex;
   margin-bottom: 10px;
-}
-.chat-box > div {
-  padding: 10px;
-  background: #eee;
-  border-radius: 12px;
-}
-
-/* 동적으로 생성되는 클래스- 시작 */
-.mine {
   justify-content: flex-end;
 }
 .mine > div {
@@ -232,7 +224,16 @@ div {
   background: skyblue;
   border-radius: 12px;
 }
-/* 동적으로 생성되는 클래스- 끝 */
+
+.yours {
+  display: flex;
+  margin-bottom: 10px;
+}
+.yours > div {
+  padding: 10px;
+  background: #eee;
+  border-radius: 12px;
+}
 
 .chat-form {
   display: flex;
