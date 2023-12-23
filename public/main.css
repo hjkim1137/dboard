@@ -213,32 +213,36 @@ div {
   width: 100%;
 }
 .chat-box {
-  margin-top: 15px;
   display: flex;
+  margin-bottom: 10px;
 }
-.chat-box span {
+.chat-box > div {
   padding: 10px;
   background: #eee;
-  border-radius: 15px;
-  margin-bottom: 30px;
+  border-radius: 12px;
 }
-.chat-box-mine span {
-  justify-content: end;
-  background: skyblue;
+
+/* 동적으로 생성되는 클래스- 시작 */
+.mine {
+  justify-content: flex-end;
+}
+.mine > div {
   padding: 10px;
-  border-radius: 15px;
-  margin-top: 30px;
+  background: skyblue;
+  border-radius: 12px;
 }
+/* 동적으로 생성되는 클래스- 끝 */
 
 .chat-form {
   margin-left: 10px;
 }
 .chat-input {
-  margin-top: 15px;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 15px;
+  width: 200px;
 }
 .chat-button {
+  width: 50px;
   padding: 10px;
   border: none;
   background: lightgrey;

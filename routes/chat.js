@@ -50,6 +50,8 @@ router.get('/detail/:roomId', isLogin, async (req, res) => {
 
   res.render('chatDetail.ejs', {
     chats: chats,
+
+    // current info
     roomId: req.params.roomId,
     userId: new ObjectId(req.user._id),
     username: req.user.username,

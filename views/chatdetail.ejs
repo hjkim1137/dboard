@@ -13,9 +13,20 @@
       <div class="chat-screen">
         <% if(chats && chats.length > 0) { %>
           <% for(let i=0; i<chats.length; i++) { %>
-            <div class="chat-box"><span><%= username %>: <%=chats[i].chats %></span></div>
-            <div class="chat-box-mine"><span><%= username %>: <%=chats[i].chats %></span></div>
+            <div class="chat-box mine">
+              <div><%= chats[i].userName%>: <%= chats[i].chats %></div>
+            </div>
+
+            <% if (chats[i].userId !== `${userId}`) { %>
+              <script>
+                let chatBoxes = document.querySelectorAll(".chat-box")
+                chatBoxes.forEach((box)=> {
+                    box.classList.remove("mine")
+                })
+              </script> 
             <% } %>
+
+          <% } %>
         <% } %>
       </div>
     </div>
@@ -36,14 +47,14 @@
       let sendButton = document.querySelector('.chat-button')
       let userInput = document.querySelector('.chat-input')
 
-      // chat.js가 보내준 현재 채팅룸 id, 유저 ID
+      // chat.js가 보내준 현재 채팅룸 id, 유저 ID, username
       let roomID = "<%= roomId %>"
       console.log('roomID', roomID)
       let userID = "<%= userId %>"
       console.log('userId', userID)
       let username = "<%= username %>"
       console.log('username', username)
-    
+
       sendButton.addEventListener('click', function () {
           if (userInput.value) {
 
@@ -68,7 +79,7 @@
         console.log("클라에서 서버 데이터 수신 완료") // 브라우저 콘솔에 찍힘
 
         let chatScreen= document.querySelector('.chat-screen')
-        chatScreen.insertAdjacentHTML('beforeend',`<div class="chat-box"><span>${parsedData.msg}</span></div>`);
+        chatScreen.insertAdjacentHTML('beforeend',`<div class="chat-box"><div>${parsedData.msg}</div></div>`);
       });
 
     </script>
