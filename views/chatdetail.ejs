@@ -32,9 +32,8 @@
     </div>
 
     <div class="chat-form">
-      <input class="chat-input" />
-      <button 
-        class="chat-button" >전송</button>
+      <input class="chat-input" placeholder="메세지를 입력하세요."/>
+      <button class="chat-button" >전송</button>
     </div>
 
     <!-- 소켓 io 세팅 -->
@@ -70,7 +69,8 @@
           socket.emit('msg-send', msgObject);
           userInput.value= "";
           console.log("클라에서 서버 데이터 송신 완료") // 브라우저 콘솔에 찍힘
-      }})
+          location.reload(true) // 보낸 내용 바로 반영 확인 위해 리프레시
+        }})
       
       // 4번
       socket.on('msg-send', function(data) {
