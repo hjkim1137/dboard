@@ -26,7 +26,7 @@
     </script>
 
     <div class="white-bg">
-      <% for(let i=0; i<글목록.length; i++) { %>
+      <% if(글목록.length >0) { %> <% for(let i=0; i<글목록.length;i++) { %>
       <div class="list-box">
         <h4>
           <a href="/detail/<%=글목록[i]._id%>"><%=글목록[i].title %></a>
@@ -39,6 +39,12 @@
           >
         </h4>
         <p><%=글목록[i].content %></p>
+      </div>
+
+      <!-- 왜인지 if-else가 안되어 if, if 사용 -->
+      <% } %> <% } %> <% if(글목록.length == 0) { %>
+      <div class="toWritePage">
+        <a href="/write">생성된 글이 없습니다. 첫 글을 발행해보세요!</a>
       </div>
       <% } %>
     </div>
@@ -54,11 +60,15 @@
     <!-- 다음 버튼 만들기-->
     <!-- 예를 들어 list/1 페이지로 들어갔을 때, 총 글 목록은 5개고, 
       마지막 글의 id가 파라미터로 넘어가게 됨 -->
+
+    <!--먼저 글목록 여부 체크 -->
+    <% if(글목록.length >0) { %>
     <div class="nextBtn">
       <a href="/list/next/<%=글목록[글목록.length-1]._id %>" class="nextBtn"
         >다음</a
       >
     </div>
+    <% } %>
 
     <!-- 삭제기능(보류중) -->
     <!-- 작성자 일때만 삭제 버튼 보이게(현재 오류 있음) -->

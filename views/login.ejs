@@ -9,10 +9,14 @@
   <body class="grey-bg">
     <%- include('nav.ejs')%>
 
-    <form class="form-box" action="/login" method="POST">
+    <form class="login-box" action="/login" method="POST">
       <h4>로그인</h4>
       <input name="username" />
-      <input name="password" type="password" />
+      <input
+        name="password"
+        type="password"
+        placeholder="8자 이상 입력하세요."
+      />
       <button type="submit">로그인</button>
     </form>
   </body>

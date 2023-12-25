@@ -28,12 +28,17 @@ router.get('/request', async (req, res) => {
 // 채팅방 목록 페이지
 // 현재 채팅방에 속해있는 유저만 조회 하도록 수정
 router.get('/list', isLogin, async (req, res) => {
-  let chatlist = await db
-    .collection('chatroom')
-    .find({ member: req.user._id })
-    .toArray();
-  // 현재 로그인한 유저가 속한 채팅방들을 꺼내어 Chalist로 render
-  res.render('chatList.ejs', { chatlist: chatlist });
+  // chatroom null 일 경우 대비 예외처리
+  try {
+    let chatlist = await db
+      .collection('chatroom')
+      .find({ member: req.user._id })
+      .toArray();
+    // 현재 로그인한 유저가 속한 채팅방들을 꺼내어 Chalist로 render
+    res.render('chatList.ejs', { chatlist: chatlist });
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 // 채팅방 상세페이지(chatList 페이지에서 채팅방 이름 누를때)
