@@ -224,7 +224,6 @@ div {
   background: skyblue;
   border-radius: 12px;
 }
-
 .yours {
   display: flex;
   margin-bottom: 10px;
@@ -234,7 +233,12 @@ div {
   background: #eee;
   border-radius: 12px;
 }
-
+.chat-box > span {
+  align-self: center;
+  color: #a2a2a2;
+  font-size: 12px;
+  margin: 0 7px;
+}
 .chat-form {
   display: flex;
   margin-left: 10px;

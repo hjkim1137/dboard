@@ -212,14 +212,16 @@ app.use('/list', require('./routes/list.js'));
 app.use('/search', require('./routes/search.js'));
 app.use('/chat', require('./routes/chat.js'));
 
+// 소켓 io 세팅
 io.on('connection', (socket) => {
   console.log('websocket 연결됨');
 
   // 2번
   socket.on('msg-send', async (data) => {
     console.log('서버에서 클라 데이터 수신 완료');
-    console.log('서버가 클라에게 수신한 데이터', data);
+    console.log('서버가 클라에게 수신한 데이터', data); // javascript 객체
 
+    // 수신한 데이터 DB에 저장하기
     await db.collection('chat').insertOne({
       chats: data.msg,
       roomId: new ObjectId(data.roomId),
@@ -230,8 +232,8 @@ io.on('connection', (socket) => {
     console.log('db 데이터 저장 완료');
 
     // 3번
-    io.emit('msg-send', JSON.stringify(data)); // 필수
-    console.log('서버에서 클라로 데이터 송신하는 데이터', JSON.stringify(data));
+    io.emit('msg-send', JSON.stringify(data)); // javascript 객체 -> JSON 문자열
+    console.log('서버에서 클라로 송신하는 데이터', JSON.stringify(data));
     console.log('서버에서 클라로 데이터 송신 완료');
   });
 });
