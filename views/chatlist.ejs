@@ -15,9 +15,16 @@
               <h4>
                 <a href="/chat/detail/<%= chatlist[i]._id %>"><%=chatlist[i].chatName %></a>
               </h4>
-              <p>가장 최근 메세지</p>
+              <p>가장 마지막으로 한 대화</p>
             </div>
           <% } %> 
+
+      <!-- 왜인지 if-else가 안되어 if, if 사용 -->
+      <% if(chatlist.length == 0) { %>
+        <div class="toChatlistPage">
+          <a href="/list">시작한 채팅이 없습니다. 첫 채팅을 시작해보세요!</a>
+        </div>
+        <% } %>
       </div>
   </body>
 </html>

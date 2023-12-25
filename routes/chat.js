@@ -45,6 +45,10 @@ router.get('/list', isLogin, async (req, res) => {
 // detail/id == chatlist[i]._id
 // --> 현재 로그인한 유저가 속한 채팅방들의 정보(채팅방 id, 채팅방 이름, 참여자id List, date)
 
+// 채팅방 상세페이지(chatList 페이지에서 채팅방 이름 누를때)
+// detail/id == chatlist[i]._id
+// --> 현재 로그인한 유저가 속한 채팅방들의 정보(채팅방 id, 채팅방 이름, 참여자id List, date)
+
 router.get('/detail/:roomId', isLogin, async (req, res) => {
   console.log('현재 로그인한 유저:', req.user.username);
 

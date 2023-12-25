@@ -27,14 +27,25 @@
     <h4 class="result">검색결과</h4>
 
     <div class="white-bg">
-      <% for(let i=0; i<글목록.length; i++) { %>
+      <% if(글목록.length >0) { %> <% for(let i=0; i<글목록.length;i++) { %>
       <div class="list-box">
         <h4>
           <a href="/detail/<%=글목록[i]._id%>"><%=글목록[i].title %></a>
           <a href="/edit/<%=글목록[i]._id %>">✏️ 수정</a>
-          <span class="delete" data-id="<%=글목록[i]._id %>">🗑️ 삭제</span>
+          <span
+            class="delete"
+            data-id="<%=글목록[i]._id %>"
+            data-userID="<%=글목록[i].user %>"
+            >🗑️ 삭제</span
+          >
         </h4>
         <p><%=글목록[i].content %></p>
+      </div>
+
+      <!-- 왜인지 if-else가 안되어 if, if 사용 -->
+      <% } %> <% } %> <% if(글목록.length == 0) { %>
+      <div class="searched">
+        <div>검색결과가 없습니다.</div>
       </div>
       <% } %>
     </div>

@@ -10,12 +10,17 @@
     <%- include('nav.ejs')%>
     <!-- 전송 버튼 누르면 서버로 전송, 서버는 확인 후 DB 수정 -->
     <!-- method-override 사용하면 /edit?_method=PUT 사용 가능 -->
-    <form class="form-box" action="/edit?_method=PUT" method="POST">
-      <h4>수정하기</h4>
-      <input name="id" value="<%= result._id %>" style="display: none" />
-      <input name="title" value="<%= result.title %>" />
-      <input name="content" value="<%= result.content %>" />
-      <button type="submit">전송</button>
-    </form>
+
+    <div class="white-bg">
+      <form class="form-box" action="/edit?_method=PUT" method="POST">
+        <h4 class="formbox-title">수정하기</h4>
+        <input name="id" value="<%= result._id %>" style="display: none" />
+        <input name="title" value="<%= result.title %>" />
+        <input name="content" value="<%= result.content %>" />
+        <div class="form-box-btn">
+          <button type="submit">전송</button>
+        </div>
+      </form>
+    </div>
   </body>
 </html>

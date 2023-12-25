@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const { ObjectId } = require('mongodb');
 let connectDB = require('../database');
 
 // monogoDB 연결

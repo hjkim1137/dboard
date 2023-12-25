@@ -1,6 +1,12 @@
 body {
   margin: 0;
 }
+
+h4,
+p {
+  margin: 0;
+}
+
 .nav {
   display: flex;
   padding: 8px;
@@ -30,29 +36,35 @@ body {
 }
 .white-bg {
   background: white;
-  margin: 20px;
+  padding: 20px 20px;
+  margin: 10px;
+  border-radius: 8px;
+}
+.white-bg > img {
+  max-width: 500px;
   border-radius: 5px;
 }
+.white-bg a {
+  text-decoration: none;
+  font-size: 16px;
+}
+
 .toWritePage {
   display: flex;
   justify-content: center;
-  height: 100px;
+  height: 60px;
 }
 .toWritePage > a {
   align-self: center;
   text-decoration: none;
 }
 .list-box {
-  padding: 10px;
   border-bottom: 1px solid#eee;
-}
-.list-box h4 {
-  font-size: 16px;
-  margin: 5px;
+  margin-bottom: 10px;
+  padding: 10px 0;
 }
 .list-box p {
-  font-size: 13px;
-  margin: 5px;
+  margin-top: 10px;
   color: grey;
 }
 input,
@@ -72,7 +84,6 @@ div {
 }
 
 .login-box > h4 {
-  margin: 0;
   margin-bottom: 20px;
 }
 .login-box input {
@@ -98,29 +109,35 @@ div {
 
 .form-box {
   background: white;
-  padding: 25px;
-  margin: 20px;
   border-radius: 8px;
+}
+.formbox-title {
+  margin-bottom: 20px;
 }
 .form-box input {
   padding: 10px;
   font-size: 16px;
-  width: 100%;
+  width: 50%;
   border: 1px solid black;
   border-radius: 5px;
   margin-bottom: 10px;
 }
-.form-box button {
-  padding: 10px;
-  border: none;
-  background: lightgrey;
+.form-box-btn {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
   border-radius: 5px;
+  cursor: pointer;
+  width: 150px;
 }
-.detail-bg {
-  background: white;
-  padding: 15px;
-  margin: 10px;
-  border-radius: 8px;
+.form-box-btn button {
+  height: 40px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.form-box-btn > button:hover {
+  background-color: skyblue;
 }
 
 .delete {
@@ -198,32 +215,83 @@ div {
   padding: 15px;
 }
 
+/* list, search 페이지 검색 기능 시작 */
 .searchBox {
+  margin: 20px 10px;
   display: flex;
-  margin: 20px;
+  border-radius: 8px;
+  width: 400px;
 }
 .search {
-  padding: 7px;
-  margin-right: 10px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  height: 40px;
 }
 
 .searchBtn {
-  padding: 8px;
-  align-self: center;
+  width: 80px;
+  height: 40px;
+  cursor: pointer;
+  margin-left: 10px;
   background: lightgray;
   border: none;
   border-radius: 5px;
-  /* vertical-align: middle; */
+}
+.searchBtn:hover {
+  background-color: skyblue;
 }
 .result {
   margin: 20px;
 }
+.searched {
+  display: flex;
+  justify-content: center;
+  height: 60px;
+}
+.searched > div {
+  align-self: center;
+}
+/* list, search 페이지 검색 기능 끝 */
+
+.detailpgContent {
+  margin: 15px 0;
+}
+.detailpgForm input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin-top: 15px;
+  width: 400px;
+  height: 40px;
+}
+.detailpgForm button {
+  margin-top: 15px;
+  margin-left: 5px;
+  cursor: pointer;
+  justify-content: flex-end;
+  width: 100px;
+  padding: 10px;
+  border: none;
+  background: #dbdbdb;
+  border-radius: 5px;
+  height: 40px;
+}
+.detailpgForm button:hover {
+  background-color: skyblue;
+}
 
 .comment-wrapper {
   background: white;
-  padding: 15px;
+  padding: 30px 20px;
   margin: 10px;
   border-radius: 8px;
+}
+.comment-wrapper h4 {
+  margin-bottom: 20px;
 }
 
 .comment-box {
@@ -250,6 +318,16 @@ div {
 
 .username {
   color: #a2a2a2;
+}
+
+.toChatlistPage {
+  display: flex;
+  justify-content: center;
+  height: 100px;
+}
+.toChatlistPage > a {
+  align-self: center;
+  text-decoration: none;
 }
 
 /* 채팅방 시작  */
