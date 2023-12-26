@@ -1,6 +1,7 @@
 const router = require('express').Router();
 let connectDB = require('../database');
 const { ObjectId } = require('mongodb');
+const { isLogin } = require('../middleware/index');
 
 // monogoDB 연결
 let db;
@@ -14,12 +15,14 @@ connectDB
   });
 
 // 목록 페이지
-router.get('/', async (req, res) => {
+router.get('/', isLogin, async (req, res) => {
   let result = await db.collection('post').find().toArray();
-
-  // let 로그인유저 = req.user._id;
-  // console.log('로그인유저', 로그인유저); // new ObjectId("6572f1f76c7ada0bdbcd069e")
-  res.render('list.ejs', { 글목록: result });
+  try {
+    let loginuser = new ObjectId(req.user._id);
+    res.render('list.ejs', { 글목록: result, loginUser: loginuser });
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 // 페이지네이션 만들기

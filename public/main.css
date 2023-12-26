@@ -67,6 +67,7 @@ p {
   margin-top: 10px;
   color: grey;
 }
+
 input,
 div {
   box-sizing: border-box;
@@ -140,7 +141,7 @@ div {
   background-color: skyblue;
 }
 
-.delete {
+.deletePost {
   cursor: pointer;
 }
 
@@ -284,6 +285,7 @@ div {
   background-color: skyblue;
 }
 
+/* 상세 페이지 댓글 기능 시작 */
 .comment-wrapper {
   background: white;
   padding: 30px 20px;
@@ -301,6 +303,11 @@ div {
 
 .comment-box > div {
   margin-right: 10px;
+}
+.comment {
+  color: #a2a2a2;
+  font-size: 14px;
+  align-self: center;
 }
 
 .home {

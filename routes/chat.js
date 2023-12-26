@@ -22,7 +22,7 @@ router.get('/request', async (req, res) => {
     member: [new ObjectId(req.query.writerId), req.user._id], // 글 작성자, 로그인한 유저
     date: new Date(),
   });
-  res.redirect('/chat/list');
+  res.redirect('back');
 });
 
 // 채팅방 목록 페이지

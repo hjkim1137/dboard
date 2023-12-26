@@ -18,15 +18,14 @@
     
     <div class="comment-wrapper">
       <h4>댓글 목록</h4>
-      <div>
         <% for(let i=0; i<comment.length; i++) { %>
           <div class="comment-box">
             <div><strong><%=comment[i].writer %></strong></div>
             <div><%=comment[i].comment %></div>
-            <div><%=comment[i].date %></div>
+            <div class="comment"><%=comment[i].date %></div>
           </div>
         <% } %>
-      </div> 
+
 
       <form
       action="/detail/comment"

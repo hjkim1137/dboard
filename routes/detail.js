@@ -2,6 +2,7 @@ const router = require('express').Router();
 let connectDB = require('../database');
 const { ObjectId } = require('mongodb');
 const { isLogin } = require('../middleware/index');
+const { formatDate } = require('../middleware/date');
 
 // monogoDB 연결
 let db;
@@ -53,6 +54,7 @@ router.post('/comment', isLogin, async (req, res) => {
       parentId: new ObjectId(req.body.parentId),
       writerId: new ObjectId(req.user._id),
       writer: req.user.username,
+      date: formatDate(), // YYYY-MM-DD 형식
     });
     res.redirect('back');
   } catch (e) {

@@ -23,7 +23,7 @@ router.delete('/', isLogin, async (req, res) => {
       // 작성자 본인만 삭제 가능하게 구현 (id 일치와 user 일치 조건 모두 해당)
       .deleteOne({
         _id: new ObjectId(req.query.docId),
-        user: user ? new ObjectId(req.user._id) : null,
+        user: new ObjectId(req.user._id),
       });
     res.send('삭제완료');
     // (참고) ajax 요청 사용시 새고로침 안하는게 장점이라 쓰는거라
