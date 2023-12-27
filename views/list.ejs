@@ -51,12 +51,13 @@
         // 클릭하기 전에 작성자와 로그인한 유저 다르면 삭제버튼 안보이게 처리(보류)
         deleteBtns.forEach((btn) => {
           btn.addEventListener('click', function (e) {
+            let postId = e.target.dataset.postid;
+            let writer = e.target.dataset.userid;
             let loginUser = '<%= loginUser%>';
             if (loginUser !== writer) {
               btn.style.display = 'none';
             }
-            let postId = e.target.dataset.postid;
-            let writer = e.target.dataset.userid;
+
             if (loginUser === writer) {
               if (window.confirm('삭제하시겠습니까?')) {
                 // 자바스크립트 변수 넣고 싶으면 '+' 사용하여 합치기

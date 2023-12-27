@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 
 const { isBlank } = require('./middleware/index.js');
+const { formatDate2 } = require('./middleware/date.js');
 const { ObjectId } = require('mongodb');
 const bcrypt = require('bcrypt'); // bcrypt 세팅
 
@@ -155,6 +156,15 @@ passport.deserializeUser(async (user, done) => {
   });
 });
 
+// req.isAuthenticated()- passport에서 제공하는 함수 (현재 로그인이 되어있으면 true, 아니면 false를 return)
+// nav 에서 사용하기 위함
+// (주의) 로그인 함수보다 먼저 쓰여져야 함
+app.use(function (req, res, next) {
+  res.locals.isAuthenticated = req.isAuthenticated();
+  res.locals.currentUser = req.user;
+  next();
+});
+
 // passport.serializeUser 로직 실행하는 코드
 // 라이브러리 사용법이니까 외우지 말고 그냥 작성하면 됨
 // error: 비교작업 실패, info: 실패이유, user: 비교작업 성공
@@ -179,21 +189,21 @@ app.get('/login', async (req, res) => {
   res.render('login.ejs');
 });
 
+// 로그아웃 하기
+app.get('/logout', async (req, res) => {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect('/');
+  });
+});
+
 // 메인페이지
 app.get('/', (req, res) => {
   // html 파일 보내는 법
-  res.render('home.ejs');
-});
-
-// (번외) 서버 time 보여주는 기능
-// app.get('/time', (req, res) => {
-//   let time = new Date();
-//   res.render('time.ejs', { time });
-// });
-
-// 또는 이렇게 한번에 작성 가능
-app.get('/time', (req, res) => {
-  res.render('time.ejs', { data: new Date() });
+  let time = formatDate2();
+  res.render('home.ejs', { time: time });
 });
 
 // 비정상적인 접근(로그인한 유저만 접근 가능한 페이지에 임의 접근했을 경우)
