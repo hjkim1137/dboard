@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
 
-const { isBlank } = require('./middleware/index.js');
-const { formatDate2 } = require('./middleware/date.js');
+const { isBlank } = require('./middlewares/index.js');
+const { formatDate2 } = require('./utils/date.js');
 const { ObjectId } = require('mongodb');
 const bcrypt = require('bcrypt'); // bcrypt 세팅
 

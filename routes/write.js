@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const connectDB = require('../database');
-const { isLogin } = require('../middleware/index');
+const { isLogin } = require('../middlewares/index');
 
 // multer 세팅
 const { S3Client } = require('@aws-sdk/client-s3');
@@ -29,22 +29,58 @@ const upload = multer({
 let db;
 connectDB
   .then((client) => {
-    console.log('write 섹션-DB 연결성공');
     db = client.db('forum'); // forum db 연결
   })
   .catch((err) => {
     console.error('DB 연결 실패:', err);
   });
 
-// 게시물 작성 페이지 (+로그인한 사람만 글 작성 가능)
-router.get('/', isLogin, (req, res) => {
-  console.log('글작성 페이지 유저 정보', req.user);
-  res.render('write.ejs');
+// 게시물 작성 페이지 (+로그인한 사람만 글 작성 가능) - 정상, 로그아웃 후에도 정상
+router.get('/', isLogin, async (req, res) => {
+  if (req.user) {
+    try {
+      return res.render('write.ejs');
+    } catch {
+      res.send('로그인 후 이용해주세요.');
+    }
+  }
 });
+
+// 게시물 작성 페이지 (+로그인한 사람만 글 작성 가능) - 정상2, 로그아웃 후에도 정상
+// router.get('/', isLogin, async (req, res) => {
+//   if (req.user) {
+//     try {
+//       res.render('write.ejs');
+//     } catch {
+//       res.send('로그인 후 이용해주세요.');
+//     }
+//   }
+// });
+
+// 게시물 작성 페이지 (+로그인한 사람만 글 작성 가능) - 정상3, 로그아웃 후 비정상
+// router.get('/', isLogin, async (req, res) => {
+//   try {
+//     res.render('write.ejs');
+//   } catch {
+//     res.send('로그인 후 이용해주세요.');
+//   }
+// });
+
+// 게시물 작성 페이지 (+로그인한 사람만 글 작성 가능) - (로그아웃 전에는) 정상, 후에는 비정상
+// router.get('/', isLogin, async (req, res) => {
+//   res.render('write.ejs');
+// });
+
+// 게시물 작성 페이지 (+로그인한 사람만 글 작성 가능) - 둘다 비정상
+// router.get('/', isLogin, async (req, res) => {
+//   if (req.user) {
+//     return res.render('write.ejs');
+//   }
+//   res.send('로그인 후 이용해주세요.');
+// });
 
 // 게시물 작성 (+try-catch 문을 이용한 예외처리 방법)
 router.post('/add', upload.single('img1'), async (req, res) => {
-  console.log('로그인한 유저', req.user);
   try {
     if (req.body.title == '' || req.body.content == '') {
       return res.send('제목 또는 내용을 입력하세요.');

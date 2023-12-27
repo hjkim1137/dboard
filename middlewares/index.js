@@ -11,7 +11,7 @@ function isBlank(req, res, next) {
   }
 }
 
-// 로그인 여부 확인 함수(미들웨어 함수)
+// 로그인 여부 확인 미들웨어 함수
 function isLogin(req, res, next) {
   if (!req.user) {
     res.render('fail.ejs'); // 미로그인 상태면 로그인 요청 페이지로 안내
