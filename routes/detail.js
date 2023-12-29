@@ -30,7 +30,6 @@ router.get('/:id', isLogin, async (req, res) => {
       .collection('comment')
       .find({ parentId: new ObjectId(req.params.id) })
       .toArray();
-
     res.render('detail.ejs', { result: result, comment: comment });
 
     // null 처리(parameter가 길이는 맞는데 틀리는 경우 등)

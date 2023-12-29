@@ -157,7 +157,7 @@ passport.deserializeUser(async (user, done) => {
 });
 
 // req.isAuthenticated()- passport에서 제공하는 함수 (현재 로그인이 되어있으면 true, 아니면 false를 return)
-// nav 에서 사용하기 위함
+// nav.ejs 에서 사용하기 위함
 // (주의) 로그인 함수보다 먼저 쓰여져야 함
 app.use(function (req, res, next) {
   res.locals.isAuthenticated = req.isAuthenticated();
@@ -174,8 +174,8 @@ app.post('/login', isBlank, async (req, res, next) => {
     if (!user) return res.status(401).json(info.message);
     // req.login() => 유저가 전송버튼 누름-> passport.serializeUser 실행
     req.logIn(user, (err) => {
-      if (err) return next(err);
-      res.redirect('/');
+      if (err) return next(err); // 에러 있으면
+      res.redirect('/'); // 에러 없으면
     });
   })(req, res, next);
 });
@@ -191,11 +191,9 @@ app.get('/login', async (req, res) => {
 
 // 로그아웃 하기
 app.get('/logout', async (req, res) => {
-  req.logout(function (err) {
-    if (err) {
-      return next(err);
-    }
-    res.redirect('/');
+  req.logout((err) => {
+    if (err) return next(err); // 에러 있으면
+    res.redirect('/'); // 에러 없으면
   });
 });
 

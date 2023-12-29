@@ -11,7 +11,15 @@
 
     <div class="white-bg">
       <div class="chat-screen">
+        <% if(chats.length == 0) { %>
+          <div class="firstChat">첫번째 채팅을 시작하세요!</div>
+        <% } %>
+
         <% if(chats && chats.length > 0) { %>
+          <script>
+            // 첫번째 채팅이 시작되면 alert 문구 삭제
+            document.querySelector(".firstChat").style.display ="none"
+          </script>
           <% for(let i=0; i<chats.length; i++) { %>
             <div class="chat-box 
               <%= chats[i].userId == String(requestedUserId) ? 'mine' : 'yours' %> 

@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const connectDB = require('../database');
 const { isLogin } = require('../middlewares/index');
+const { formatDate2 } = require('../utils/date');
 
 // multer 세팅
 const { S3Client } = require('@aws-sdk/client-s3');
@@ -35,7 +36,7 @@ connectDB
     console.error('DB 연결 실패:', err);
   });
 
-// 게시물 작성 페이지 (+로그인한 사람만 글 작성 가능) - 정상, 로그아웃 후에도 정상
+// 게시물 작성 페이지 (+로그인한 사람만 글 작성 가능)
 router.get('/', isLogin, async (req, res) => {
   if (req.user) {
     try {
@@ -45,39 +46,6 @@ router.get('/', isLogin, async (req, res) => {
     }
   }
 });
-
-// 게시물 작성 페이지 (+로그인한 사람만 글 작성 가능) - 정상2, 로그아웃 후에도 정상
-// router.get('/', isLogin, async (req, res) => {
-//   if (req.user) {
-//     try {
-//       res.render('write.ejs');
-//     } catch {
-//       res.send('로그인 후 이용해주세요.');
-//     }
-//   }
-// });
-
-// 게시물 작성 페이지 (+로그인한 사람만 글 작성 가능) - 정상3, 로그아웃 후 비정상
-// router.get('/', isLogin, async (req, res) => {
-//   try {
-//     res.render('write.ejs');
-//   } catch {
-//     res.send('로그인 후 이용해주세요.');
-//   }
-// });
-
-// 게시물 작성 페이지 (+로그인한 사람만 글 작성 가능) - (로그아웃 전에는) 정상, 후에는 비정상
-// router.get('/', isLogin, async (req, res) => {
-//   res.render('write.ejs');
-// });
-
-// 게시물 작성 페이지 (+로그인한 사람만 글 작성 가능) - 둘다 비정상
-// router.get('/', isLogin, async (req, res) => {
-//   if (req.user) {
-//     return res.render('write.ejs');
-//   }
-//   res.send('로그인 후 이용해주세요.');
-// });
 
 // 게시물 작성 (+try-catch 문을 이용한 예외처리 방법)
 router.post('/add', upload.single('img1'), async (req, res) => {
@@ -94,8 +62,8 @@ router.post('/add', upload.single('img1'), async (req, res) => {
       // post 시 user 정보도 함께 저장
       user: req.user._id,
       username: req.user.username,
+      date: formatDate2(),
     });
-
     res.redirect('/list');
   } catch (e) {
     console.log(e);
