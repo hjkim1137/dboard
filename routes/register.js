@@ -2,6 +2,30 @@ const router = require('express').Router();
 let connectDB = require('../database');
 const { isBlank } = require('../middlewares/index');
 const bcrypt = require('bcrypt'); // bcrypt 세팅
+const { formatDate2 } = require('../utils/date');
+
+// multer 세팅
+const { S3Client } = require('@aws-sdk/client-s3');
+const multer = require('multer');
+const multerS3 = require('multer-s3');
+
+const s3 = new S3Client({
+  region: 'ap-northeast-2',
+  credentials: {
+    accessKeyId: process.env.S3_KEY,
+    secretAccessKey: process.env.S3_SECRET,
+  },
+});
+
+const upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: 'hjkimforum11',
+    key: function (req, file, cb) {
+      cb(null, Date.now().toString()); // 업로드시 파일명 변경가능
+    },
+  }),
+});
 
 // monogoDB 연결
 let db;
@@ -19,7 +43,7 @@ router.get('/', (req, res) => {
   res.render('register.ejs');
 });
 
-router.post('/', isBlank, async (req, res) => {
+router.post('/', isBlank, upload.single('img1'), async (req, res) => {
   console.log('유저가 회원가입 형식에 입력한 내용', req.body);
   try {
     let data = await db
@@ -38,8 +62,10 @@ router.post('/', isBlank, async (req, res) => {
         let hash = await bcrypt.hash(req.body.password, 10);
 
         await db.collection('user').insertOne({
+          img: req.file ? req.file.location : null,
           username: req.body.username,
           password: hash,
+          created: formatDate2(),
         });
         res.redirect('/');
       }

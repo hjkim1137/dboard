@@ -16,24 +16,22 @@ connectDB
 
 // 채팅방 개설하기(detail 페이지에서 채팅하기 누를때)
 router.get('/request', async (req, res) => {
+  let writerId = new ObjectId(req.query.writerId);
+  let loginUserId = req.user._id;
+
   // 1. postId를 근거로 채팅룸 생성여부 확인하기
   let existingChatroom = await db.collection('chatroom').findOne({
     postId: new ObjectId(req.query.postId),
+    member: [writerId, loginUserId],
   });
 
-  if (existingChatroom) {
-    // 2. 이미 유저 간 생성된 채팅방이 있으면 해당 채팅방으로 유저를 이동시킴
-    let roomId = `${existingChatroom._id}`;
-    res.redirect('/chat/detail/' + roomId);
-  } else {
-    // 3-1. 없으면 신규 생성하는데, 단, 글 작성자 본인과는 채팅 막기
+  // 2. 없으면 신규 생성하는데,
+  if (!existingChatroom) {
+    // 2-1. 단, 글 작성자 본인과는 채팅 막기
     if (`${req.user._id}` === req.query.writerId) {
       return res.send('글 작성자 본인과는 채팅할 수 없습니다.');
-      // 3-2. 신규생성
+      // 2-2. 신규생성
     } else {
-      let writerId = new ObjectId(req.query.writerId);
-      let loginUserId = req.user._id;
-
       await db.collection('chatroom').insertOne({
         postId: new ObjectId(req.query.postId),
         chatName: req.query.chatName,
@@ -42,6 +40,10 @@ router.get('/request', async (req, res) => {
       });
       return res.redirect('/chat/list');
     }
+    // 3. 이미 유저 간 생성된 채팅방이 있으면 해당 채팅방으로 유저를 이동시킴
+  } else {
+    let chatroomId = `${existingChatroom._id}`;
+    res.redirect('/chat/detail/' + chatroomId);
   }
 });
 
@@ -55,7 +57,10 @@ router.get('/list', isLogin, async (req, res) => {
       .find({ member: req.user._id })
       .toArray();
     // 현재 로그인한 유저가 속한 채팅방들을 꺼내어 Chalist로 render
-    res.render('chatList.ejs', { chatlist: chatlist });
+    res.render('chatList.ejs', {
+      chatlist: chatlist,
+      loginUser: req.user._id,
+    });
   } catch (e) {
     console.log(e);
   }
@@ -84,6 +89,25 @@ router.get('/detail/:roomId', isLogin, async (req, res) => {
     requestedUserId: new ObjectId(req.user._id),
     username: req.user.username,
   });
+});
+
+// 채팅 삭제기능
+router.delete('/list', isLogin, async (req, res) => {
+  try {
+    await db
+      .collection('chatroom')
+      // 작성자 본인만 삭제 가능하게 구현 (id 일치와 user 일치 조건 모두 해당)
+      .deleteOne({
+        _id: new ObjectId(req.query.roomId),
+        member: new ObjectId(req.user._id),
+      });
+    res.send('삭제완료');
+    // (참고) ajax 요청 사용시 새고로침 안하는게 장점이라 쓰는거라
+    // res.redirect, res.render 사용 안하는게 나음
+  } catch (e) {
+    res.send('오류 발생 또는 삭제권한 없음');
+    console.log(e);
+  }
 });
 
 module.exports = router;

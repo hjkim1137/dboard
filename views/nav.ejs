@@ -4,9 +4,25 @@
   <a href="/write">Write</a>
   <a href="/mypage">Mypage</a>
   <a href="/chat/list">Chat</a>
+
   <% if(currentUser) { %>
-  <a href="/logout">Logout</a>
+  <div class="profileBox">
+    <a href="/logout" class="logout">Logout</a>
+
+    <button class="profileInner" onclick="location.href='/mypage'">
+      <% if(currentUser.img) { %>
+         <img class="navProfile" src="<%= currentUser.img %>"></img>
+          <p><strong><%= currentUser.username %></strong></p>
+
+      <% } else { %>
+          <img class="navProfile"></img>
+          <p><strong><%= currentUser.username %></strong></p>
+      <% } %>
+    </button>
+
+  </div>
   <% } else { %>
   <a href="/login">Login</a>
+  <a href="/register">Register</a>
   <% } %>
 </div>

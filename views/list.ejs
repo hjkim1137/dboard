@@ -11,7 +11,7 @@
 
     <!-- 검색기능 -->
     <div class="searchBox">
-      <input class="search" placeholder="게시글을 검색하세요." />
+      <input name="search" class="search" placeholder="게시글을 검색하세요." />
       <button class="searchBtn">검색하기</button>
     </div>
 
@@ -30,6 +30,9 @@
       <div class="list-box">
         <h4>
           <a href="/detail/<%=글목록[i]._id%>"><%=글목록[i].title %></a>
+          <div style="display: none" class="listWriterId">
+            <%=글목록[i].user %>
+          </div>
           <a href="/edit/<%=글목록[i]._id %>">✏️ 수정</a>
           <span
             class="deletePost"
@@ -38,53 +41,50 @@
           >
             🗑️ 삭제
           </span>
+
           <span class="username"><%=글목록[i].username%></span>
           <span class="date"><%=글목록[i].date%></span>
         </h4>
         <p><%=글목록[i].content %></p>
       </div>
-      <% } %>
+      <% } %> <% } %>
 
-      <!-- 삭제기능(보류중) -->
-      <!-- 작성자 일때만 삭제 버튼 보이게(현재 오류 있음) -->
       <script>
         let deleteBtns = document.querySelectorAll('.deletePost');
 
-        // 클릭하기 전에 작성자와 로그인한 유저 다르면 삭제버튼 안보이게 처리(보류)
-        deleteBtns.forEach((btn) => {
+        deleteBtns.forEach((btn, index) => {
+          let writerIds = document.querySelectorAll('.listWriterId');
+          let writerIdValue = writerIds[index].innerText;
+
           btn.addEventListener('click', function (e) {
-            let postId = e.target.dataset.postid;
-            let writer = e.target.dataset.userid;
-            let loginUser = '<%= loginUser%>';
-            if (loginUser !== writer) {
+            if ('<%= loginUser%>' !== writerIdValue) {
               btn.style.display = 'none';
+            } else {
+              btn.style.display = 'block';
             }
 
-            if (loginUser === writer) {
-              if (window.confirm('삭제하시겠습니까?')) {
-                // 자바스크립트 변수 넣고 싶으면 '+' 사용하여 합치기
-                fetch('/delete?docId=' + postId, {
-                  method: 'DELETE',
+            let postId = e.target.dataset.postid;
+
+            if (window.confirm('삭제하시겠습니까?')) {
+              fetch('/delete?docId=' + postId, {
+                method: 'DELETE',
+              })
+                .then((res) => res.text())
+                .then((data) => {
+                  e.target.parentElement.parentElement.style.display = 'none';
                 })
-                  // ajax 성공 시 서버에서 온 응답 콘솔에 출력하는 방법(오류중)
-                  .then((res) => res.text())
-                  .then((data) => {
-                    e.target.parentElement.parentElement.style.display = 'none';
-                  })
-                  .catch((error) => {
-                    console.error('오류 발생!!', error);
-                    e.target.parentElement.parentElement.style.display =
-                      'block';
-                  });
-              } else {
-                btn.style.display = 'block';
-              }
+                .catch((error) => {
+                  console.error('오류 발생!!', error);
+                  e.target.parentElement.parentElement.style.display = 'block';
+                });
+            } else {
+              btn.style.display = 'block';
+              e.target.parentElement.parentElement.style.display = 'block';
             }
           });
         });
       </script>
 
-      <% } %>
       <!-- 왜인지 if-else가 안되어 if, if 사용 -->
       <% if(글목록.length == 0) { %>
       <div class="toWritePage">

@@ -10,9 +10,18 @@
     <%- include('nav.ejs')%>
 
     <div class="white-bg">
-      <form class="form-box" action="/mypage/edit?_method=PUT" method="POST">
+      <form
+        class="form-box"
+        action="/mypage/edit?_method=PUT"
+        method="POST"
+        enctype="multipart/form-data"
+      >
         <h4 class="formbox-title">마이페이지</h4>
-        <input name="username" value="<%=user.username %>" disabled />
+        <div class="profileImg">
+          <img class="myImg" src="<%= result.img %>"</img>
+          <input type="file" name="img1" accept="image/*" multiple />
+        </div>
+        <input name="username" value="<%=result.username %>" disabled />
         <input
           name="password"
           type="password"

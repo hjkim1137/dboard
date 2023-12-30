@@ -14,10 +14,54 @@
             <div class="list-box">
               <h4>
                 <a href="/chat/detail/<%= chatlist[i]._id %>"><%=chatlist[i].chatName %></a>
+                <div style="display: none" class="listchatId">
+                  <%=chatlist[i]._id %>
+                </div>
+                <span
+                class="deleteChat"
+                data-id="<%=chatlist[i]._id %>"
+                data-userid="<%=chatlist[i].user%>"
+              >🗑️ 삭제</span>
               </h4>
               <p>가장 마지막으로 한 대화</p>
             </div>
           <% } %> 
+
+          <script>
+            let deleteBtns = document.querySelectorAll('.deleteChat');
+    
+            deleteBtns.forEach((btn, index) => {
+              let chatIds = document.querySelectorAll('.listchatId');
+              let chatIdValue = chatIds[index].innerText;
+    
+              btn.addEventListener('click', function (e) {
+                if ('<%= loginUser%>' !== chatIdValue) {
+                  btn.style.display = 'none';
+                } else {
+                  btn.style.display = 'block';
+                }
+    
+                let chatidis = e.target.dataset.id;
+    
+                if (window.confirm('삭제하시겠습니까? 유저와 대화한 내용이 모두 삭제됩니다.')) {
+                  fetch('/chat/list?roomId=' + chatidis, {
+                    method: 'DELETE',
+                  })
+                    .then((res) => res.text())
+                    .then((data) => {
+                      e.target.parentElement.parentElement.style.display = 'none';
+                    })
+                    .catch((error) => {
+                      console.error('오류 발생!!', error);
+                      e.target.parentElement.parentElement.style.display = 'block';
+                    });
+                } else {
+                  btn.style.display = 'block';
+                  e.target.parentElement.parentElement.style.display = 'block';
+                }
+              });
+            });
+          </script>
 
       <!-- 왜인지 if-else가 안되어 if, if 사용 -->
       <% if(chatlist.length == 0) { %>

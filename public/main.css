@@ -3,8 +3,11 @@ body {
 }
 
 h4,
-p {
+p,
+a,
+img {
   margin: 0;
+  padding: 0;
 }
 
 .nav {
@@ -25,9 +28,58 @@ p {
   background-color: #a2a2a2;
   color: #fff;
 }
+
+.navProfile {
+  background-color: #dbdbdb;
+  width: 30px;
+  height: 30px;
+  border-radius: 25px;
+  margin-right: 10px;
+}
+.profileBox {
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+.logout {
+  align-self: center;
+  margin: 0 10px;
+  text-align: center;
+}
+.profileInner {
+  background: none;
+  border: none;
+  text-align: center;
+  font-size: 16px;
+  display: flex;
+  cursor: pointer;
+}
+
+.profileInner > p {
+  align-self: center;
+  color: #a2a2a2;
+}
+.profileImg {
+  display: flex;
+  flex-direction: column;
+}
+.profileImg > input {
+  width: 50%;
+}
+
+.myImg {
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  border: none;
+  /* background-color: #dbdbdb; */
+  margin-bottom: 10px;
+}
+
 .logo {
   font-weight: bold;
 }
+
 .grey-bg {
   background: #eee;
   padding-bottom: 10px;
@@ -154,7 +206,8 @@ div {
   background-color: skyblue;
 }
 
-.deletePost {
+.deletePost,
+.deleteChat {
   cursor: pointer;
 }
 
