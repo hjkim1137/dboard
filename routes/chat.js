@@ -56,19 +56,43 @@ router.get('/list', isLogin, async (req, res) => {
       .collection('chatroom')
       .find({ member: req.user._id })
       .toArray();
-    // 현재 로그인한 유저가 속한 채팅방들을 꺼내어 Chalist로 render
-    res.render('chatList.ejs', {
-      chatlist: chatlist,
-      loginUser: req.user._id,
-    });
+    console.log('chatlist', chatlist);
+
+    let chats = [];
+
+    if (chatlist.length > 0) {
+      // 각 채팅방의 ObjectId를 배열로 만듦
+      const roomIds = chatlist.map((chat) => new ObjectId(chat._id));
+      console.log('roomids', roomIds);
+
+      // 모든 채팅방에 대한 최신 메시지를 가져오기
+      for (let i = 0; i < roomIds.length; i++) {
+        const latestChat = await db
+          .collection('chat')
+          .find({ roomId: roomIds[i] })
+          .sort({ date: -1 })
+          .limit(1)
+          .toArray();
+        console.log('latestChat', latestChat);
+
+        if (latestChat.length > 0) {
+          chats.push(latestChat[0]);
+        }
+      }
+      console.log('chats', chats);
+
+      // 현재 로그인한 유저가 속한 채팅방들을 꺼내어 Chalist로 렌더링
+      res.render('chatList.ejs', {
+        chatlist: chatlist,
+        loginUser: req.user._id,
+        lastChat: chats,
+      });
+    }
   } catch (e) {
-    console.log(e);
+    console.error(e);
+    res.status(500).send('Internal Server Error');
   }
 });
-
-// 채팅방 상세페이지(chatList 페이지에서 채팅방 이름 누를때)
-// detail/id == chatlist[i]._id
-// --> 현재 로그인한 유저가 속한 채팅방들의 정보(채팅방 id, 채팅방 이름, 참여자id List, date)
 
 // 채팅방 상세페이지(chatList 페이지에서 채팅방 이름 누를때)
 // detail/id == chatlist[i]._id

@@ -59,21 +59,21 @@ img {
   align-self: center;
   color: #a2a2a2;
 }
-.profileImg {
-  display: flex;
-  flex-direction: column;
-}
-.profileImg > input {
-  width: 50%;
-}
-
-.myImg {
+.imgWrapper {
   width: 100px;
   height: 100px;
   border-radius: 50px;
-  border: none;
-  /* background-color: #dbdbdb; */
-  margin-bottom: 10px;
+  border: 1px solid #dbdbdb;
+  background-color: #dbdbdb;
+}
+.imgWrapper > img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+}
+
+.file {
+  margin-top: 10px;
 }
 
 .logo {

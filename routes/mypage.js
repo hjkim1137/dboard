@@ -77,7 +77,7 @@ router.put(
             },
           }
         );
-        return res.redirect('/');
+        return res.redirect('back');
       }
     } catch (error) {
       console.error('에러메세지', error);

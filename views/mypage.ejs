@@ -17,10 +17,8 @@
         enctype="multipart/form-data"
       >
         <h4 class="formbox-title">마이페이지</h4>
-        <div class="profileImg">
-          <img class="myImg" src="<%= result.img %>"</img>
-          <input type="file" name="img1" accept="image/*" multiple />
-        </div>
+        <div class="imgWrapper"><img src="<%= result.img %>" alt="image" class="myImg"></img></div>
+        <input class="file" type="file" name="img1" accept="image/*" multiple />
         <input name="username" value="<%=result.username %>" disabled />
         <input
           name="password"
@@ -29,7 +27,7 @@
         />
         <input name="password2" type="password" placeholder="비밀번호 재입력" />
         <div class="form-box-btn">
-          <button type="submit">비밀번호 수정하기</button>
+          <button type="submit">정보 수정하기</button>
         </div>
       </form>
     </div>
