@@ -175,7 +175,7 @@ div {
 .form-box {
   background: white;
   border-radius: 8px;
-  width: 50%;
+  width: 500px;
 }
 .formbox-title {
   margin-bottom: 20px;
@@ -365,6 +365,13 @@ div {
   color: #a2a2a2;
   font-size: 14px;
   margin: 0 5px;
+  align-self: center;
+}
+.detailpgTitle2 > img {
+  width: 25px;
+  height: 25px;
+  border-radius: 30px;
+  align-self: center;
 }
 
 .detailpgImg {
@@ -497,5 +504,13 @@ div {
   color: #a2a2a2;
   font-size: 12px;
   text-align: center;
+}
+.userIMG,
+.writerIMG {
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
+  align-self: center;
+  margin-right: 5px;
 }
 /* 채팅방 끝 */

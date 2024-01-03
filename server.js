@@ -236,6 +236,8 @@ io.on('connection', (socket) => {
       userId: new ObjectId(data.userId),
       userName: data.userName,
       date: data.date,
+      yourImg: data.yourImg,
+      userImg: data.userImg,
     });
     console.log('db 데이터 저장 완료');
 
@@ -255,20 +257,11 @@ app.get('/stream/list', (req, res) => {
     'Cache-Control': 'no-cache',
   });
 
-  // res.write('event: msg\n');
-  // res.write('data: 바보\n\n');
-
-  // 유저가 요청안해도 서버 맘대로 데이터 전송 가능
-  // setInterval(() => {
-  //   // 아래 형식 잘 맞춰야 데이터 잘감(스페이스바, 개행 문자 유의)
-  //   res.write('event: msg\n');
-  //   res.write('data: 바보\n\n');
-  // }, 1000);
-
   // post 컬렉션의 doc 변동 사항 발생시(현재는 insert시만 조건) 안의 코드 실행됨
   changeStream.on('change', (result) => {
     console.log(result.fullDocument); // 새로 추가된 doc
 
+    // 형식 잘 맞춰서 보내야 함
     res.write('event: msg\n');
     res.write(`data: ${JSON.stringify(result.fullDocument)}\n\n`);
     // array, object 형은 JSON.stringfy 사용

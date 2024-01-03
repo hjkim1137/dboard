@@ -62,6 +62,7 @@ router.post('/add', upload.single('img1'), async (req, res) => {
       // post 시 user 정보도 함께 저장
       user: req.user._id,
       username: req.user.username,
+      userImage: req.user.img,
       date: formatDate2(),
     });
     res.redirect('/list');

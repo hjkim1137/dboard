@@ -36,6 +36,7 @@ router.get('/request', async (req, res) => {
         postId: new ObjectId(req.query.postId),
         chatName: req.query.chatName,
         member: [writerId, loginUserId], // 글 작성자, 로그인한 유저
+        userImages: [req.query.writerImg, req.user.img],
         date: new Date(),
       });
       return res.redirect('/chat/list');
@@ -43,7 +44,7 @@ router.get('/request', async (req, res) => {
     // 3. 이미 유저 간 생성된 채팅방이 있으면 해당 채팅방으로 유저를 이동시킴
   } else {
     let chatroomId = `${existingChatroom._id}`;
-    res.redirect('/chat/detail/' + chatroomId);
+    res.redirect('/chat/detail?roomid=' + chatroomId);
   }
 });
 
@@ -98,20 +99,30 @@ router.get('/list', isLogin, async (req, res) => {
 // detail/id == chatlist[i]._id
 // --> 현재 로그인한 유저가 속한 채팅방들의 정보(채팅방 id, 채팅방 이름, 참여자id List, date)
 
-router.get('/detail/:roomId', isLogin, async (req, res) => {
+router.get('/detail', isLogin, async (req, res) => {
   console.log('현재 로그인한 유저:', req.user.username);
 
   let chats = await db
     .collection('chat')
-    .find({ roomId: new ObjectId(req.params.roomId) })
+    .find({ roomId: new ObjectId(req.query.roomid) })
     .toArray();
+
+  let roomID = await db
+    .collection('chatroom')
+    .findOne({ _id: new ObjectId(req.query.roomid) });
+
+  // 상대방의 이미지는 내 이미지와 일치하지 않는 것을 조건을 줌
+  let yourImgs = roomID.userImages;
+  let yourImg = yourImgs.filter((yourImg) => yourImg !== req.user.img)[0];
 
   res.render('chatDetail.ejs', {
     chats: chats,
     // current info
-    roomId: req.params.roomId,
+    roomId: req.query.roomid,
     requestedUserId: new ObjectId(req.user._id),
     username: req.user.username,
+    yourimg: yourImg ? yourImg : null,
+    userimg: req.user.img,
   });
 });
 

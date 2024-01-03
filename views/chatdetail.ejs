@@ -21,11 +21,16 @@
             document.querySelector(".firstChat").style.display ="none"
           </script>
           <% for(let i=0; i<chats.length; i++) { %>
-            <div class="chat-box 
-              <%= chats[i].userId == String(requestedUserId) ? 'mine' : 'yours' %> 
-            ">
-              <div><%= chats[i].userName %>: <%= chats[i].chats %></div>
-              <span><%= chats[i].date%></span>
+            <div class="chat-box <%= (chats[i].userId == String(requestedUserId)) ? 'mine' : 'yours' %>"> 
+              <% if(chats[i].userId == String(requestedUserId)) { %>
+                <span><%= chats[i].date %></span>
+                <img src="<%=userimg%>" class="userIMG"></img>
+                <div><%= chats[i].userName %>: <%= chats[i].chats %></div>
+                <% } else { %>
+                <img src="<%=yourimg%>" class="writerIMG"></img>
+                <div><%= chats[i].userName %>: <%= chats[i].chats %></div>
+                <span><%= chats[i].date %></span>
+              <% } %>
             </div>
           <% } %>
         <% } %>
@@ -50,7 +55,11 @@
       console.log('userId', userID)
       let username = "<%= username %>"
       console.log('username', username)
-
+      let yourImg = "<%=yourimg%>"
+      console.log("상대방 이미지", yourImg)
+      let userImg = "<%=userimg%>"
+      console.log("유저 이미지",userImg)
+      
       let sendButton = document.querySelector('.chat-button')
       let userInput = document.querySelector('.chat-input')
 
@@ -65,6 +74,8 @@
               userId: userID,
               userName : username,
               date: new Date().toLocaleString(),
+              yourImg: yourImg,
+              userImg: userImg,
             }
 
           socket.emit('msg-send', msgObject);

@@ -13,13 +13,14 @@
       <div class="detailpgTitle">
         <h4><%=result.title %></h4>
         <div class="detailpgTitle2">
+          <img src="<%= result.userImage %>"></img>
           <p><%=result.username%></p>
           <p><%=result.date%></p>
         </div>
       </div>
       <p class="detailpgContent"><%=result.content %></p>
       <img src="<%=result.img %>" class="detailpgImg"></img>
-      <a href="/chat/request?writerId=<%=result.user%>&chatName=<%= result.title%>&postId=<%=result._id%>" class="gotoChat"> 글 작성자와 채팅하기 💬</a>
+      <a href="/chat/request?writerId=<%=result.user%>&chatName=<%= result.title%>&postId=<%=result._id%>&writerImg=<%=result.userImage%>" class="gotoChat"> 글 작성자와 채팅하기 💬</a>
     </div>
     
     <div class="comment-wrapper">
