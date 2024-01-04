@@ -17,8 +17,23 @@
         enctype="multipart/form-data"
       >
         <h4 class="formbox-title">마이페이지</h4>
-        <div class="imgWrapper"><img src="<%= result.img %>" alt="image" class="myImg"></img></div>
-        <input class="file" type="file" name="img1" accept="image/*" multiple />
+        <div class="imgWrapper">
+          <img src="<%= result.img %>" alt="image" class="myImg"></img>
+        </div>
+        <input onchange="setThumbnail(event)" class="file" type="file" name="img1" accept="image/*" multiple />
+
+        <!-- 이미지 미리보기 -->
+        <script>
+          function setThumbnail(event) {
+            let reader = new FileReader()
+            reader.onload = function(event) {
+              let img = document.querySelector(".myImg")
+              img.setAttribute("src", event.target.result)
+            }
+            reader.readAsDataURL(event.target.files[0])
+          }
+        </script>
+
         <input name="username" value="<%=result.username %>" disabled />
         <input
           name="password"
