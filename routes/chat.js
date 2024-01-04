@@ -111,9 +111,16 @@ router.get('/detail', isLogin, async (req, res) => {
     .collection('chatroom')
     .findOne({ _id: new ObjectId(req.query.roomid) });
 
-  // 상대방의 이미지는 내 이미지와 일치하지 않는 것을 조건을 줌
-  let yourImgs = roomID.userImages;
-  let yourImg = yourImgs.filter((yourImg) => yourImg !== req.user.img)[0];
+  // 이전 DB에 userImages 필드 자체가 없는 경우도 있어 함수 만듦
+  function showImage() {
+    // 상대방의 이미지는 내 이미지와 일치하지 않는 것을 조건을 줌
+    let yourImgs = roomID.userImages;
+    if (yourImgs) {
+      let yourImg = yourImgs.filter((yourImg) => yourImg !== req.user.img)[0];
+      return yourImg;
+    }
+    return null;
+  }
 
   res.render('chatDetail.ejs', {
     chats: chats,
@@ -121,7 +128,7 @@ router.get('/detail', isLogin, async (req, res) => {
     roomId: req.query.roomid,
     requestedUserId: new ObjectId(req.user._id),
     username: req.user.username,
-    yourimg: yourImg ? yourImg : null,
+    yourimg: showImage(),
     userimg: req.user.img,
   });
 });

@@ -512,5 +512,7 @@ div {
   border-radius: 30px;
   align-self: center;
   margin-right: 5px;
+  background-color: #dbdbdb;
+  border: none;
 }
 /* 채팅방 끝 */
