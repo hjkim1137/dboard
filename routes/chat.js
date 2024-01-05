@@ -37,7 +37,7 @@ router.get('/request', async (req, res) => {
         chatName: req.query.chatName,
         member: [writerId, loginUserId], // 글 작성자, 로그인한 유저
         userImages: [req.query.writerImg, req.user.img],
-        date: new Date(),
+        date: new Date().toLocaleString('ko-KR'),
       });
       return res.redirect('/chat/list');
     }

@@ -22,5 +22,4 @@ function formatDate2() {
 
   return dateStr;
 }
-
 module.exports = { formatDate, formatDate2 };
