@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  font-size: 0.875rem;
 }
 
 h4,
@@ -25,8 +26,7 @@ img {
   text-align: center;
 }
 .nav > a:hover {
-  background-color: #a2a2a2;
-  color: #fff;
+  color: #dbdbdb;
 }
 
 .navProfile {
@@ -443,6 +443,16 @@ div {
 .toChatlistPage > a {
   align-self: center;
   text-decoration: none;
+}
+.contentBox {
+  display: flex;
+  justify-content: space-between;
+}
+
+.contentBox > span {
+  color: #a2a2a2;
+  font-size: 14px;
+  margin-top: 10px;
 }
 
 /* 채팅방 시작  */

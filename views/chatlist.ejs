@@ -9,6 +9,7 @@
   <body class="grey-bg">
     <%- include('nav.ejs')%>
 
+    <!-- 왜인지 if-else가 안되어 if, if 사용 -->
       <div class="white-bg">
           <% for(let i=0; i<chatlist.length; i++) { %>
             <div class="list-box">
@@ -23,22 +24,27 @@
               </h4>
               <% for(let j=0; j<lastChat.length; j++) { %>
                 <% if (lastChat[j].roomId.equals(chatlist[i]._id)) { %>
-                  <p class="lastChat"><%= lastChat[j].chats %></p>
+                  <div class="contentBox">
+                    <span><%= lastChat[j].chats %></span>
+                    <span><%=lastChat[j].date%></span>
+                  </div>
                 <% } %>
               <% } %>
             </div>
           <% } %>
       
-
+          <% if(chatlist.length == 0) { %>
+            <div class="toChatlistPage">
+              <a href="/list">시작한 채팅이 없습니다. 첫 채팅을 시작해보세요!</a>
+            </div>
+          <% } %>
+      
           <script>
             let deleteBtns = document.querySelectorAll('.deleteChat');
-            let lastChats= document.querySelectorAll(".lastChat")
     
             deleteBtns.forEach((btn, index) => {
               let chatIds = document.querySelectorAll('.listchatId');
               let chatIdValue = chatIds[index].innerText;
-
-              let lastChat = lastChats[index].innerText;
     
               btn.addEventListener('click', function (e) {
                 if ('<%= loginUser%>' !== chatIdValue) {
@@ -47,10 +53,10 @@
                   btn.style.display = 'block';
                 }
     
-                let chatidis = e.target.dataset.id;
+                let roomidis = e.target.dataset.id;
     
                 if (window.confirm('삭제하시겠습니까? 유저와 대화한 내용이 모두 삭제됩니다.')) {
-                  fetch('/chat/list?roomId=' + chatidis, {
+                  fetch('/chat/list?roomId=' + roomidis, {
                     method: 'DELETE',
                   })
                     .then((res) => res.text())
@@ -62,19 +68,14 @@
                       e.target.parentElement.parentElement.style.display = 'block';
                     });
                 } else {
-                  btn.style.display = 'block';
-                  e.target.parentElement.parentElement.style.display = 'block';
+                  btn.style.display = 'inline';
                 }
               });
             });
           </script>
 
-      <!-- 왜인지 if-else가 안되어 if, if 사용 -->
-      <% if(chatlist.length == 0) { %>
-        <div class="toChatlistPage">
-          <a href="/list">시작한 채팅이 없습니다. 첫 채팅을 시작해보세요!</a>
-        </div>
-      <% } %>
+
+      
       </div>
   </body>
 </html>

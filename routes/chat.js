@@ -57,14 +57,12 @@ router.get('/list', isLogin, async (req, res) => {
       .collection('chatroom')
       .find({ member: req.user._id })
       .toArray();
-    console.log('chatlist', chatlist);
 
     let chats = [];
 
     if (chatlist.length > 0) {
       // 각 채팅방의 ObjectId를 배열로 만듦
       const roomIds = chatlist.map((chat) => new ObjectId(chat._id));
-      console.log('roomids', roomIds);
 
       // 모든 채팅방에 대한 최신 메시지를 가져오기
       for (let i = 0; i < roomIds.length; i++) {
@@ -74,19 +72,25 @@ router.get('/list', isLogin, async (req, res) => {
           .sort({ date: -1 })
           .limit(1)
           .toArray();
-        console.log('latestChat', latestChat);
 
         if (latestChat.length > 0) {
           chats.push(latestChat[0]);
         }
       }
-      console.log('chats', chats);
 
       // 현재 로그인한 유저가 속한 채팅방들을 꺼내어 Chalist로 렌더링
       res.render('chatList.ejs', {
         chatlist: chatlist,
         loginUser: req.user._id,
         lastChat: chats,
+      });
+
+      // 채팅이 없는 경우에 대한 res 예외 처리(그렇지 않으면 무한 요청함)
+    } else {
+      return res.render('chatList.ejs', {
+        chatlist: [],
+        loginUser: req.user._id,
+        lastChat: [],
       });
     }
   } catch (e) {
@@ -136,14 +140,28 @@ router.get('/detail', isLogin, async (req, res) => {
 // 채팅 삭제기능
 router.delete('/list', isLogin, async (req, res) => {
   try {
-    await db
+    let deleteRoomResult = await db
       .collection('chatroom')
       // 작성자 본인만 삭제 가능하게 구현 (id 일치와 user 일치 조건 모두 해당)
       .deleteOne({
         _id: new ObjectId(req.query.roomId),
         member: new ObjectId(req.user._id),
       });
-    res.send('삭제완료');
+
+    let deleteChatResult = await db.collection('chat').deleteMany({
+      roomId: new ObjectId(req.query.roomId),
+      userId: new ObjectId(req.user._id),
+    });
+
+    // 삭제 작업 후에 반환되는 결과를 나타내는 객체인 DeleteResult에 삭제된 문서의 개수인 deletedCount 속성이 포함돼있음
+    if (
+      deleteRoomResult.deletedCount > 0 &&
+      deleteChatResult.deletedCount > 0
+    ) {
+      return res.send('삭제완료');
+    } else {
+      return res.send('삭제할 데이터가 없습니다.');
+    }
     // (참고) ajax 요청 사용시 새고로침 안하는게 장점이라 쓰는거라
     // res.redirect, res.render 사용 안하는게 나음
   } catch (e) {

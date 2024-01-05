@@ -38,8 +38,8 @@
     </div>
 
     <div class="chat-form">
-      <input class="chat-input" placeholder="메세지를 입력하세요."/>
-      <input class="chat-button" type="button" value="전송"></input>
+      <input class="chat-input" placeholder="메세지를 입력하세요." autofocus/>
+      <input class ="chat-button" type="button" value="전송"></input>
     </div>
 
     <!-- 소켓 io 세팅 -->
@@ -50,41 +50,49 @@
       
       // chat.js가 보내준 현재 채팅룸 id, 유저 ID, username
       let roomID = "<%= roomId %>"
-      console.log('roomID', roomID)
       let userID = "<%= requestedUserId %>"
-      console.log('userId', userID)
       let username = "<%= username %>"
-      console.log('username', username)
       let yourImg = "<%=yourimg%>"
-      console.log("상대방 이미지", yourImg)
       let userImg = "<%=userimg%>"
-      console.log("유저 이미지",userImg)
-      
-      let sendButton = document.querySelector('.chat-button')
+     
+      // 1번
       let userInput = document.querySelector('.chat-input')
 
-      // 1번
-      sendButton.addEventListener('click', function () {
-          if (userInput.value) {
+      // 1.전송 버튼 클릭으로 메세지 전송
+      document.querySelector(".chat-button").addEventListener("click", function() {
+        if(userInput.value.trim() !== "") {
+          sendchats()
+        }
+      })
 
-            // data
-            let msgObject = {
-              msg: userInput.value,
-              roomId: roomID,
-              userId: userID,
-              userName : username,
-              date: new Date().toLocaleString(),
-              yourImg: yourImg,
-              userImg: userImg,
-            }
+      // 2.enter키로 메세지 전송
+        userInput.addEventListener("keyup", function(e){
+        if(e.keyCode===13 && userInput.value.trim() !== "") {
+          e.preventDefault()
+          sendchats()
+          }
+        })
 
+      // 메세지 전송 함수
+        function sendchats() {
+          // 입력값 가져오기
+          let inputValue = userInput.value;
+
+          // data
+          let msgObject = {
+            msg: inputValue,
+            roomId: roomID,
+            userId: userID,
+            userName : username,
+            date: new Date().toLocaleString(),
+            yourImg: yourImg,
+            userImg: userImg,
+          }
           socket.emit('msg-send', msgObject);
-          userInput.value= "";
-          console.log('클라에서 서버로 송신한 데이터', msgObject) // 브라우저 콘솔에 찍힘, Javascript 객체
-          console.log("클라에서 서버 데이터 송신 완료") 
+          inputValue= "";
           location.reload(true) // 보낸 내용 바로 반영 확인 위해 리프레시
-        }})
-      
+        }
+
       // 4번
       socket.on('msg-send', function(data) {
         let parsedData = JSON.parse(data) // JSON 문자열 -> javascript 객체

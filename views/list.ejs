@@ -54,15 +54,18 @@
 
         deleteBtns.forEach((btn, index) => {
           let writerIds = document.querySelectorAll('.listWriterId');
-          let writerIdValue = writerIds[index].innerText;
+          writerIds.forEach((id, idx) => {
+            let writerIdValue = id[index];
+            console.log('writerIdValue', writerIdValue);
+          });
+
+          if ('<%= loginUser%>' !== writerIdValue) {
+            btn.style.display = 'none';
+          } else {
+            btn.style.display = 'inline';
+          }
 
           btn.addEventListener('click', function (e) {
-            if ('<%= loginUser%>' !== writerIdValue) {
-              btn.style.display = 'none';
-            } else {
-              btn.style.display = 'block';
-            }
-
             let postId = e.target.dataset.postid;
 
             if (window.confirm('삭제하시겠습니까?')) {
