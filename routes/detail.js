@@ -8,7 +8,6 @@ const { formatDate } = require('../utils/date');
 let db;
 connectDB
   .then((client) => {
-    console.log('Detail 섹션-DB 연결성공');
     db = client.db('forum'); // forum db 연결
   })
   .catch((err) => {

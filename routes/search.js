@@ -5,7 +5,6 @@ let connectDB = require('../database');
 let db;
 connectDB
   .then((client) => {
-    console.log('search 섹션-DB 연결성공');
     db = client.db('forum'); // forum db 연결
   })
   .catch((err) => {
@@ -44,7 +43,6 @@ connectDB
 
 // 3. 몽고 DB search Index 활용해 검색
 router.get('/', async (req, res) => {
-  console.log('검색어', req.query.keyword);
   // 조건 여러개 넣을 수 있다.
   let 검색조건 = [
     {
@@ -68,7 +66,6 @@ router.get('/', async (req, res) => {
 
 // 3-1. 응용-검색 페이지네이션 만들기(오류 있음)
 router.get('/:pageId', async (req, res) => {
-  console.log('페이지 ID', req.params.pageId);
   const keyword = req.query.keyword;
 
   let conditions = [

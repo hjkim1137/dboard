@@ -97,9 +97,6 @@
       // 4번
       socket.on('msg-send', function(data) {
         let parsedData = JSON.parse(data) // JSON 문자열 -> javascript 객체
-        console.log('서버가 보낸 데이터 클라가 파싱', parsedData)
-        console.log("클라에서 서버 데이터 수신 완료") // 브라우저 콘솔에 찍힘
-
         let chatScreen= document.querySelector('.chat-screen')
         chatScreen.insertAdjacentHTML('beforeend',`<div class="chat-box"><div>${parsedData.msg}</div></div>`);
       });

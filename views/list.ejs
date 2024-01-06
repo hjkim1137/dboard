@@ -68,7 +68,6 @@
           let postdate = date.textContent;
           postdatesArr.push({ originalIndex: idx, date: postdate });
         });
-        console.log('postdatesArr', postdatesArr); //원본배열
 
         //toSorted를 활용한 사본배열
         const orderedDate = postdatesArr.toSorted(function (a, b) {
@@ -76,7 +75,6 @@
           if (a.date > b.date) return -1;
           return 0;
         });
-        console.log('orderedDate', orderedDate);
 
         // index를 기준으로 정렬
         orderedDate.forEach((date, index) => {
@@ -90,7 +88,7 @@
           let newIndex = orderedDate.find(
             (date) => date.date === box.querySelector('.date').textContent
           ).newIndex;
-          console.log('newIndex', newIndex);
+
           // (중요) order 속성 적용하려면 listbox의 부모요소(white-bg)에 flex나 grid 적용되야 함
           box.style.order = newIndex;
         });
@@ -104,8 +102,6 @@
           let writerId = writerIds[index].textContent;
           let editBtns = document.querySelectorAll('.editBtn');
           let editBtn = editBtns[index];
-          console.log('editBtn', editBtn);
-          console.log('writerId', writerId);
 
           // 공백대비해서 trim() 처리 해주기
           // 글 작성자만 수정, 삭제 버튼 보이게 하기

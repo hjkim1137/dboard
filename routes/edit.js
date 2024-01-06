@@ -7,7 +7,6 @@ const { isLogin } = require('../middlewares/index');
 let db;
 connectDB
   .then((client) => {
-    console.log('edit 섹션-DB 연결성공');
     db = client.db('forum'); // forum db 연결
   })
   .catch((err) => {
@@ -21,7 +20,6 @@ router.get('/:id', isLogin, async (req, res) => {
     .collection('post')
     .findOne({ _id: new ObjectId(req.params.id) });
   res.render('edit.ejs', { result: result });
-  console.log('result', result);
 });
 
 // 게시물 수정기능(DB 전송 - $set)

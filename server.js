@@ -65,7 +65,7 @@ let db;
 let changeStream;
 connectDB
   .then((client) => {
-    console.log('서버- DB 연결성공');
+    console.log('메인서버- 몽고DB 연결 성공하였습니다.');
     db = client.db('forum'); // forum db 연결
 
     // change stream 기능(서버 띄울때 한번만 실행하도록 효율적으로 작성)
@@ -82,7 +82,7 @@ connectDB
     });
   })
   .catch((err) => {
-    console.error('DB 연결 실패:', err);
+    console.error('DB 연결에 실패하였습니다:', err);
   });
 
 // passport 라이브러리 세팅
@@ -226,9 +226,6 @@ io.on('connection', (socket) => {
 
   // 2번
   socket.on('msg-send', async (data) => {
-    console.log('서버에서 클라 데이터 수신 완료');
-    console.log('서버가 클라에게 수신한 데이터', data); // javascript 객체
-
     // 수신한 데이터 DB에 저장하기
     await db.collection('chat').insertOne({
       chats: data.msg,
@@ -239,12 +236,9 @@ io.on('connection', (socket) => {
       yourImg: data.yourImg,
       userImg: data.userImg,
     });
-    console.log('db 데이터 저장 완료');
 
     // 3번
     io.emit('msg-send', JSON.stringify(data)); // javascript 객체 -> JSON 문자열
-    console.log('서버에서 클라로 송신하는 데이터', JSON.stringify(data));
-    console.log('서버에서 클라로 데이터 송신 완료');
   });
 });
 

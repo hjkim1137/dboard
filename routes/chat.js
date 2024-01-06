@@ -7,7 +7,6 @@ const { isLogin } = require('../middlewares/index');
 let db;
 connectDB
   .then((client) => {
-    console.log('chat-DB 연결성공');
     db = client.db('forum'); // forum db 연결
   })
   .catch((err) => {
@@ -85,7 +84,7 @@ router.get('/list', isLogin, async (req, res) => {
         lastChat: chats,
       });
 
-      // 채팅이 없는 경우에 대한 res 예외 처리(그렇지 않으면 무한 요청함)
+      // 생성된 채팅룸이 1개도 없는 경우에 대한 res 예외 처리(그렇지 않으면 무한 요청함)
     } else {
       return res.render('chatList.ejs', {
         chatlist: [],
@@ -104,8 +103,6 @@ router.get('/list', isLogin, async (req, res) => {
 // --> 현재 로그인한 유저가 속한 채팅방들의 정보(채팅방 id, 채팅방 이름, 참여자id List, date)
 
 router.get('/detail', isLogin, async (req, res) => {
-  console.log('현재 로그인한 유저:', req.user.username);
-
   let chats = await db
     .collection('chat')
     .find({ roomId: new ObjectId(req.query.roomid) })
@@ -121,7 +118,6 @@ router.get('/detail', isLogin, async (req, res) => {
     let imgs = roomID.userImages;
     if (imgs) {
       let yourImg = imgs.filter((img) => img !== req.user.img);
-      console.log('yourImg', yourImg);
       return yourImg;
     }
     return null;

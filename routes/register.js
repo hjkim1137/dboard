@@ -31,7 +31,6 @@ const upload = multer({
 let db;
 connectDB
   .then((client) => {
-    console.log('register 섹션-DB 연결성공');
     db = client.db('forum'); // forum db 연결
   })
   .catch((err) => {
@@ -44,7 +43,6 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', isBlank, upload.single('img1'), async (req, res) => {
-  console.log('유저가 회원가입 형식에 입력한 내용', req.body);
   try {
     let data = await db
       .collection('user')

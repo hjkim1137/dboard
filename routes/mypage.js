@@ -32,7 +32,6 @@ const upload = multer({
 let db;
 connectDB
   .then((client) => {
-    console.log('mypage섹션-DB 연결성공');
     db = client.db('forum'); // forum db 연결
   })
   .catch((err) => {
