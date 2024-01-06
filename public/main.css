@@ -380,9 +380,10 @@ div {
   margin-bottom: 20px;
 }
 .gotoChat {
+  width: fit-content;
   background-color: #dbdbdb;
   color: #121212;
-  border-radius: 8px;
+  border-radius: 5px;
   padding: 6px 12px;
 }
 .gotoChat:hover {

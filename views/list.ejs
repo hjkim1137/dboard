@@ -54,15 +54,14 @@
 
         deleteBtns.forEach((btn, index) => {
           let writerIds = document.querySelectorAll('.listWriterId');
-          writerIds.forEach((id, idx) => {
-            let writerIdValue = id[index];
-            console.log('writerIdValue', writerIdValue);
-          });
+          let writerId = writerIds[index].textContent;
+          console.log('writerId', writerId);
 
-          if ('<%= loginUser%>' !== writerIdValue) {
-            btn.style.display = 'none';
-          } else {
+          // 공백대비해서 trim() 처리 해주기
+          if ('<%= loginUser %>' == writerId.trim()) {
             btn.style.display = 'inline';
+          } else {
+            btn.style.display = 'none';
           }
 
           btn.addEventListener('click', function (e) {

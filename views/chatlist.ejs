@@ -63,12 +63,13 @@
           });
           console.log('chatdatesArr',chatdatesArr) //원본배열
 
+          //toSorted를 활용한 사본배열
           const orderedDate = chatdatesArr.toSorted(function(a, b) {
           if (a.date < b.date) return 1;
           if (a.date > b.date) return -1;
           return 0;
           });
-          console.log('orderedDate', orderedDate) //toSorted를 활용한 사본배열
+          console.log('orderedDate', orderedDate) 
 
           // index를 기준으로 정렬
           orderedDate.forEach((date, index) => {
