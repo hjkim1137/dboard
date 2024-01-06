@@ -19,7 +19,7 @@ router.get('/', isLogin, async (req, res) => {
   let result = await db.collection('post').find().toArray();
   try {
     let loginuser = new ObjectId(req.user._id);
-    res.render('list.ejs', { 글목록: result, loginUser: loginuser });
+    return res.render('list.ejs', { 글목록: result, loginUser: loginuser });
   } catch (e) {
     console.log(e);
   }

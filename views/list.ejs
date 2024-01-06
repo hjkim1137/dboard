@@ -11,7 +11,12 @@
 
     <!-- 검색기능 -->
     <div class="searchBox">
-      <input name="search" class="search" placeholder="게시글을 검색하세요." />
+      <input
+        name="search"
+        class="search"
+        placeholder="게시글을 검색하세요."
+        autofocus
+      />
       <button class="searchBtn">검색하기</button>
     </div>
 
@@ -27,27 +32,69 @@
 
     <div class="white-bg">
       <% if(글목록.length >0) { %> <% for(let i=0; i<글목록.length;i++) { %>
-      <div class="list-box">
+      <div class="list-box" id="list-box">
         <h4>
-          <a href="/detail/<%=글목록[i]._id%>"><%=글목록[i].title %></a>
-          <div style="display: none" class="listWriterId">
-            <%=글목록[i].user %>
-          </div>
-          <a href="/edit/<%=글목록[i]._id %>">✏️ 수정</a>
-          <span
-            class="deletePost"
-            data-postid="<%=글목록[i]._id %>"
-            data-userid="<%=글목록[i].user%>"
-          >
-            🗑️ 삭제
-          </span>
+          <div class="editNdelete">
+            <a href="/detail/<%=글목록[i]._id%>"><%=글목록[i].title %></a>
+            <div style="display: none" class="listWriterId">
+              <%=글목록[i].user %>
+            </div>
 
-          <span class="username"><%=글목록[i].username%></span>
-          <span class="date"><%=글목록[i].date%></span>
+            <a href="/edit/<%=글목록[i]._id %>" class="editBtn">✏️ 수정</a>
+            <span
+              class="deletePost"
+              data-postid="<%=글목록[i]._id %>"
+              data-userid="<%=글목록[i].user%>"
+            >
+              🗑️ 삭제
+            </span>
+          </div>
+
+          <span>
+            <span class="username"><%=글목록[i].username%></span>
+            <span class="date"><%=글목록[i].date%></span>
+          </span>
         </h4>
         <p><%=글목록[i].content %></p>
       </div>
       <% } %> <% } %>
+
+      <script>
+        // 게시물 날짜순 정렬하기
+        let postdates = document.querySelectorAll('.date');
+
+        let postdatesArr = [];
+        postdates.forEach((date, idx) => {
+          let postdate = date.textContent;
+          postdatesArr.push({ originalIndex: idx, date: postdate });
+        });
+        console.log('postdatesArr', postdatesArr); //원본배열
+
+        //toSorted를 활용한 사본배열
+        const orderedDate = postdatesArr.toSorted(function (a, b) {
+          if (a.date < b.date) return 1;
+          if (a.date > b.date) return -1;
+          return 0;
+        });
+        console.log('orderedDate', orderedDate);
+
+        // index를 기준으로 정렬
+        orderedDate.forEach((date, index) => {
+          date.newIndex = index; // 새로운 인덱스 추가
+        });
+
+        // 위의 정렬 기준에 따라서 list-box 정렬하기
+        let listboxes = document.querySelectorAll('.list-box');
+        listboxes.forEach((box) => {
+          // box.querySelector 하면 특정 한 개 박스의 ~
+          let newIndex = orderedDate.find(
+            (date) => date.date === box.querySelector('.date').textContent
+          ).newIndex;
+          console.log('newIndex', newIndex);
+          // (중요) order 속성 적용하려면 listbox의 부모요소(white-bg)에 flex나 grid 적용되야 함
+          box.style.order = newIndex;
+        });
+      </script>
 
       <script>
         let deleteBtns = document.querySelectorAll('.deletePost');
@@ -55,13 +102,19 @@
         deleteBtns.forEach((btn, index) => {
           let writerIds = document.querySelectorAll('.listWriterId');
           let writerId = writerIds[index].textContent;
+          let editBtns = document.querySelectorAll('.editBtn');
+          let editBtn = editBtns[index];
+          console.log('editBtn', editBtn);
           console.log('writerId', writerId);
 
           // 공백대비해서 trim() 처리 해주기
+          // 글 작성자만 수정, 삭제 버튼 보이게 하기
           if ('<%= loginUser %>' == writerId.trim()) {
             btn.style.display = 'inline';
+            editBtn.style.display = 'inline';
           } else {
             btn.style.display = 'none';
+            editBtn.style.display = 'none';
           }
 
           btn.addEventListener('click', function (e) {
@@ -73,11 +126,11 @@
               })
                 .then((res) => res.text())
                 .then((data) => {
-                  e.target.parentElement.parentElement.style.display = 'none';
+                  e.target.closest('#list-box').style.display = 'none';
                 })
                 .catch((error) => {
                   console.error('오류 발생!!', error);
-                  e.target.parentElement.parentElement.style.display = 'block';
+                  e.target.closest('#list-box').style.display = 'inline';
                 });
             } else {
               btn.style.display = 'inline'; // block 은 줄바꿈 돼서 쓰면 X

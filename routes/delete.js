@@ -25,7 +25,13 @@ router.delete('/', isLogin, async (req, res) => {
         _id: new ObjectId(req.query.docId),
         user: new ObjectId(req.user._id),
       });
-    res.send('삭제완료');
+
+    await db.collection('comment').deleteMany({
+      parentId: new ObjectId(req.query.docId),
+      writerId: new ObjectId(req.user._id),
+    });
+
+    return res.send('삭제완료');
     // (참고) ajax 요청 사용시 새고로침 안하는게 장점이라 쓰는거라
     // res.redirect, res.render 사용 안하는게 나음
   } catch (e) {

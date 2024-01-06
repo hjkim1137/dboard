@@ -121,6 +121,13 @@ img {
   margin-top: 10px;
   color: grey;
 }
+.list-box > h4 {
+  display: flex;
+  justify-content: space-between;
+}
+.editNdelete {
+  width: fit-content;
+}
 .date {
   color: #a2a2a2;
   font-size: 14px;
@@ -177,12 +184,12 @@ div {
 .form-box {
   background: white;
   border-radius: 8px;
-  width: 500px;
 }
 .formbox-title {
   margin-bottom: 20px;
 }
 .form-box input {
+  display: block;
   min-width: 400px;
   padding: 10px;
   font-size: 16px;
@@ -381,13 +388,15 @@ div {
 }
 .gotoChat {
   width: fit-content;
-  background-color: #dbdbdb;
   color: #121212;
   border-radius: 5px;
-  padding: 6px 12px;
+  border: 1px solid skyblue;
+  padding: 5px 8px;
 }
 .gotoChat:hover {
   background-color: skyblue;
+  color: #fff;
+  font-weight: 500;
 }
 
 /* 상세 페이지 댓글 기능 시작 */

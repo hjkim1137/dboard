@@ -12,7 +12,7 @@
     <!-- 왜인지 if-else가 안되어 if, if 사용 -->
       <div class="white-bg">
           <% for(let i=0; i<chatlist.length; i++) { %>
-            <div class="list-box">
+            <div class="list-box" id="list-box">
               <h4 class="title">
                 <a href="/chat/detail?roomid=<%= chatlist[i]._id %>"><%=chatlist[i].chatName %></a>
                 <div style="display: none" class="listchatId"><%=chatlist[i]._id %></div>
@@ -110,11 +110,11 @@
                   })
                     .then((res) => res.text())
                     .then((data) => {
-                      e.target.parentElement.parentElement.style.display = 'none';
+                      e.target.closest('#list-box').style.display = 'none';
                     })
                     .catch((error) => {
                       console.error('오류 발생!!', error);
-                      e.target.parentElement.parentElement.style.display = 'block';
+                      e.target.closest('#list-box').style.display = 'block';
                     });
                 } else {
                   btn.style.display = 'inline';

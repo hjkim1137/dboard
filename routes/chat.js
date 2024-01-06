@@ -148,6 +148,7 @@ router.delete('/list', isLogin, async (req, res) => {
         member: new ObjectId(req.user._id),
       });
 
+    // 연결된 chat도 모두 삭제
     let deleteChatResult = await db.collection('chat').deleteMany({
       roomId: new ObjectId(req.query.roomId),
       userId: new ObjectId(req.user._id),

@@ -30,14 +30,16 @@
       <% if(글목록.length >0) { %> <% for(let i=0; i<글목록.length;i++) { %>
       <div class="list-box">
         <h4>
-          <a href="/detail/<%=글목록[i]._id%>"><%=글목록[i].title %></a>
-          <a href="/edit/<%=글목록[i]._id %>">✏️ 수정</a>
-          <span
-            class="delete"
-            data-id="<%=글목록[i]._id %>"
-            data-userID="<%=글목록[i].user %>"
-            >🗑️ 삭제</span
-          >
+          <div class="editNdelete">
+            <a href="/detail/<%=글목록[i]._id%>"><%=글목록[i].title %></a>
+            <a href="/edit/<%=글목록[i]._id %>">✏️ 수정</a>
+            <span
+              class="delete"
+              data-id="<%=글목록[i]._id %>"
+              data-userID="<%=글목록[i].user %>"
+              >🗑️ 삭제</span
+            >
+          </div>
         </h4>
         <p><%=글목록[i].content %></p>
       </div>
