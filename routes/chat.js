@@ -118,9 +118,10 @@ router.get('/detail', isLogin, async (req, res) => {
   // 이전 DB에 userImages 필드 자체가 없는 경우도 있어 함수 만듦
   function showImage() {
     // 상대방의 이미지는 내 이미지와 일치하지 않는 것을 조건을 줌
-    let yourImgs = roomID.userImages;
-    if (yourImgs) {
-      let yourImg = yourImgs.filter((yourImg) => yourImg !== req.user.img)[0];
+    let imgs = roomID.userImages;
+    if (imgs) {
+      let yourImg = imgs.filter((img) => img !== req.user.img);
+      console.log('yourImg', yourImg);
       return yourImg;
     }
     return null;

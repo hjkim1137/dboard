@@ -66,11 +66,12 @@
       })
 
       // 2.enter키로 메세지 전송
-        userInput.addEventListener("keyup", function(e){
-        if(e.keyCode===13 && userInput.value.trim() !== "") {
-          e.preventDefault()
+        userInput.addEventListener("keydown", function(e){
+          if(e.keyCode===13 && !e.shiftKey&& userInput.value.trim() !== "") {
           sendchats()
-          }
+        } else if(e.keyCode === 13 && e.shiftKey) {
+          e.preventDefault();
+        } 
         })
 
       // 메세지 전송 함수
