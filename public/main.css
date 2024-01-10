@@ -61,7 +61,7 @@ body {
 }
 
 .toggle {
-  width: fit-content;
+  min-width: 100px;
   height: 36px;
   cursor: pointer;
   margin-left: 10px;

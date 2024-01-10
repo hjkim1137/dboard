@@ -8,6 +8,7 @@
 
   <% if(currentUser) { %>
   <div class="profileBox">
+    <button class="toggle">다크모드로 🌙</button>
     <a href="/logout" class="logout">Logout</a>
 
     <button class="profileInner" onclick="location.href='/mypage'">
@@ -20,14 +21,17 @@
           <p><strong><%= currentUser.username %></strong></p>
       <% } %>
     </button>
-
   </div>
+
   <% } else { %>
-  <a href="/login">Login</a>
-  <a href="/register">Register</a>
+    <div class="profileBox">
+      <button class="toggle">다크모드로 🌙</button>
+      <a href="/login">Login</a>
+      <a href="/register">Register</a>
+    </div>
   <% } %>
 
-  <button class="toggle">다크모드로 🌙</button>
+  
   <script>
     // 다크모드 적용
     let toggle = document.querySelector('.toggle')
@@ -35,14 +39,28 @@
 
     toggle.addEventListener('click', function () {
       if (body.classList.contains('dark-mode')) {
+        localStorage.removeItem("mode", "dark")
         toggle.innerHTML ="다크모드로 🌙"
         body.classList.remove('dark-mode');
       } else {
+        localStorage.setItem("mode", "dark")
         toggle.innerHTML ="일반모드로 ☀️"
         body.classList.remove('grey-bg');
         body.classList.add('dark-mode');
       }
     });
-    
+
+    // 다크모드 전역으로 사용하기
+    let mode = localStorage.getItem("mode")
+    document.addEventListener("DOMContentLoaded", ()=> {
+      if(mode === "dark") {
+        toggle.innerHTML ="일반모드로 ☀️"
+        body.classList.remove('grey-bg');
+        body.classList.add('dark-mode');
+      } else {
+        toggle.innerHTML ="다크모드로 🌙"
+        body.classList.remove('dark-mode');
+      }
+    })
   </script>
 </div>
