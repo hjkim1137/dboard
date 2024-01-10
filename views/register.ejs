@@ -11,10 +11,25 @@
     <div class="white-bg">
       <form class="form-box" action="/register" method="POST" enctype="multipart/form-data">
         <h4 class="formbox-title">회원가입</h4>
-        <div class="profileImg">
+        <div class="imgWrapper">
           <img class="myImg" src="req.file.location" alt="profileImg"></img>
-          <input type="file" name="img1" accept="image/*" multiple />
         </div>
+        <input onchange="setThumbnail(event)" type="file" name="img1" accept="image/*" multiple  class="file"/>
+          
+        <!-- 이미지 미리보기 -->
+        <script>
+          function setThumbnail(event) {
+            let reader = new FileReader()
+
+            reader.onload = function(event) {
+              let img = document.querySelector(".myImg")
+              // 이미지파일 -> base64로 인코딩된 문자열로 저장
+              img.setAttribute("src", event.target.result)
+            }
+            // onload를 트리거 시킴
+            reader.readAsDataURL(event.target.files[0])
+          }
+        </script>
         <input name="username" / placeholder="ID를 입력하세요.">
         <input
           name="password"

@@ -1,7 +1,69 @@
 body {
   margin: 0;
+  background: #eee;
   font-size: 0.875rem;
 }
+
+/* 다크모드 */
+.dark-mode {
+  background-color: #1e1e20;
+}
+
+.dark-mode input {
+  background-color: #272829;
+  color: #a2a2a2;
+}
+.dark-mode .list-box {
+  border-bottom: 1px solid #272829;
+}
+
+.dark-mode .white-bg,
+.dark-mode .nav,
+.dark-mode .comment-wrapper,
+.dark-mode .form-box,
+.dark-mode .login-box {
+  background-color: #313233;
+}
+
+.dark-mode .searchBtn {
+  background-color: #313233;
+  color: #a2a2a2;
+}
+.dark-mode .chat-box > div {
+  background-color: #a2a2a2;
+}
+
+.dark-mode .toggle,
+.dark-mode .commentBtn,
+.dark-mode .form-box-btn > button,
+.dark-mode .login-box > button {
+  background-color: #313233;
+  color: #a2a2a2;
+  border: 1px solid #a2a2a2;
+}
+
+.dark-mode span,
+.dark-mode a,
+.dark-mode #page,
+.dark-mode .nextBtn,
+.dark-mode .detailpgTitle,
+.dark-mode .detailpgContent,
+.dark-mode .commentTitle,
+.dark-mode .comment-box,
+.dark-mode h4 {
+  color: #a2a2a2;
+}
+
+.toggle {
+  width: fit-content;
+  height: 36px;
+  cursor: pointer;
+  margin-left: 10px;
+  border: 1px solid #dbdbdb;
+  border-radius: 5px;
+}
+
+/* 다크모드 끝 */
 
 h4,
 p,
@@ -45,6 +107,10 @@ img {
   align-self: center;
   margin: 0 10px;
   text-align: center;
+}
+.logout:hover,
+.login:hover {
+  color: #dbdbdb;
 }
 .profileInner {
   background: none;
@@ -177,9 +243,6 @@ div {
   background: #dbdbdb;
   border-radius: 5px;
 }
-.login-box button:hover {
-  background-color: skyblue;
-}
 
 .form-box {
   background: white;
@@ -211,13 +274,12 @@ div {
   border-radius: 5px;
   cursor: pointer;
 }
-.form-box-btn > button:hover {
-  background-color: skyblue;
-}
 
 .deletePost,
 .deleteChat {
   cursor: pointer;
+  color: #121212;
+  font-size: 16px;
 }
 
 .pages {
@@ -232,15 +294,11 @@ div {
   height: 30px;
   text-decoration: none;
   font-size: 18px;
-  color: black;
+  color: #121212;
 }
 
 .pages > a:hover {
-  color: lightblue;
-}
-
-.pages > a:active {
-  color: lightblue;
+  color: #a2a2a2;
 }
 
 .nextBtn {
@@ -257,7 +315,7 @@ div {
   color: black;
 }
 .nextBtn > a:hover {
-  color: lightblue;
+  color: #a2a2a2;
 }
 
 .toLogin {
@@ -308,9 +366,6 @@ div {
   border: none;
   border-radius: 5px;
 }
-.searchBtn:hover {
-  background-color: skyblue;
-}
 .result {
   margin: 20px;
 }
@@ -348,9 +403,7 @@ div {
   border-radius: 5px;
   height: 40px;
 }
-.detailpgForm button:hover {
-  background-color: skyblue;
-}
+
 .detailpgTitle {
   display: flex;
   justify-content: space-between;
@@ -381,13 +434,9 @@ div {
 .gotoChat {
   width: fit-content;
   color: #121212;
-  border-radius: 5px;
-  border: 1px solid skyblue;
-  padding: 5px 8px;
 }
 .gotoChat:hover {
-  background-color: skyblue;
-  color: #fff;
+  color: #a2a2a2;
   font-weight: 500;
 }
 
@@ -515,7 +564,6 @@ div {
 }
 
 .chat-button:hover {
-  background: skyblue;
   cursor: pointer;
 }
 .firstChat {

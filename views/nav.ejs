@@ -4,6 +4,7 @@
   <a href="/write">Write</a>
   <a href="/mypage">Mypage</a>
   <a href="/chat/list">Chat</a>
+  
 
   <% if(currentUser) { %>
   <div class="profileBox">
@@ -25,4 +26,23 @@
   <a href="/login">Login</a>
   <a href="/register">Register</a>
   <% } %>
+
+  <button class="toggle">다크모드로 🌙</button>
+  <script>
+    // 다크모드 적용
+    let toggle = document.querySelector('.toggle')
+    let body = document.querySelector('body')
+
+    toggle.addEventListener('click', function () {
+      if (body.classList.contains('dark-mode')) {
+        toggle.innerHTML ="다크모드로 🌙"
+        body.classList.remove('dark-mode');
+      } else {
+        toggle.innerHTML ="일반모드로 ☀️"
+        body.classList.remove('grey-bg');
+        body.classList.add('dark-mode');
+      }
+    });
+    
+  </script>
 </div>

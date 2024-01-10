@@ -150,7 +150,6 @@ passport.deserializeUser(async (user, done) => {
     .findOne({ _id: new ObjectId(user.id) });
   delete result.password; // 보안을 위해 user 비번 삭제
   process.nextTick(() => {
-    console.log('로그인 완료 유저정보', result);
     // 내부 코드를 비동기적으로 처리해줌
     return done(null, result); // result에 넣은게 API의 req.user에 들어감
   });
@@ -253,7 +252,7 @@ app.get('/stream/list', (req, res) => {
 
   // post 컬렉션의 doc 변동 사항 발생시(현재는 insert시만 조건) 안의 코드 실행됨
   changeStream.on('change', (result) => {
-    console.log(result.fullDocument); // 새로 추가된 doc
+    console.log('새로 추가된 doc', result.fullDocument); // 새로 추가된 doc
 
     // 형식 잘 맞춰서 보내야 함
     res.write('event: msg\n');

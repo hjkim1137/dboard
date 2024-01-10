@@ -69,7 +69,7 @@
           postdatesArr.push({ originalIndex: idx, date: postdate });
         });
 
-        //toSorted를 활용한 사본배열
+        // toSorted를 활용한 사본배열
         const orderedDate = postdatesArr.toSorted(function (a, b) {
           if (a.date < b.date) return 1;
           if (a.date > b.date) return -1;
@@ -172,7 +172,7 @@
           .querySelector('.white-bg')
           .insertAdjacentHTML(
             'afterbegin',
-            `<div class="list-box"><h4>${mydata.title}<h4></div>`
+            `<div class="list-box"><h4>${mydata.title}<h4><p>${mydata.content}</p></div>`
           );
       });
     </script>
