@@ -25,10 +25,10 @@
               <% if(chats[i].userId == String(requestedUserId)) { %>
                 <span><%= chats[i].date %></span>
                 <img src="<%=userimg%>" class="userIMG"></img>
-                <div><%= chats[i].userName %>: <%= chats[i].chats %></div>
+                <div class="yourChat"><%= chats[i].userName %>: <%= chats[i].chats %></div>
                 <% } else { %>
                 <img src="<%=yourimg%>" class="writerIMG"></img>
-                <div><%= chats[i].userName %>: <%= chats[i].chats %></div>
+                <div class="writerChat"><%= chats[i].userName %>: <%= chats[i].chats %></div>
                 <span><%= chats[i].date %></span>
               <% } %>
             </div>

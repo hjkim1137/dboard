@@ -51,50 +51,53 @@ router.get('/request', async (req, res) => {
 // 현재 채팅방에 속해있는 유저만 조회 하도록 수정
 router.get('/list', isLogin, async (req, res) => {
   // chatroom null 일 경우 대비 예외처리
-  try {
-    let chatlist = await db
-      .collection('chatroom')
-      .find({ member: req.user._id })
-      .toArray();
 
-    let chats = [];
+  if (req.user) {
+    try {
+      let chatlist = await db
+        .collection('chatroom')
+        .find({ member: req.user._id })
+        .toArray();
 
-    if (chatlist.length > 0) {
-      // 각 채팅방의 ObjectId를 배열로 만듦
-      const roomIds = chatlist.map((chat) => new ObjectId(chat._id));
+      let chats = [];
 
-      // 모든 채팅방에 대한 최신 메시지를 가져오기
-      for (let i = 0; i < roomIds.length; i++) {
-        const latestChat = await db
-          .collection('chat')
-          .find({ roomId: roomIds[i] })
-          .sort({ date: -1 })
-          .limit(1)
-          .toArray();
+      if (chatlist.length > 0) {
+        // 각 채팅방의 ObjectId를 배열로 만듦
+        const roomIds = chatlist.map((chat) => new ObjectId(chat._id));
 
-        if (latestChat.length > 0) {
-          chats.push(latestChat[0]);
+        // 모든 채팅방에 대한 최신 메시지를 가져오기
+        for (let i = 0; i < roomIds.length; i++) {
+          const latestChat = await db
+            .collection('chat')
+            .find({ roomId: roomIds[i] })
+            .sort({ date: -1 })
+            .limit(1)
+            .toArray();
+
+          if (latestChat.length > 0) {
+            chats.push(latestChat[0]);
+          }
         }
+
+        // 현재 로그인한 유저가 속한 채팅방들을 꺼내어 Chalist로 렌더링
+        res.render('chatList.ejs', {
+          chatlist: chatlist,
+          loginUser: req.user._id,
+          lastChat: chats,
+        });
+
+        // 생성된 채팅룸이 1개도 없는 경우에 대한 res 예외 처리(그렇지 않으면 무한 요청함)
+      } else {
+        return res.render('chatList.ejs', {
+          chatlist: [],
+          loginUser: req.user._id,
+          lastChat: [],
+        });
       }
-
-      // 현재 로그인한 유저가 속한 채팅방들을 꺼내어 Chalist로 렌더링
-      res.render('chatList.ejs', {
-        chatlist: chatlist,
-        loginUser: req.user._id,
-        lastChat: chats,
-      });
-
-      // 생성된 채팅룸이 1개도 없는 경우에 대한 res 예외 처리(그렇지 않으면 무한 요청함)
-    } else {
-      return res.render('chatList.ejs', {
-        chatlist: [],
-        loginUser: req.user._id,
-        lastChat: [],
-      });
+    } catch (e) {
+      console.error(e);
+      res.status(500).send('Internal Server Error');
     }
-  } catch (e) {
-    console.error(e);
-    res.status(500).send('Internal Server Error');
   }
 });
 

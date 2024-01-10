@@ -8,8 +8,7 @@
   </head>
   <body class="grey-bg">
     <%- include('nav.ejs')%>
-    <div class="white-bg">
-      <form class="form-box" action="/register" method="POST" enctype="multipart/form-data">
+      <form class="loginRegisterBox" action="/register" method="POST" enctype="multipart/form-data">
         <h4 class="formbox-title">회원가입</h4>
         <div class="imgWrapper">
           <img class="myImg" src="req.file.location" alt="profileImg"></img>
@@ -45,6 +44,5 @@
           <button type="submit">가입하기</button>
         </div>
       </form>
-    </div>
   </body>
 </html>

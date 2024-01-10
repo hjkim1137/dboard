@@ -21,7 +21,7 @@ body {
 .dark-mode .nav,
 .dark-mode .comment-wrapper,
 .dark-mode .form-box,
-.dark-mode .login-box {
+.dark-mode .loginRegisterBox {
   background-color: #313233;
 }
 
@@ -29,14 +29,20 @@ body {
   background-color: #313233;
   color: #a2a2a2;
 }
-.dark-mode .chat-box > div {
+.dark-mode .yourChat,
+.dark-mode .toLogin > a {
+  background-color: #272829;
+  color: #dbdbdb;
+}
+
+.dark-mode .writerChat {
   background-color: #a2a2a2;
 }
 
 .dark-mode .toggle,
 .dark-mode .commentBtn,
 .dark-mode .form-box-btn > button,
-.dark-mode .login-box > button {
+.dark-mode .loginRegisterBox > button {
   background-color: #313233;
   color: #a2a2a2;
   border: 1px solid #a2a2a2;
@@ -62,7 +68,6 @@ body {
   border: 1px solid #dbdbdb;
   border-radius: 5px;
 }
-
 /* 다크모드 끝 */
 
 h4,
@@ -152,6 +157,7 @@ img {
   display: flex;
   flex-direction: column;
 }
+
 .white-bg {
   display: flex;
   flex-direction: column;
@@ -211,11 +217,10 @@ input,
 div {
   box-sizing: border-box;
 }
-.login-box {
+.loginRegisterBox {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-self: center;
+  margin: 0 auto;
   padding: 30px;
   width: 500px;
   background: white;
@@ -223,17 +228,17 @@ div {
   border-radius: 8px;
 }
 
-.login-box > h4 {
+.loginRegisterBox > h4 {
   margin-bottom: 20px;
 }
-.login-box input {
+.loginRegisterBox input {
   padding: 10px;
   font-size: 16px;
   border: 1px solid black;
   border-radius: 5px;
   margin-bottom: 10px;
 }
-.login-box button {
+.loginRegisterBox button {
   margin-top: 20px;
   cursor: pointer;
   justify-content: flex-end;
@@ -321,10 +326,11 @@ div {
 .toLogin {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  justify-content: center;
+  height: 90vh;
 }
+
 .errorMsg {
   font-size: 20px;
   color: gray;
