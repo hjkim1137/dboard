@@ -14,9 +14,8 @@
       <% if(currentUser.img) { %>
          <img class="navProfile" src="<%= currentUser.img %>"></img>
           <p><strong><%= currentUser.username %></strong></p>
-
       <% } else { %>
-          <img class="navProfile"></img>
+          <div class="navProfile"></div>
           <p><strong><%= currentUser.username %></strong></p>
       <% } %>
     </button>

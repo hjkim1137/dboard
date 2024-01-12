@@ -2,6 +2,8 @@ body {
   margin: 0;
   background: #eee;
   font-size: 0.875rem;
+  font-family: 'Apple SD Gothic Neo', 'Apple SD 산돌고딕 Neo', NotoSansCJKkr,
+    'Noto Sans KR', Helvetica, '맑은 고딕', 'malgun gothic', sans-serif;
 }
 
 /* 다크모드 */
@@ -141,6 +143,18 @@ img {
   width: 100px;
   height: 100px;
   border-radius: 50px;
+}
+.nullImg {
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  background-color: #dbdbdb;
+}
+.deleteImg {
+  cursor: pointer;
+  color: #a2a2a2;
+  margin-left: 100px;
+  font-weight: 500;
 }
 
 .file {
