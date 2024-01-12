@@ -6,6 +6,17 @@ body {
     'Noto Sans KR', Helvetica, '맑은 고딕', 'malgun gothic', sans-serif;
 }
 
+.wholeWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input,
+div {
+  box-sizing: border-box;
+}
+
 /* 다크모드 */
 .dark-mode {
   background-color: #1e1e20;
@@ -83,16 +94,17 @@ img {
 .nav {
   display: flex;
   padding: 8px;
-  background: white;
+  background-color: #fff;
+  gap: 28px;
 }
 .nav a {
   text-decoration: none;
-  color: #a2a2a2;
-  font-size: 20px;
-  padding: 5px 8px;
-  border-radius: 3px;
-  width: 70px;
+  color: rgb(151, 160, 175);
+  font-size: 17px;
+  font-weight: bold;
+  min-width: 70px;
   text-align: center;
+  align-self: center;
 }
 .nav > a:hover {
   color: #dbdbdb;
@@ -181,11 +193,12 @@ img {
 }
 
 .white-bg {
+  width: 1200px;
   display: flex;
   flex-direction: column;
   background: white;
   padding: 20px 20px;
-  margin: 10px;
+  margin: 20px 0;
   border-radius: 8px;
 }
 .white-bg > img {
@@ -235,10 +248,6 @@ img {
   font-weight: 400;
 }
 
-input,
-div {
-  box-sizing: border-box;
-}
 .loginRegisterBox {
   display: flex;
   flex-direction: column;
@@ -310,6 +319,7 @@ div {
 }
 
 .pages {
+  max-width: 1200px;
   display: flex;
   justify-content: center;
 }
@@ -329,6 +339,7 @@ div {
 }
 
 .nextBtn {
+  max-width: 1200px;
   display: flex;
   justify-content: center;
 }
@@ -371,12 +382,12 @@ div {
 
 /* list, search 페이지 검색 기능 시작 */
 .searchBox {
-  margin: 20px 10px;
+  width: 1200px;
+  margin-top: 20px;
   display: flex;
-  border-radius: 8px;
-  width: 400px;
 }
 .search {
+  width: 250px;
   padding: 10px;
   font-size: 16px;
   border: 1px solid black;
@@ -396,6 +407,9 @@ div {
 }
 .result {
   margin: 20px;
+  width: 1200px;
+  font-size: 16px;
+  font-weight: 500;
 }
 .searched {
   display: flex;
@@ -470,9 +484,9 @@ div {
 
 /* 상세 페이지 댓글 기능 시작 */
 .comment-wrapper {
+  width: 1200px;
   background: white;
   padding: 30px 20px;
-  margin: 10px;
   border-radius: 8px;
 }
 .comment-wrapper h4 {
@@ -508,7 +522,7 @@ div {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  height: 90vh;
 }
 
 .welcome {
@@ -570,9 +584,8 @@ div {
   margin: 0 7px;
 }
 .chat-form {
+  width: 1200px;
   display: flex;
-  margin-left: 10px;
-  justify-content: flex-end;
 }
 .chat-input {
   padding: 10px;
@@ -582,7 +595,7 @@ div {
   border: 1px solid #a2a2a2;
 }
 .chat-button {
-  margin: 0 10px;
+  margin-left: 10px;
   width: 80px;
   padding: 10px;
   border: none;
@@ -597,6 +610,9 @@ div {
   color: #a2a2a2;
   font-size: 12px;
   text-align: center;
+}
+.yourChat {
+  background-color: skyblue;
 }
 .userIMG,
 .writerIMG {

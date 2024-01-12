@@ -8,10 +8,12 @@
   </head>
   <body class="grey-bg">
     <%- include('nav.ejs')%>
+
+    <div class="wholeWrapper">
       <form class="loginRegisterBox" action="/register" method="POST" enctype="multipart/form-data">
         <h4 class="formbox-title">회원가입</h4>
         <div class="imgWrapper">
-          <img class="myImg" src="req.file.location" alt="profileImg"></img>
+          <img class="nullImg"></img>
         </div>
         <input onchange="setThumbnail(event)" type="file" name="img1" accept="image/*" multiple  class="file"/>
           
@@ -21,7 +23,7 @@
             let reader = new FileReader()
 
             reader.onload = function(event) {
-              let img = document.querySelector(".myImg")
+              let img = document.querySelector(".nullImg")
               // 이미지파일 -> base64로 인코딩된 문자열로 저장
               img.setAttribute("src", event.target.result)
             }
@@ -44,5 +46,7 @@
           <button type="submit">가입하기</button>
         </div>
       </form>
+    </div>
+     
   </body>
 </html>

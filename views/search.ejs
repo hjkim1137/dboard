@@ -9,55 +9,57 @@
   <body class="grey-bg">
     <%- include('nav.ejs')%>
 
-    <!-- 검색기능 -->
-    <div class="searchBox">
-      <input class="search" placeholder="게시글을 검색하세요." />
-      <button class="searchBtn">검색하기</button>
-    </div>
-
-    <script>
-      document
-        .querySelector('.searchBtn')
-        .addEventListener('click', function () {
-          let userInput = document.querySelector('.search').value;
-          location.href = '/search?keyword=' + userInput;
-        });
-    </script>
-
-    <h4 class="result">검색결과</h4>
-
-    <div class="white-bg">
-      <% if(글목록.length >0) { %> <% for(let i=0; i<글목록.length;i++) { %>
-      <div class="list-box">
-        <h4>
-          <div class="editNdelete">
-            <a href="/detail/<%=글목록[i]._id%>"><%=글목록[i].title %></a>
-            <a href="/edit/<%=글목록[i]._id %>">✏️ 수정</a>
-            <span
-              class="delete"
-              data-id="<%=글목록[i]._id %>"
-              data-userID="<%=글목록[i].user %>"
-              >🗑️ 삭제</span
-            >
-          </div>
-        </h4>
-        <p><%=글목록[i].content %></p>
+    <div class="wholeWrapper">
+      <!-- 검색기능 -->
+      <div class="searchBox">
+        <input class="search" placeholder="게시글을 검색하세요." />
+        <button class="searchBtn">검색하기</button>
       </div>
 
-      <!-- 왜인지 if-else가 안되어 if, if 사용 -->
-      <% } %> <% } %> <% if(글목록.length == 0) { %>
-      <div class="searched">
-        <div>검색결과가 없습니다.</div>
-      </div>
-      <% } %>
-    </div>
+      <script>
+        document
+          .querySelector('.searchBtn')
+          .addEventListener('click', function () {
+            let userInput = document.querySelector('.search').value;
+            location.href = '/search?keyword=' + userInput;
+          });
+      </script>
 
-    <!-- 페이지네이션 만들기-->
-    <div class="pages">
-      <a href="/search/1" id="page">1</a>
-      <a href="/search/2" id="page">2</a>
-      <a href="/search/3" id="page">3</a>
-      <a href="/search/4" id="page">4</a>
+      <div class="result">검색결과</div>
+
+      <div class="white-bg">
+        <% if(글목록.length >0) { %> <% for(let i=0; i<글목록.length;i++) { %>
+        <div class="list-box">
+          <h4>
+            <div class="editNdelete">
+              <a href="/detail/<%=글목록[i]._id%>"><%=글목록[i].title %></a>
+              <a href="/edit/<%=글목록[i]._id %>">✏️ 수정</a>
+              <span
+                class="delete"
+                data-id="<%=글목록[i]._id %>"
+                data-userID="<%=글목록[i].user %>"
+                >🗑️ 삭제</span
+              >
+            </div>
+          </h4>
+          <p><%=글목록[i].content %></p>
+        </div>
+
+        <!-- 왜인지 if-else가 안되어 if, if 사용 -->
+        <% } %> <% } %> <% if(글목록.length == 0) { %>
+        <div class="searched">
+          <div>검색결과가 없습니다.</div>
+        </div>
+        <% } %>
+      </div>
+
+      <!-- 페이지네이션 만들기-->
+      <div class="pages">
+        <a href="/search/1" id="page">1</a>
+        <a href="/search/2" id="page">2</a>
+        <a href="/search/3" id="page">3</a>
+        <a href="/search/4" id="page">4</a>
+      </div>
     </div>
   </body>
 </html>

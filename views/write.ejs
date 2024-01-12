@@ -9,22 +9,24 @@
   <body class="grey-bg">
     <%- include('nav.ejs')%>
 
-    <div class="white-bg">
-      <form
-        class="form-box"
-        action="/write/add"
-        method="POST"
-        enctype="multipart/form-data"
-      >
-        <h4 class="formbox-title">글쓰기</h4>
+    <div class="wholeWrapper">
+      <div class="white-bg">
+        <form
+          class="form-box"
+          action="/write/add"
+          method="POST"
+          enctype="multipart/form-data"
+        >
+          <h4 class="formbox-title">글쓰기</h4>
 
-        <input name="title" placeholder="글 제목을 입력해주세요." />
-        <input name="content" placeholder="글 내용을 입력해주세요." />
-        <input type="file" name="img1" accept="image/*" multiple />
-        <div class="form-box-btn">
-          <button type="submit">전송</button>
-        </div>
-      </form>
+          <input name="title" placeholder="글 제목을 입력해주세요." />
+          <input name="content" placeholder="글 내용을 입력해주세요." />
+          <input type="file" name="img1" accept="image/*" multiple />
+          <div class="form-box-btn">
+            <button type="submit">전송</button>
+          </div>
+        </form>
+      </div>
     </div>
   </body>
 </html>
