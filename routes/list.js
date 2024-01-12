@@ -16,11 +16,17 @@ connectDB
 // 목록 페이지
 router.get('/', isLogin, async (req, res) => {
   let result = await db.collection('post').find().limit(5).toArray();
-  try {
-    let loginuser = new ObjectId(req.user._id);
-    return res.render('list.ejs', { 글목록: result, loginUser: loginuser });
-  } catch (e) {
-    console.log(e);
+
+  if (req.user) {
+    try {
+      let loginuser = new ObjectId(req.user._id);
+      return res.render('list.ejs', {
+        글목록: result,
+        loginUser: loginuser,
+      });
+    } catch (e) {
+      console.log(e);
+    }
   }
 });
 

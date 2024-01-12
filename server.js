@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const cookieParser = require('cookie-parser');
 
 const { isBlank } = require('./middlewares/index.js');
 const { formatDate2 } = require('./utils/date.js');
@@ -43,6 +44,9 @@ const io = new Server(server);
 
 // dotenv 세팅
 require('dotenv').config();
+
+// cookie 사용
+app.use(cookieParser());
 
 // public 폴더 등록
 app.use(express.static(__dirname + '/public'));
