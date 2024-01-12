@@ -20,15 +20,27 @@
             // 첫번째 채팅이 시작되면 alert 문구 삭제
             document.querySelector(".firstChat").style.display ="none"
           </script>
+
           <% for(let i=0; i<chats.length; i++) { %>
             <div class="chat-box <%= (chats[i].userId == String(requestedUserId)) ? 'mine' : 'yours' %>"> 
               <% if(chats[i].userId == String(requestedUserId)) { %>
                 <span><%= chats[i].date %></span>
-                <img src="<%=userimg%>" class="userIMG"></img>
-                <div class="yourChat"><%= chats[i].userName %>: <%= chats[i].chats %></div>
-                <% } else { %>
+                <% if(chats[i].userImg) { %>
+                  <img src="<%=userimg%>" class="userIMG"></img>
+                  <div class="yourChat"><%= chats[i].userName %>: <%= chats[i].chats %></div>
+                 <% } else { %>
+                  <div class="chatNullImg"></div>
+                  <div class="yourChat"><%= chats[i].userName %>: <%= chats[i].chats %></div>
+                <% } %>
+
+              <% } else { %>
+                <% if(chats[i].yourimg) { %>
                 <img src="<%=yourimg%>" class="writerIMG"></img>
                 <div class="writerChat"><%= chats[i].userName %>: <%= chats[i].chats %></div>
+                <% } else { %>
+                  <div class="chatNullImg"></div>
+                  <div class="writerChat"><%= chats[i].userName %>: <%= chats[i].chats %></div>
+                <% } %>
                 <span><%= chats[i].date %></span>
               <% } %>
             </div>
@@ -52,8 +64,9 @@
       let roomID = "<%= roomId %>"
       let userID = "<%= requestedUserId %>"
       let username = "<%= username %>"
-      let yourImg = "<%=yourimg%>"
-      let userImg = "<%=userimg%>"
+      // 이미지 없는 경우에 대한 null 처리 확실히
+      let yourImg = "<%= yourimg %>" || null 
+      let userImg = "<%= userimg %>" || null 
      
       // 1번
       let userInput = document.querySelector('.chat-input')
