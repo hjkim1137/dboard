@@ -68,15 +68,16 @@ router.put(
         // 비밀번호 해싱하기
         let hash = await bcrypt.hash(req.body.password, 10);
 
+        // 이미지 파일 저장
+        // 1. 이미지 파일이 있으면 해당 주소를 저장, 2. 없으면 null을 저장
         let imageFile = req.file ? req.file.location : null;
 
-        console.log('클라에서 받은 이미지 주소1', req.body.sameimg);
+        // 2. 이미지 파일이 null 이면서 기존이미지가 수정되지 않은 경우
+        // 그대로 기존 이미지 주소를 저장
         if (imageFile == null && req.body.sameimg) {
           imageFile = req.body.sameimg;
-          console.log('클라에서 받은 이미지 주소2', imageFile);
         }
 
-        // fileReader를 거쳐 새롭게 업로드 된 이미지가 있으면 그 url을 업로드함
         await db.collection('user').updateOne(
           { _id: new ObjectId(req.user._id) },
           {

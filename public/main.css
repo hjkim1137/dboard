@@ -95,7 +95,7 @@ img {
   display: flex;
   padding: 8px;
   background-color: #fff;
-  gap: 28px;
+  gap: 24px;
 }
 .nav a {
   text-decoration: none;
@@ -186,7 +186,6 @@ img {
 }
 
 .grey-bg {
-  background: #eee;
   padding-bottom: 10px;
   display: flex;
   flex-direction: column;
@@ -196,7 +195,7 @@ img {
   width: 1200px;
   display: flex;
   flex-direction: column;
-  background: white;
+  background: #fff;
   padding: 20px 20px;
   margin: 20px 0;
   border-radius: 8px;
