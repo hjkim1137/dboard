@@ -13,7 +13,7 @@
       <div class="white-bg">
         <div class="chat-screen">
           <% if(chats.length == 0) { %>
-            <div class="firstChat">첫번째 채팅을 시작하세요!</div>
+              <div class="firstChat">첫번째 채팅을 시작하세요!</div>
           <% } %>
   
           <% if(chats && chats.length > 0) { %>
@@ -26,23 +26,25 @@
               <div class="chat-box <%= (chats[i].userId == String(requestedUserId)) ? 'mine' : 'yours' %>"> 
                 <% if(chats[i].userId == String(requestedUserId)) { %>
                   <span><%= chats[i].date %></span>
-                  <% if(chats[i].userImg) { %>
-                    <img src="<%=userimg%>" class="userIMG"></img>
-                    <div class="yourChat"><%= chats[i].userName %>: <%= chats[i].chats %></div>
+
+                  <% if(userimg && userimg.length >0) { %>
+                    <img src="<%=userimg%>" class="userIMG">
                    <% } else { %>
-                    <div class="chatNullImg"></div>
-                    <div class="yourChat"><%= chats[i].userName %>: <%= chats[i].chats %></div>
+                    <img class="chatNullImg" src="/profile.png">
                   <% } %>
+
+                  <div class="yourChat"><%= chats[i].userName %>: <%= chats[i].chats %></div>
   
                 <% } else { %>
-                  <% if(chats[i].yourimg) { %>
-                  <img src="<%=yourimg%>" class="writerIMG"></img>
-                  <div class="writerChat"><%= chats[i].userName %>: <%= chats[i].chats %></div>
+                  <% if(yourimg && yourimg.length >0) { %>
+                  <img src="<%=yourimg%>" class="writerIMG">
                   <% } else { %>
-                    <div class="chatNullImg"></div>
-                    <div class="writerChat"><%= chats[i].userName %>: <%= chats[i].chats %></div>
+                    <img class="chatNullImg" src="/profile.png">
                   <% } %>
+
+                  <div class="writerChat"><%= chats[i].userName %>: <%= chats[i].chats %></div>
                   <span><%= chats[i].date %></span>
+
                 <% } %>
               </div>
             <% } %>
@@ -65,10 +67,12 @@
         let roomID = "<%= roomId %>"
         let userID = "<%= requestedUserId %>"
         let username = "<%= username %>"
+
         // 이미지 없는 경우에 대한 null 처리 확실히
-        let yourImg = "<%= yourimg %>" || null 
-        let userImg = "<%= userimg %>" || null 
-       
+        let yourImg = "<%= yourimg %>" || null
+        let userImg = "<%= userimg %>"  || null
+
+
         // 1번
         let userInput = document.querySelector('.chat-input')
   
@@ -117,5 +121,6 @@
   
       </script>
     </div>
+    <%- include('footer.ejs')%>
   </body>
 </html>

@@ -120,11 +120,11 @@ router.get('/detail', isLogin, async (req, res) => {
     // 상대방의 이미지는 내 이미지와 일치하지 않는 것을 조건을 줌
     let imgs = roomID.userImages;
     if (imgs) {
-      let yourImg = imgs.filter((img) => img !== req.user.img);
+      let yourImg = imgs.find((img) => img !== req.user.img);
       return yourImg;
-    }
-    return null;
+    } else return null;
   }
+  console.log('return 값:', showImage());
 
   res.render('chatDetail.ejs', {
     chats: chats,
@@ -132,6 +132,7 @@ router.get('/detail', isLogin, async (req, res) => {
     roomId: req.query.roomid,
     requestedUserId: new ObjectId(req.user._id),
     username: req.user.username,
+
     yourimg: showImage(),
     userimg: req.user.img,
   });

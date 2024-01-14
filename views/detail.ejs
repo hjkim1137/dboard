@@ -14,7 +14,11 @@
         <div class="detailpgTitle">
           <h4><%=result.title %></h4>
           <div class="detailpgTitle2">
-            <img src="<%= result.userImage %>"></img>
+            <% if(result.userImage) { %>
+              <img src="<%= result.userImage %>"></img>
+            <% } else { %>
+              <img class="detailNullImg" src="/profile.png"></img>
+            <% } %>
             <p><%=result.username%></p>
             <p><%=result.date%></p>
           </div>
@@ -47,7 +51,7 @@
         <input name="comment" placeholder="댓글을 작성하세요." autofocus/>
         <input name="parentId" 
         style="display: none" value="<%=result._id %>"/>
-        <button type="submit" class="commentBtn">댓글작성</button>
+        <button type="submit" class="submitBtn">댓글작성</button>
         </form>
       </div>
     </div>

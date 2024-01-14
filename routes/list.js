@@ -15,7 +15,7 @@ connectDB
 
 // 목록 페이지
 router.get('/', isLogin, async (req, res) => {
-  let result = await db.collection('post').find().limit(5).toArray();
+  let result = await db.collection('post').find().toArray();
 
   if (req.user) {
     try {

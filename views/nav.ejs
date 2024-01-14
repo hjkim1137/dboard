@@ -1,5 +1,5 @@
 <div class="nav">
-  <a class="logo" href="/">Home</a>
+  <a href="/"><img src="/homelogo.png" class="logo" ></a>
   <a href="/list">List</a>
   <a href="/write">Write</a>
   <a href="/mypage">Mypage</a>
@@ -15,7 +15,7 @@
          <img class="navProfile" src="<%= currentUser.img %>"></img>
           <p><strong><%= currentUser.username %></strong></p>
       <% } else { %>
-          <div class="navProfile"></div>
+          <img class="navProfile" src="/profile.png"></img>
           <p><strong><%= currentUser.username %></strong></p>
       <% } %>
     </button>
