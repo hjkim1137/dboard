@@ -12,9 +12,45 @@
     <div class="wholeWrapper">
       <div class="home">
         <img src="/homelogo.png" class="homeImg" />
-        <h1 class="homeTitle">Hello, This is Meboard.</h1>
+        <div class="homeTitle">
+          <p class="homeCursor"></p>
+        </div>
       </div>
     </div>
     <%- include('footer.ejs')%>
   </body>
+
+  <script>
+    const target = document.querySelector('.homeCursor');
+    const sentence = 'Hello. This is Meboard.';
+    const array = sentence.split('');
+
+    // 커서 깜빡임
+    function blink() {
+      target.classList.toggle('active');
+    }
+    setInterval(blink, 500);
+
+    // 내용 입력하기
+    function dynamic(arr) {
+      if (arr.length > 0) {
+        target.textContent += arr.shift();
+
+        setTimeout(() => {
+          dynamic(arr);
+        }, 80);
+      } else {
+        // arr 배열에 요소가 하나씩 제거되어 모두 사라지면,
+        setTimeout(reset, 3000); //3초후에 reset함수 실행
+      }
+    }
+    dynamic(array);
+
+    // 내용 지우고 다시 시작
+    function reset() {
+      target.textContent = '';
+      const resplit = sentence.split('');
+      dynamic(resplit);
+    }
+  </script>
 </html>
