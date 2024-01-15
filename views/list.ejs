@@ -42,14 +42,15 @@
                 <%=글목록[i].user %>
               </div>
 
-              <a href="/edit/<%=글목록[i]._id %>" class="editBtn">✏️ 수정</a>
+              <a href="/edit/<%=글목록[i]._id %>" class="editBtn"
+                ><img src="/edit2.png" /> 수정</a
+              >
               <span
                 class="deletePost"
                 data-postid="<%=글목록[i]._id %>"
                 data-userid="<%=글목록[i].user%>"
+                ><img src="/delete2.png" /> 삭제</span
               >
-                🗑️ 삭제
-              </span>
             </div>
 
             <span>

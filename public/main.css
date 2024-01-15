@@ -26,7 +26,8 @@ button:hover {
 .dark-mode {
   background-color: #1e1e20;
 }
-.dark-mode .homeTitle {
+.dark-mode .homeTitle,
+.dark-mode .errorMsg {
   color: #a2a2a2;
 }
 
@@ -57,8 +58,7 @@ button:hover {
   color: #fff;
 }
 
-.dark-mode .yourChat,
-.dark-mode .toLogin > a {
+.dark-mode .yourChat {
   background-color: #272829;
   color: #dbdbdb;
 }
@@ -79,8 +79,8 @@ button:hover {
   background-color: #313233;
 }
 
-.dark-mode span,
 .dark-mode a,
+.dark-mode span,
 .dark-mode #page,
 .dark-mode .nextBtn,
 .dark-mode .detailpgTitle,
@@ -92,13 +92,15 @@ button:hover {
 }
 
 .toggle {
+  color: #a2a2a2;
   align-self: center;
   min-width: 100px;
   height: 36px;
   cursor: pointer;
   margin-left: 10px;
-  border: 1px solid #dbdbdb;
+  border: 1.5px solid #dbdbdb;
   border-radius: 5px;
+  font-weight: bold;
 }
 
 /* 다크모드 끝 */
@@ -106,24 +108,35 @@ button:hover {
 h4,
 p,
 a,
-img {
+img,
+span,
+div {
   margin: 0;
   padding: 0;
 }
 
 .nav {
   display: flex;
-  padding: 8px;
-  gap: 24px;
+  padding: 20px;
+  gap: 48px;
+}
+.navDetail {
+  height: 45px;
+  display: flex;
+  gap: 36px;
+  align-items: center;
+}
+.navDetail > a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
 }
 .nav a {
   text-decoration: none;
-  color: rgb(151, 160, 175);
-  font-size: 17px;
+  color: #a2a2a2;
+  font-size: 14px;
   font-weight: bold;
-  min-width: 70px;
-  text-align: center;
-  align-self: center;
 }
 .nav > a:hover {
   color: #1e3b59;
@@ -150,11 +163,13 @@ img {
   flex-grow: 1;
   display: flex;
   justify-content: flex-end;
+  gap: 36px;
+  height: 45px;
+  align-items: center;
 }
-.logout {
-  align-self: center;
-  margin: 0 10px;
-  text-align: center;
+.navLoginRegister {
+  display: flex;
+  align-items: center;
 }
 .logout:hover,
 .login:hover {
@@ -212,6 +227,12 @@ img {
   width: 45px;
   height: 45px;
 }
+.navIcon {
+  width: 20px;
+}
+.nav a:hover {
+  color: #1e3b59;
+}
 .grey-bg {
   padding-bottom: 10px;
   display: flex;
@@ -259,8 +280,14 @@ img {
   display: flex;
   justify-content: space-between;
 }
+
 .editNdelete {
-  width: fit-content;
+  display: flex;
+  gap: 16px;
+}
+.editNdelete > a > img,
+.editNdelete > span > img {
+  width: 14px;
 }
 .date {
   color: #a2a2a2;
@@ -345,6 +372,10 @@ img {
   font-size: 16px;
 }
 
+.deleteChat > img {
+  width: 14px;
+}
+
 .pages {
   max-width: 1200px;
   display: flex;
@@ -393,20 +424,22 @@ img {
 
 .errorMsg {
   font-size: 20px;
-  color: gray;
+  color: #1e3b59;
   margin-bottom: 20px;
+  font-weight: 500;
 }
-
-.toLogin > a {
+.errorLogo {
+  width: 300px;
+}
+.tologinBtn {
   text-decoration: none;
-  background-color: #fff;
-  color: gray;
+  color: #a2a2a2;
   font-size: 18px;
-  border: none;
-  border-radius: 8px;
-  padding: 15px;
 }
-
+.tologinBtn:hover {
+  color: #1e3b59;
+  font-weight: 700;
+}
 /* list, search 페이지 검색 기능 시작 */
 .searchBox {
   width: 100%;
@@ -570,7 +603,7 @@ img {
   position: relative;
   display: inline-block;
   font-size: 32px;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .homeTitle .homeCursor::after {

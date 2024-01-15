@@ -8,14 +8,37 @@
   </head>
   <body class="grey-bg">
     <%- include('nav.ejs')%>
+
     <div class="wholeWrapper">
       <div class="toLogin">
+        <img src="/error.png" class="errorLogo" />
+
         <div class="errorMsg">
-          로그인한 유저만 접근할 수 있는 페이지 입니다.
+          로그인한 유저만 접근할 수 있는 페이지 입니다!
         </div>
-        <a href="/login">로그인 하러가기</a>
+        <a href="/login" class="tologinBtn">로그인 하러가기</a>
       </div>
     </div>
     <%- include('footer.ejs')%>
   </body>
 </html>
+
+<script>
+  // 에러 아이콘 다크모드 시 색깔 변경
+  let errorIcon = document.querySelector('.errorLogo');
+
+  // 화면 이동시에도 다크모드 유지
+  if (mode === 'dark') {
+    errorIcon.src = '/error2.png';
+  } else {
+    errorIcon.src = '/error.png';
+  }
+
+  toggle.addEventListener('click', function () {
+    if (body.classList.contains('dark-mode')) {
+      errorIcon.src = '/error2.png';
+    } else {
+      errorIcon.src = '/error.png';
+    }
+  });
+</script>

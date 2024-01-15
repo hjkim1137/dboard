@@ -1,14 +1,16 @@
 <div class="nav">
-  <a href="/"><img src="/homelogo.png" class="logo" ></a>
-  <a href="/list">List</a>
-  <a href="/write">Write</a>
-  <a href="/mypage">Mypage</a>
-  <a href="/chat/list">Chat</a>
+  <div><a href="/"><img src="/homelogo.png" class="logo" ></a></div>
+  <div class="navDetail">
+    <a href="/list"><img src="/feed.png" class="navIcon"><div>피드</div></a>
+    <a href="/write"><img src="/edit.png" class="navIcon"><div>작성</div></a>
+    <a href="/chat/list"><img src="/chat.png" class="navIcon"><div>대화</div></a>
+  </div>
+  
 
   <% if(currentUser) { %>
   <div class="profileBox">
     <button class="toggle">다크모드로 🌙</button>
-    <a href="/logout" class="logout">Logout</a>
+    <a href="/logout"><div>로그아웃</div></a>
 
     <button class="profileInner" onclick="location.href='/mypage'">
       <% if(currentUser.img) { %>
@@ -24,8 +26,8 @@
   <% } else { %>
     <div class="profileBox">
       <button class="toggle">다크모드로 🌙</button>
-      <a href="/login">Login</a>
-      <a href="/register">Register</a>
+      <a href="/login" class="navLoginRegister"><div>로그인</div></a>
+      <a href="/register" class="navLoginRegister"><div>회원가입</div></a>
     </div>
   <% } %> 
 </div>
@@ -34,26 +36,47 @@
 let mode = localStorage.getItem('mode');
 let toggle = document.querySelector('.toggle');
 let body = document.querySelector('body');
+let navIcons = document.querySelectorAll(".navIcon")
 
+// 화면 이동시에도 다크모드 유지
 if (mode === 'dark') {
   toggle.innerHTML = '일반모드로 ☀️';
   body.classList.remove('grey-bg');
   body.classList.add('dark-mode');
+
+  navIcons[0].src="/feed2.png"
+  navIcons[1].src="/edit2.png"
+  navIcons[2].src="/chat2.png"
+
 } else {
   toggle.innerHTML = '다크모드로 🌙';
   body.classList.remove('dark-mode');
+
+  navIcons[0].src="/feed.png"
+  navIcons[1].src="/edit.png"
+  navIcons[2].src="/chat.png"
 }
 
+// 다크모드 버튼 눌렀을 때
 toggle.addEventListener('click', function () {
   if (body.classList.contains('dark-mode')) {
     localStorage.removeItem('mode', 'dark');
     toggle.innerHTML = '다크모드로 🌙';
     body.classList.remove('dark-mode');
+
+    navIcons[0].src="/feed.png"
+    navIcons[1].src="/edit.png"
+    navIcons[2].src="/chat.png"
+
   } else {
     localStorage.setItem('mode', 'dark');
     toggle.innerHTML = '일반모드로 ☀️';
     body.classList.remove('grey-bg');
     body.classList.add('dark-mode');
+
+    navIcons[0].src="/feed2.png"
+    navIcons[1].src="/edit2.png"
+    navIcons[2].src="/chat2.png"
   }
 });
 </script>
