@@ -21,7 +21,7 @@ router.get('/', isLogin, async (req, res) => {
     try {
       let loginuser = new ObjectId(req.user._id);
       return res.render('list.ejs', {
-        글목록: result,
+        boardPosts: result,
         loginUser: loginuser,
       });
     } catch (e) {
@@ -44,7 +44,7 @@ router.get('/:id', async (req, res) => {
     .skip((req.params.id - 1) * 5)
     .limit(5)
     .toArray();
-  res.render('list.ejs', { 글목록: result, loginUser: loginuser });
+  res.render('list.ejs', { boardPosts: result, loginUser: loginuser });
 });
 
 // 다음 게시물 5개 보기 기능(장점: 매우 빠름, 단점: 다음 버튼으로 바꿔야함)
@@ -57,7 +57,7 @@ router.get('/next/:id', async (req, res) => {
     .find({ _id: { $gt: new ObjectId(req.params.id) } })
     .limit(5)
     .toArray();
-  res.render('list.ejs', { 글목록: result, loginUser: loginuser });
+  res.render('list.ejs', { boardPosts: result, loginUser: loginuser });
 });
 
 module.exports = router;

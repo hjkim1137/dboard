@@ -11,35 +11,6 @@ const { createServer } = require('http');
 const { Server } = require('socket.io');
 const server = createServer(app);
 const io = new Server(server);
-// - 끝 (app.listen -> server.listen으로 변경)
-
-// const server = createServer(app);
-
-// socket.io express-session 세팅 시작
-// const { join } = require('path');
-// const session = require('express-session');
-// const port = process.env.PORT || 3000;
-// const httpServer = createServer(app);
-
-// const sessionMiddleware = session({
-//   secret: 'changeit',
-//   resave: true,
-//   saveUninitialized: true,
-// });
-// app.use(sessionMiddleware);
-
-// app.post('/incr', (req, res) => {
-//   const session = req.session;
-//   session.count = (session.count || 0) + 1;
-//   res.status(200).end('' + session.count);
-// });
-
-// const io = new Server(httpServer);
-
-// httpServer.listen(port, () => {
-//   console.log(`application is running at: http://localhost:${port}`);
-// });
-// socket.io express-session 세팅 끝
 
 // dotenv 세팅
 require('dotenv').config();

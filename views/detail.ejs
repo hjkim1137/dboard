@@ -38,7 +38,12 @@
             <div class="comment-box">
               <div><strong><%=comment[i].writer %></strong></div>
               <div><%=comment[i].comment %></div>
-              <div class="comment"><%=comment[i].date %></div>
+
+              <% if(comment[i].writerId.equals(result.user)) { %>
+                <div class="comment"><span class="commentWriter">글쓴이</span><%=comment[i].date %></div>
+              <% } else { %>
+                <div class="comment"><%=comment[i].date %></div>
+              <% } %>
             </div>
           <% } %>
   
@@ -55,6 +60,6 @@
         </form>
       </div>
     </div>
-    
+    <%- include('footer.ejs')%>
   </body>
 </html>

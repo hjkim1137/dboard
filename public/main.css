@@ -23,6 +23,7 @@ button:hover {
 }
 
 /* 다크모드 */
+
 .dark-mode {
   background-color: #1e1e20;
 }
@@ -47,13 +48,15 @@ button:hover {
 }
 
 .dark-mode .searchBtn,
-.dark-mode .chat-button {
+.dark-mode .chat-button,
+.dark-mode .writePost {
   background-color: #313233;
   color: #a2a2a2;
 }
 
 .dark-mode .searchBtn:hover,
-.dark-mode .chat-button:hover {
+.dark-mode .chat-button:hover,
+.dark-mode .writePost:hover {
   background-color: #313233;
   color: #fff;
 }
@@ -82,7 +85,6 @@ button:hover {
 .dark-mode a,
 .dark-mode span,
 .dark-mode #page,
-.dark-mode .nextBtn,
 .dark-mode .detailpgTitle,
 .dark-mode .detailpgContent,
 .dark-mode .commentTitle,
@@ -100,7 +102,6 @@ button:hover {
   margin-left: 10px;
   border: 1.5px solid #dbdbdb;
   border-radius: 5px;
-  font-weight: bold;
 }
 
 /* 다크모드 끝 */
@@ -136,7 +137,6 @@ div {
   text-decoration: none;
   color: #a2a2a2;
   font-size: 14px;
-  font-weight: bold;
 }
 .nav > a:hover {
   color: #1e3b59;
@@ -267,6 +267,9 @@ div {
   align-self: center;
   text-decoration: none;
 }
+.writeContent {
+  height: 200px;
+}
 .list-box {
   border-bottom: 1px solid#eee;
   margin-bottom: 10px;
@@ -376,41 +379,31 @@ div {
   width: 14px;
 }
 
-.pages {
+.pageWrapper {
   max-width: 1200px;
   display: flex;
   justify-content: center;
+  align-items: center;
+  gap: 24px;
 }
 
-.pages > a {
-  margin-top: 18px;
-  text-align: center;
-  width: 30px;
-  height: 30px;
+.pageWrapper > a {
   text-decoration: none;
-  font-size: 18px;
+}
+.page {
+  display: flex;
+  gap: 24px;
+}
+.page > a {
+  cursor: pointer;
+  margin: 18px 0;
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
   color: #121212;
 }
 
-.pages > a:hover {
-  color: #a2a2a2;
-}
-
-.nextBtn {
-  max-width: 1200px;
-  display: flex;
-  justify-content: center;
-}
-
-.nextBtn > a {
-  text-decoration: none;
-  font-size: 18px;
-  width: 40px;
-  height: 40px;
-  padding: 7px;
-  color: black;
-}
-.nextBtn > a:hover {
+.page > a:hover {
   color: #a2a2a2;
 }
 
@@ -478,6 +471,29 @@ div {
   height: 60px;
 }
 .searched > div {
+  align-self: center;
+}
+.listSummary {
+  width: 1200px;
+  display: flex;
+  justify-content: space-between;
+}
+.writePost {
+  height: 40px;
+  cursor: pointer;
+  background: #1e3b59;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 0 15px;
+}
+.writePost > img {
+  width: 14px;
+}
+.totalPost {
+  justify-content: start;
+  color: #a2a2a2;
+  margin-top: 10px;
   align-self: center;
 }
 /* list, search 페이지 검색 기능 끝 */
@@ -581,6 +597,11 @@ div {
   color: #a2a2a2;
   font-size: 14px;
   align-self: center;
+}
+.commentWriter {
+  color: #1e3b59;
+  margin-right: 15px;
+  font-weight: bold;
 }
 
 .home {
@@ -734,4 +755,9 @@ div {
   color: #a2a2a2;
   padding: 20px 0;
   border-top: solid 1px #dbdbdb;
+}
+
+/* 페이지네이션 */
+.pageWrapper {
+  display: flex;
 }

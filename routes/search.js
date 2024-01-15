@@ -19,7 +19,7 @@ connectDB
 //       .collection('post')
 //       .find({ title: { $regex: req.query.keyword } }) // 검색어와 근접한 단어 찾기에 관한 정규식
 //       .toArray();
-//     res.render('search.ejs', { 글목록: result });
+//     res.render('search.ejs', { boardPosts: result });
 //   } catch (e) {
 //     console.log(e);
 //   }
@@ -35,7 +35,7 @@ connectDB
 //       .toArray();
 //     // 해당 쿼리가 얼마나 걸리는 지 계산해줌
 //     // .find({ $text: { $search: req.query.keyword } }).explain('executionStats');
-//     res.render('search.ejs', { 글목록: result });
+//     res.render('search.ejs', { boardPosts: result });
 //   } catch (e) {
 //     console.log(e);
 //   }
@@ -58,7 +58,7 @@ router.get('/', async (req, res) => {
 
   try {
     let result = await db.collection('post').aggregate(검색조건).toArray();
-    res.render('search.ejs', { 글목록: result });
+    res.render('search.ejs', { boardPosts: result });
   } catch (e) {
     console.log(e);
   }
@@ -85,7 +85,7 @@ router.get('/:pageId', async (req, res) => {
 
   try {
     let result = await db.collection('post').aggregate(conditions).toArray();
-    res.render('search.ejs', { 글목록: result, userInput: keyword });
+    res.render('search.ejs', { boardPosts: result, userInput: keyword });
   } catch (e) {
     console.log(e);
   }

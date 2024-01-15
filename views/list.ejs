@@ -21,8 +21,62 @@
         />
         <button class="searchBtn">검색하기</button>
       </div>
+      <div class="listSummary">
+        <div class="totalPost">
+          <div>총 게시글 : <%=boardPosts.length %></div>
+        </div>
+        <button class="writePost" onclick="window.location.href='/write'">
+          글 작성하기 <img src="/edit2.png" />
+        </button>
+      </div>
 
+      <div class="white-bg">
+        <% if(boardPosts.length >0) { %> <% for(let i=0; i<boardPosts.length;i++) { %>
+        <div class="list-box" id="list-box">
+          <h4>
+            <div class="editNdelete">
+              <a href="/detail/<%=boardPosts[i]._id%>"><%=boardPosts[i].title %></a>
+              <div style="display: none" class="listWriterId">
+                <%=boardPosts[i].user %>
+              </div>
+
+              <a href="/edit/<%=boardPosts[i]._id %>" class="editBtn"
+                ><img src="/edit2.png" /> 수정</a
+              >
+              <span
+                class="deletePost"
+                data-postid="<%=boardPosts[i]._id %>"
+                data-userid="<%=boardPosts[i].user%>"
+                ><img src="/delete2.png" /> 삭제</span
+              >
+            </div>
+            <span>
+              <span class="username"><%=boardPosts[i].username%></span>
+              <span class="date"><%=boardPosts[i].date%></span>
+            </span>
+          </h4>
+          <p><%=boardPosts[i].content %></p>
+        </div>
+        <% } %> <% } %>
+
+        <!-- 왜인지 if-else가 안되어 if, if 사용 -->
+        <% if(boardPosts.length == 0) { %>
+        <div class="toWritePage">
+          <a href="/write">생성된 글이 없습니다. 첫 글을 발행해보세요!</a>
+        </div>
+        <% } %>
+      </div>
+
+      <!-- 페이지네이션 만들기-->
+      <div class="pageWrapper">
+        <a class="prevBtn">이전</a>
+            <div class="page"></div>
+        <a class="nextBtn" href="/list/next">이후</a>
+      </div>
+
+    
       <script>
+        // 검색기능
         document
           .querySelector('.searchBtn')
           .addEventListener('click', function () {
@@ -32,136 +86,118 @@
           });
       </script>
 
-      <div class="white-bg">
-        <% if(글목록.length >0) { %> <% for(let i=0; i<글목록.length;i++) { %>
-        <div class="list-box" id="list-box">
-          <h4>
-            <div class="editNdelete">
-              <a href="/detail/<%=글목록[i]._id%>"><%=글목록[i].title %></a>
-              <div style="display: none" class="listWriterId">
-                <%=글목록[i].user %>
-              </div>
+      <script>
+        // 게시물 날짜순 정렬하기
+        let postdates = document.querySelectorAll('.date');
 
-              <a href="/edit/<%=글목록[i]._id %>" class="editBtn"
-                ><img src="/edit2.png" /> 수정</a
-              >
-              <span
-                class="deletePost"
-                data-postid="<%=글목록[i]._id %>"
-                data-userid="<%=글목록[i].user%>"
-                ><img src="/delete2.png" /> 삭제</span
-              >
-            </div>
+        let postdatesArr = [];
+        postdates.forEach((date, idx) => {
+          let postdate = date.textContent;
+          postdatesArr.push({ originalIndex: idx, date: postdate });
+        });
 
-            <span>
-              <span class="username"><%=글목록[i].username%></span>
-              <span class="date"><%=글목록[i].date%></span>
-            </span>
-          </h4>
-          <p><%=글목록[i].content %></p>
-        </div>
-        <% } %> <% } %>
+        // toSorted를 활용한 사본배열
+        const orderedDate = postdatesArr.toSorted(function (a, b) {
+          if (a.date < b.date) return 1;
+          if (a.date > b.date) return -1;
+          return 0;
+        });
 
-        <script>
-          // 게시물 날짜순 정렬하기
-          let postdates = document.querySelectorAll('.date');
+        // index를 기준으로 정렬
+        orderedDate.forEach((date, index) => {
+          date.newIndex = index; // 새로운 인덱스 추가
+        });
 
-          let postdatesArr = [];
-          postdates.forEach((date, idx) => {
-            let postdate = date.textContent;
-            postdatesArr.push({ originalIndex: idx, date: postdate });
-          });
+        // 위의 정렬 기준에 따라서 list-box 정렬하기
+        let listboxes = document.querySelectorAll('.list-box');
+        listboxes.forEach((box) => {
+          // box.querySelector 하면 특정 한 개 박스의 ~
+          let newIndex = orderedDate.find(
+            (date) => date.date === box.querySelector('.date').textContent
+          ).newIndex;
 
-          // toSorted를 활용한 사본배열
-          const orderedDate = postdatesArr.toSorted(function (a, b) {
-            if (a.date < b.date) return 1;
-            if (a.date > b.date) return -1;
-            return 0;
-          });
+          // (중요) order 속성 적용하려면 listbox의 부모요소(white-bg)에 flex나 grid 적용되야 함
+          box.style.order = newIndex;
+        });
+      </script>
 
-          // index를 기준으로 정렬
-          orderedDate.forEach((date, index) => {
-            date.newIndex = index; // 새로운 인덱스 추가
-          });
+      <script>
+        // 게시글 삭제하기
+        let deleteBtns = document.querySelectorAll('.deletePost');
 
-          // 위의 정렬 기준에 따라서 list-box 정렬하기
-          let listboxes = document.querySelectorAll('.list-box');
-          listboxes.forEach((box) => {
-            // box.querySelector 하면 특정 한 개 박스의 ~
-            let newIndex = orderedDate.find(
-              (date) => date.date === box.querySelector('.date').textContent
-            ).newIndex;
+        deleteBtns.forEach((btn, index) => {
+          let writerIds = document.querySelectorAll('.listWriterId');
+          let writerId = writerIds[index].textContent;
+          let editBtns = document.querySelectorAll('.editBtn');
+          let editBtn = editBtns[index];
 
-            // (중요) order 속성 적용하려면 listbox의 부모요소(white-bg)에 flex나 grid 적용되야 함
-            box.style.order = newIndex;
-          });
-        </script>
+          // 공백대비해서 trim() 처리 해주기
+          // 글 작성자만 수정, 삭제 버튼 보이게 하기
+          if ('<%= loginUser %>' == writerId.trim()) {
+            btn.style.display = 'inline';
+            editBtn.style.display = 'inline';
+          } else {
+            btn.style.display = 'none';
+            editBtn.style.display = 'none';
+          }
 
-        <script>
-          let deleteBtns = document.querySelectorAll('.deletePost');
+          btn.addEventListener('click', function (e) {
+            let postId = e.target.dataset.postid;
 
-          deleteBtns.forEach((btn, index) => {
-            let writerIds = document.querySelectorAll('.listWriterId');
-            let writerId = writerIds[index].textContent;
-            let editBtns = document.querySelectorAll('.editBtn');
-            let editBtn = editBtns[index];
-
-            // 공백대비해서 trim() 처리 해주기
-            // 글 작성자만 수정, 삭제 버튼 보이게 하기
-            if ('<%= loginUser %>' == writerId.trim()) {
-              btn.style.display = 'inline';
-              editBtn.style.display = 'inline';
-            } else {
-              btn.style.display = 'none';
-              editBtn.style.display = 'none';
-            }
-
-            btn.addEventListener('click', function (e) {
-              let postId = e.target.dataset.postid;
-
-              if (window.confirm('삭제하시겠습니까?')) {
-                fetch('/delete?docId=' + postId, {
-                  method: 'DELETE',
+            if (window.confirm('삭제하시겠습니까?')) {
+              fetch('/delete?docId=' + postId, {
+                method: 'DELETE',
+              })
+                .then((res) => res.text())
+                .then((data) => {
+                  e.target.closest('#list-box').style.display = 'none';
                 })
-                  .then((res) => res.text())
-                  .then((data) => {
-                    e.target.closest('#list-box').style.display = 'none';
-                  })
-                  .catch((error) => {
-                    console.error('오류 발생!!', error);
-                    e.target.closest('#list-box').style.display = 'inline';
-                  });
-              } else {
-                btn.style.display = 'inline'; // block 은 줄바꿈 돼서 쓰면 X
-              }
-            });
+                .catch((error) => {
+                  console.error('오류 발생!!', error);
+                  e.target.closest('#list-box').style.display = 'inline';
+                });
+            } else {
+              btn.style.display = 'inline'; // block 은 줄바꿈 돼서 쓰면 X
+            }
           });
-        </script>
+        });
+      </script>
 
-        <!-- 왜인지 if-else가 안되어 if, if 사용 -->
-        <% if(글목록.length == 0) { %>
-        <div class="toWritePage">
-          <a href="/write">생성된 글이 없습니다. 첫 글을 발행해보세요!</a>
-        </div>
-        <% } %>
-      </div>
+      <script>
+        let pageContainer = document.querySelector(".page")
+        let firstPg =document.querySelector(".firstPg")
+        let lastPg = document.querySelector(".lastPg")
 
-      <!-- 페이지네이션 만들기-->
-      <div class="pages">
-        <a href="/list/1" id="page">1</a>
-        <a href="/list/2" id="page">2</a>
-        <a href="/list/3" id="page">3</a>
-        <a href="/list/4" id="page">4</a>
-      </div>
+        // 총 페이지 갯수 계산
+        let postlimit = 5 // 한 페이지 당 데이터 개수
+        let totalcount = "<%= boardPosts.length %>"
+        let totalCount= Number(totalcount)
+        let totalpage = Math.ceil(totalCount/ postlimit)
 
-      <!--먼저 글목록 여부 체크 -->
-      <% if(글목록.length >0) { %>
-      <div class="nextBtn">
-        <a href="/list/next/<%=글목록[글목록.length-1]._id %>" class="nextBtn"
-          >다음</a
-        >
-      </div>
-      <% } %>
+        // 현재 페이지 그룹 계산
+        let currentPage = 1
+        let pageCount = 5 // 화면에 나타나는 페이지 개수
+        let pageGroup = Math.ceil(currentPage / pageCount) // 화면에서 속한 페이지
+
+        // 현재 페이지 그룹 첫번째/마지막 숫자 구하기
+        const lastNumber = pageGroup * pageCount 
+        if (lastNumber > totalpage) {
+          lastNumber = totalpage
+        }
+        const firstNumber = lastNumber - (pageCount - 1) 
+
+        let next = lastNumber + 1
+        let prev = firstNumber - 1 
+        
+        // 1~5만큼 페이지네이션 그려줌
+        for (let i = firstNumber; i <= lastNumber; i++) {
+          let pageLink = document.createElement("a")
+          pageLink.textContent = i
+          pageLink.href = "/list/" + i;
+          pageLink.classList.add('pageLink');
+          pageContainer.appendChild(pageLink)
+        }
+      </script>
 
       <!-- SSE 구현하기 -->
       <!-- 남이 글을 올리면 새로고침 안해도 실시간으로 글을 받아볼 수 있음 -->
