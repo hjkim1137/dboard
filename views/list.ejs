@@ -35,7 +35,9 @@
         <div class="list-box" id="list-box">
           <h4>
             <div class="editNdelete">
-              <a href="/detail/<%=boardPosts[i]._id%>"><%=boardPosts[i].title %></a>
+              <a href="/detail/<%=boardPosts[i]._id%>"
+                ><%=boardPosts[i].title %></a
+              >
               <div style="display: none" class="listWriterId">
                 <%=boardPosts[i].user %>
               </div>
@@ -70,11 +72,10 @@
       <!-- 페이지네이션 만들기-->
       <div class="pageWrapper">
         <a class="prevBtn">이전</a>
-            <div class="page"></div>
-        <a class="nextBtn" href="/list/next">이후</a>
+        <div class="pageContainer"></div>
+        <a class="nextBtn">이후</a>
       </div>
 
-    
       <script>
         // 검색기능
         document
@@ -119,8 +120,105 @@
           // (중요) order 속성 적용하려면 listbox의 부모요소(white-bg)에 flex나 grid 적용되야 함
           box.style.order = newIndex;
         });
+
       </script>
 
+      <script>
+        // 페이지네이션 시작
+        let pages = document.querySelector('.pageContainer');
+
+        // 총 페이지 갯수 계산
+        let postlimit = 10; // 한 페이지 당 보여줄 데이터 개수
+        let totalcount = '<%= boardPosts.length %>'; // 26
+        let totalCount = Number(totalcount); // 26
+        let totalpages = Math.ceil(totalCount / postlimit); // 3
+
+        let prevBtn = document.querySelector('.prevBtn');
+        let nextBtn = document.querySelector('.nextBtn');
+
+        // 현재 페이지 그룹 계산
+        let currentPage = 1;
+
+        // 페이지 기반으로 포스트 갱신(최신순 정렬 포함)
+        function updateDisplay (currentPage) {
+        listboxes.forEach((box) => {
+          let newIndex = orderedDate.find(
+            (date) => date.date === box.querySelector('.date').textContent
+          ).newIndex;
+
+          box.style.order = newIndex;
+          // 박스가 인덱스 범위안에 있으면 보여주고, 아니면 숨김
+          box.style.display = (newIndex >= (currentPage -1) * postlimit && newIndex < currentPage * postlimit) ? 'block' : 'none';
+        });
+        }
+
+        // 전체 페이지 수 및 현재 currentPage 업데이트하는 함수
+        function updatePage(currentPage, totalpages) {
+          let pages = document.querySelector('.pageContainer');
+          pages.innerHTML = ''; // 기존의 페이징 링크를 지움(안그러면 for문에 의해 page링크 3개씩 계속 생성됨)
+
+          for (let i = 1; i <= totalpages; i++) {
+            let pageLink = document.createElement('a');
+            pageLink.textContent = i;
+            pages.appendChild(pageLink);
+
+            // 페이지 버튼 클릭
+            pageLink.addEventListener('click', function (event) {
+              event.preventDefault();
+
+              currentPage = i;
+              updateDisplay(currentPage);
+              updatePage(currentPage, totalpages);
+              updatePageBtn(currentPage, totalpages);
+            });
+            
+            // 현재 머무르고 있는 페이지 표시
+            if(i === currentPage) {
+              pageLink.classList.add("currentPage")
+            }
+          }
+
+        }
+
+        // 이전, 이후 버튼 보이기/숨김 업데이트 함수
+        function updatePageBtn(currentPage, totalpages) {
+          if (currentPage === 1) {
+            prevBtn.style.display = "none";
+          } else {
+            prevBtn.style.display = "block";
+          }
+
+          if (currentPage === totalpages) {
+            nextBtn.style.display = "none";
+          } else {
+            nextBtn.style.display = "block";
+          }
+        }
+
+        // 초기 설정
+        updateDisplay(currentPage); // 초기는 1
+        updatePage(currentPage, totalpages);
+        updatePageBtn(currentPage, totalpages);
+
+        // 이전, 이후 버튼 클릭 이벤트
+        prevBtn.addEventListener('click', function () {
+          if (currentPage > 1){
+            currentPage--;
+            updateDisplay(currentPage);
+            updatePage(currentPage, totalpages)
+            updatePageBtn(currentPage, totalpages);
+          }});
+
+        nextBtn.addEventListener('click', function () {
+          if (currentPage < totalpages) {
+            currentPage++;
+            updateDisplay(currentPage);
+            updatePage(currentPage, totalpages)
+            updatePageBtn(currentPage, totalpages);
+        }});
+
+      </script>
+        
       <script>
         // 게시글 삭제하기
         let deleteBtns = document.querySelectorAll('.deletePost');
@@ -161,42 +259,6 @@
             }
           });
         });
-      </script>
-
-      <script>
-        let pageContainer = document.querySelector(".page")
-        let firstPg =document.querySelector(".firstPg")
-        let lastPg = document.querySelector(".lastPg")
-
-        // 총 페이지 갯수 계산
-        let postlimit = 5 // 한 페이지 당 데이터 개수
-        let totalcount = "<%= boardPosts.length %>"
-        let totalCount= Number(totalcount)
-        let totalpage = Math.ceil(totalCount/ postlimit)
-
-        // 현재 페이지 그룹 계산
-        let currentPage = 1
-        let pageCount = 5 // 화면에 나타나는 페이지 개수
-        let pageGroup = Math.ceil(currentPage / pageCount) // 화면에서 속한 페이지
-
-        // 현재 페이지 그룹 첫번째/마지막 숫자 구하기
-        const lastNumber = pageGroup * pageCount 
-        if (lastNumber > totalpage) {
-          lastNumber = totalpage
-        }
-        const firstNumber = lastNumber - (pageCount - 1) 
-
-        let next = lastNumber + 1
-        let prev = firstNumber - 1 
-        
-        // 1~5만큼 페이지네이션 그려줌
-        for (let i = firstNumber; i <= lastNumber; i++) {
-          let pageLink = document.createElement("a")
-          pageLink.textContent = i
-          pageLink.href = "/list/" + i;
-          pageLink.classList.add('pageLink');
-          pageContainer.appendChild(pageLink)
-        }
       </script>
 
       <!-- SSE 구현하기 -->

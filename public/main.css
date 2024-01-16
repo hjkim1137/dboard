@@ -379,6 +379,11 @@ div {
   width: 14px;
 }
 
+.prevBtn:hover,
+.nextBtn:hover {
+  color: #1e3b59;
+  font-weight: 700;
+}
 .pageWrapper {
   max-width: 1200px;
   display: flex;
@@ -386,15 +391,15 @@ div {
   align-items: center;
   gap: 24px;
 }
-
 .pageWrapper > a {
   text-decoration: none;
+  cursor: pointer;
 }
-.page {
+.pageContainer {
   display: flex;
   gap: 24px;
 }
-.page > a {
+.pageContainer > a {
   cursor: pointer;
   margin: 18px 0;
   text-align: center;
@@ -402,11 +407,14 @@ div {
   font-size: 14px;
   color: #121212;
 }
-
-.page > a:hover {
-  color: #a2a2a2;
+.pageContainer > a:hover {
+  color: #1e3b59;
+  font-weight: 700;
 }
-
+.currentPage {
+  color: #1e3b59;
+  font-weight: 700;
+}
 .toLogin {
   display: flex;
   flex-direction: column;
