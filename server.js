@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 
 const { isBlank } = require('./middlewares/index.js');
-const { formatDate2 } = require('./utils/date.js');
 const { ObjectId } = require('mongodb');
 const bcrypt = require('bcrypt'); // bcrypt 세팅
 
@@ -145,7 +144,7 @@ app.post('/login', isBlank, async (req, res, next) => {
     // req.login() => 유저가 전송버튼 누름-> passport.serializeUser 실행
     req.logIn(user, (err) => {
       if (err) return next(err); // 에러 있으면
-      res.redirect('/'); // 에러 없으면
+      res.redirect('/list'); // 에러 없으면
     });
   })(req, res, next);
 });
@@ -163,15 +162,8 @@ app.get('/login', async (req, res) => {
 app.get('/logout', async (req, res) => {
   req.logout((err) => {
     if (err) return next(err); // 에러 있으면
-    res.redirect('/'); // 에러 없으면
+    res.redirect('/list'); // 에러 없으면
   });
-});
-
-// 메인페이지
-app.get('/', (req, res) => {
-  // html 파일 보내는 법
-  let time = formatDate2();
-  res.render('home.ejs', { time: time });
 });
 
 // 비정상적인 접근(로그인한 유저만 접근 가능한 페이지에 임의 접근했을 경우)

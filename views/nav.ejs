@@ -1,8 +1,7 @@
 <div class="nav">
-  <div><a href="/"><img src="/homelogo.png" class="logo" ></a></div>
+  <div><a href="/list"><img src="/homelogo.png" class="logo" ></a></div>
   <div class="navDetail">
-    <a href="/list"><img src="/feed.png" class="navIcon"><div>피드</div></a>
-    <a href="/chat/list"><img src="/chat.png" class="navIcon"><div>대화</div></a>
+    <a href="/chat/list"><div>대화</div></a>
   </div>
   
 
@@ -42,16 +41,9 @@ if (mode === 'dark') {
   toggle.innerHTML = '일반모드로 ☀️';
   body.classList.remove('grey-bg');
   body.classList.add('dark-mode');
-
-  navIcons[0].src="/feed2.png"
-  navIcons[1].src="/chat2.png"
-
 } else {
   toggle.innerHTML = '다크모드로 🌙';
   body.classList.remove('dark-mode');
-
-  navIcons[0].src="/feed.png"
-  navIcons[1].src="/chat.png"
 }
 
 // 다크모드 버튼 눌렀을 때
@@ -61,17 +53,12 @@ toggle.addEventListener('click', function () {
     toggle.innerHTML = '다크모드로 🌙';
     body.classList.remove('dark-mode');
 
-    navIcons[0].src="/feed.png"
-    navIcons[1].src="/chat.png"
 
   } else {
     localStorage.setItem('mode', 'dark');
     toggle.innerHTML = '일반모드로 ☀️';
     body.classList.remove('grey-bg');
     body.classList.add('dark-mode');
-
-    navIcons[0].src="/feed2.png"
-    navIcons[1].src="/chat2.png"
   }
 });
 </script>

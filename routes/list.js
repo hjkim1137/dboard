@@ -15,18 +15,34 @@ connectDB
 
 // 목록 페이지
 router.get('/', isLogin, async (req, res) => {
-  let result = await db.collection('post').find().toArray();
+  let commentCount = {};
 
-  if (req.user) {
-    try {
-      let loginuser = new ObjectId(req.user._id);
-      return res.render('list.ejs', {
-        boardPosts: result,
-        loginUser: loginuser,
-      });
-    } catch (e) {
-      console.log(e);
+  try {
+    let posts = await db.collection('post').find().toArray();
+
+    // 게시글 당 댓글 수 구하기
+    for (const post of posts) {
+      let comments = await db
+        .collection('comment')
+        .find({ parentId: post._id })
+        .toArray();
+
+      // 댓글이 달린 것만 보냄
+      if (comments.length > 0) {
+        commentCount[post._id] = comments.length; // 키와 밸류
+      }
     }
+    console.log('commentCount', commentCount);
+
+    let loginuser = req.user ? new ObjectId(req.user._id) : null;
+
+    return res.render('list.ejs', {
+      boardPosts: posts,
+      loginUser: loginuser,
+      commentCount: commentCount,
+    });
+  } catch (e) {
+    console.log(e);
   }
 });
 

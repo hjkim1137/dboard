@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  background: #eee;
+  background: #f7fafc;
   font-size: 0.875rem;
   font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Apple SD 산돌고딕 Neo',
     NotoSansCJKkr, Helvetica, '맑은 고딕', 'malgun gothic', sans-serif;
@@ -10,6 +10,52 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.wrapperGrid {
+  width: 1024px;
+  display: flex;
+  gap: 48px;
+}
+
+.grid1 {
+  flex-basis: 65%;
+}
+
+.grid2 {
+  width: 293px;
+}
+.grid2titleBox {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.grid2Title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+.grid2subTitle {
+  color: #a2a2a2;
+}
+.grid2Title > p {
+  font-size: 0.875rem;
+}
+.grid2Box {
+  display: flex;
+  height: 80px;
+  padding: 0 16px;
+  gap: 0.75rem;
+  align-items: center;
+}
+.rank {
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+.grid2Profile {
+  width: 40px;
+  border: 1px solid #dbdbdb;
+  border-radius: 50px;
 }
 
 input,
@@ -117,9 +163,15 @@ div {
 }
 
 .nav {
+  position: sticky;
+  top: 0;
+  padding: 10px 20px;
+  height: 55px;
   display: flex;
-  padding: 20px;
   gap: 48px;
+  background-color: #fff;
+  align-items: center;
+  border-bottom: 1px solid #dbdbdb;
 }
 .navDetail {
   height: 45px;
@@ -224,8 +276,8 @@ div {
 }
 
 .logo {
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
 }
 .navIcon {
   width: 20px;
@@ -240,14 +292,16 @@ div {
 }
 
 .white-bg {
+  height: 730px;
   width: 100%;
   max-width: 1200px;
   display: flex;
   flex-direction: column;
   background: #fff;
-  padding: 20px 20px;
+  padding: 15px 20px;
   margin: 20px 0;
   border-radius: 8px;
+  border: 1px solid #dbdbdb;
 }
 .white-bg > img {
   max-width: 500px;
@@ -272,8 +326,9 @@ div {
 }
 .list-box {
   border-bottom: 1px solid#eee;
-  margin-bottom: 10px;
-  padding: 10px 0;
+  margin-bottom: 7px;
+  padding: 5px 0;
+  text-align: center;
 }
 .list-box p {
   margin-top: 10px;
@@ -283,25 +338,33 @@ div {
   display: flex;
   justify-content: space-between;
 }
-
 .editNdelete {
   display: flex;
   gap: 16px;
 }
+.editNdelete > span,
+.editNdelete > a {
+  font-size: 14px;
+}
 .editNdelete > a > img,
 .editNdelete > span > img {
-  width: 14px;
+  width: 12px;
+}
+.nameDate {
+  width: 190px;
+  display: flex;
+}
+.username {
+  width: 30px;
+  color: #a2a2a2;
+  margin: 0 5px;
+  font-weight: 400;
 }
 .date {
+  width: 160px;
   color: #a2a2a2;
   font-size: 14px;
   margin-left: 10px;
-  font-weight: 400;
-  justify-self: flex-end;
-}
-.username {
-  color: #a2a2a2;
-  margin: 0 5px;
   font-weight: 400;
 }
 
@@ -379,10 +442,14 @@ div {
   width: 14px;
 }
 
+/* 페이지네이션 */
 .prevBtn:hover,
 .nextBtn:hover {
   color: #1e3b59;
   font-weight: 700;
+}
+.pageWrapper {
+  display: flex;
 }
 .pageWrapper {
   max-width: 1200px;
@@ -482,7 +549,6 @@ div {
   align-self: center;
 }
 .listSummary {
-  width: 1200px;
   display: flex;
   justify-content: space-between;
 }
@@ -612,16 +678,17 @@ div {
   font-weight: bold;
 }
 
+/* 홈 배너 커서 애니메이션 */
 .home {
-  margin: 80px 0;
+  margin: 50px 0;
   display: flex;
-  width: 100%;
   justify-content: center;
+  align-items: center;
 }
 
 .homeImg {
-  padding: 0 50px;
-  width: 400px;
+  width: 50px;
+  padding: 10px;
 }
 
 .homeTitle {
@@ -631,7 +698,7 @@ div {
 .homeTitle .homeCursor {
   position: relative;
   display: inline-block;
-  font-size: 32px;
+  font-size: 24px;
   font-weight: 700;
 }
 
@@ -648,6 +715,7 @@ div {
 .homeTitle .homeCursor.active::after {
   display: none;
 }
+/* 홈 배너 커서 애니메이션 끝 */
 
 .welcome {
   font-size: 26px;
@@ -754,18 +822,12 @@ div {
 /* 채팅방 끝 */
 
 .footer {
+  margin: 10px 0;
   width: 100%;
-  margin: 20px 0;
-  align-self: center;
   text-align: center;
   font-size: 12px;
   line-height: 20px;
   color: #a2a2a2;
   padding: 20px 0;
   border-top: solid 1px #dbdbdb;
-}
-
-/* 페이지네이션 */
-.pageWrapper {
-  display: flex;
 }
