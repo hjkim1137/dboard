@@ -48,6 +48,9 @@ body {
   gap: 0.75rem;
   align-items: center;
 }
+.grid2Box > a {
+  text-decoration: none;
+}
 .rank {
   font-weight: 700;
   font-size: 1.25rem;
@@ -62,9 +65,16 @@ body {
   border: 1px solid #dbdbdb;
   border-radius: 50px;
 }
-.topPost {
+.topPosts {
   display: flex;
   flex-direction: column;
+}
+.topPostsTitle {
+  font-weight: 700;
+}
+.topPostsContent {
+  color: #a2a2a2;
+  font-size: 14px;
 }
 
 input,
@@ -162,6 +172,8 @@ button:hover {
 /* 다크모드 끝 */
 
 h4,
+li,
+ul,
 p,
 a,
 img,
@@ -205,6 +217,7 @@ div {
 }
 
 .navProfile {
+  cursor: pointer;
   align-self: center;
   width: 30px;
   height: 30px;
@@ -243,7 +256,7 @@ div {
   text-align: center;
   font-size: 16px;
   display: flex;
-  cursor: pointer;
+  position: relative;
 }
 .profileInner:hover {
   background: none;
@@ -253,8 +266,38 @@ div {
   align-self: center;
   color: #a2a2a2;
 }
-.profileInner > p:hover {
-  color: #1e3b59;
+.userDropdown {
+  background-color: #fff;
+  width: 150px;
+  font-size: 0.875rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.25rem;
+  z-index: 6;
+  top: 95%;
+  display: flex;
+  flex-direction: column;
+  display: none;
+  position: absolute;
+  text-align: center;
+  justify-content: center;
+  box-shadow: 1px 1px 6px #dbdbdb;
+}
+.userDropdown > li {
+  height: 40px;
+  list-style-type: none;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+}
+.userDropdown.active {
+  display: block;
+}
+.userDropdown > button {
+  cursor: pointer;
+  height: 37px;
+  padding: 8px 16px;
+  background-color: #fff;
+  border: none;
 }
 
 .imgWrapper {

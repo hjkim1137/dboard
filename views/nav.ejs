@@ -1,16 +1,11 @@
 <div class="nav">
   <div><a href="/list"><img src="/homelogo.png" class="logo" ></a></div>
-  <div class="navDetail">
-    <a href="/chat/list"><div>대화</div></a>
-  </div>
-  
 
   <% if(currentUser) { %>
   <div class="profileBox">
     <button class="toggle">다크모드로 🌙</button>
-    <a href="/logout"><div>로그아웃</div></a>
 
-    <button class="profileInner" onclick="location.href='/mypage'">
+    <button class="profileInner">
       <% if(currentUser.img) { %>
          <img class="navProfile" src="<%= currentUser.img %>"></img>
           <p><%= currentUser.username %></p>
@@ -19,6 +14,11 @@
           <p><%= currentUser.username %></p>
       <% } %>
     </button>
+      <ul class="userDropdown">
+        <li><a href="/mypage">마이페이지</a></li> 
+        <li><a href="/chat/list">채팅</a></li> 
+        <li><a href="/logout">로그아웃</a></li> 
+      </ul>
   </div>
 
   <% } else { %>
@@ -31,6 +31,17 @@
 </div>
 
 <script>
+// 유저 드롭다운 토글
+let dropdown = document.querySelector(".userDropdown")
+let profile = document.querySelector(".navProfile")
+
+profile.addEventListener("click", ()=> {
+  dropdown.classList.toggle("active")
+})
+</script>
+
+<script>
+// 다크모드 관련
 let mode = localStorage.getItem('mode');
 let toggle = document.querySelector('.toggle');
 let body = document.querySelector('body');
