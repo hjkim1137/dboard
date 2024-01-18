@@ -27,12 +27,11 @@ router.get('/', isLogin, async (req, res) => {
         .find({ parentId: post._id })
         .toArray();
 
-      // 댓글이 달린 것만 보냄
+      // 댓글 달린 것만 보냄
       if (comments.length > 0) {
         commentCount[post._id] = comments.length; // 키와 밸류
       }
     }
-    console.log('commentCount', commentCount);
 
     let loginuser = req.user ? new ObjectId(req.user._id) : null;
 

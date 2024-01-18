@@ -297,12 +297,27 @@
             <div class="grid2Title">인기 TOP 게시물</div>
             <div class="grid2subTitle">한주간 서비스에서 인기있던 게시물이에요!</div>
           </div>
-          <div class="grid2Box">
-            <div class="rank">1</div>
-            <div class="grid2Profile">이미지<img src="#"></div>
-            <div>게시물 내용</div>
+          <% let commentArray = Object.entries(commentCount) %>
+          <% commentArray.sort((a,b) => b[1]-a[1]) %>
+          <% console.log('commentArray',commentArray) %>
+
+          <% for(let m=0; m< commentArray.length; m++) { %>
+            <% for(let l=0; l< boardPosts.length; l++) { %>
+              <% if(commentArray[m][0] === boardPosts[l]._id.toString()) { %>
+                <div class="grid2Box">
+                  <div class="rank"><%=m+1%></div>
+                  <div class="grid2Profile"><img src="<%=boardPosts[l].userImage%>" alt="이미지"></div>
+                  <a href="/detail/<%=boardPosts[l]._id%>">
+                    <div class="topPosts">
+                      <div><%=boardPosts[l].title%></div>
+                      <div><%=boardPosts[l].content%></div>
+                    </div>
+                  </a>
+                </div>
+              <% } %>
+            <% } %> 
+          <% } %>
           </div>
-        </div>
         </div>
       </div>  
       <%- include('footer.ejs')%>      

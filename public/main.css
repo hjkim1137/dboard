@@ -28,6 +28,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  margin-bottom: 16px;
 }
 .grid2Title {
   font-size: 1.125rem;
@@ -54,8 +55,16 @@ body {
 }
 .grid2Profile {
   width: 40px;
+}
+.grid2Profile > img {
+  width: 40px;
+  height: 40px;
   border: 1px solid #dbdbdb;
   border-radius: 50px;
+}
+.topPost {
+  display: flex;
+  flex-direction: column;
 }
 
 input,
@@ -163,6 +172,7 @@ div {
 }
 
 .nav {
+  z-index: 5;
   position: sticky;
   top: 0;
   padding: 10px 20px;
@@ -340,7 +350,7 @@ div {
 }
 .editNdelete {
   display: flex;
-  gap: 16px;
+  gap: 8px;
 }
 .editNdelete > span,
 .editNdelete > a {
@@ -351,20 +361,22 @@ div {
   width: 12px;
 }
 .nameDate {
-  width: 190px;
+  justify-content: flex-end;
+  text-align: left;
   display: flex;
+  gap: 24px;
 }
 .username {
+  text-align: left;
   width: 30px;
   color: #a2a2a2;
-  margin: 0 5px;
   font-weight: 400;
 }
 .date {
-  width: 160px;
+  width: 140px;
+  text-align: left;
   color: #a2a2a2;
   font-size: 14px;
-  margin-left: 10px;
   font-weight: 400;
 }
 
