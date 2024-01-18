@@ -178,7 +178,9 @@ p,
 a,
 img,
 span,
-div {
+div,
+button,
+input {
   margin: 0;
   padding: 0;
 }
@@ -219,6 +221,10 @@ div {
 .navProfile {
   cursor: pointer;
   align-self: center;
+  background-color: #fff;
+  border: none;
+}
+.userProfile {
   width: 30px;
   height: 30px;
   border-radius: 50px;
@@ -606,6 +612,25 @@ div {
 .listSummary {
   display: flex;
   justify-content: space-between;
+}
+.categoryContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.category {
+  display: flex;
+  list-style: none;
+  gap: 8px;
+  margin-top: 8px;
+}
+.category > li {
+  width: 65px;
+  text-align: center;
+  padding: 7px 14px;
+  margin: 3px 0px;
+  background: #dbdbdb;
+  border-radius: 3px;
 }
 .writePost {
   height: 40px;

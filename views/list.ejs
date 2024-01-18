@@ -27,10 +27,21 @@
           <div class="totalPost">
             <div>총 게시글 : <%=boardPosts.length %></div>
           </div>
+
+        </div>
+
+        <div class="categoryContainer">
+          <ul class="category">
+            <li>전체</li> 
+            <li>이벤트</li> 
+            <li>세일정보</li> 
+            <li>살림노하우</li> 
+          </ul>
           <button class="writePost" onclick="window.location.href='/write'">
             글 작성하기 <img src="/edit2.png" />
           </button>
         </div>
+        
 
         <div class="white-bg">
           <% if(boardPosts.length >0) { %> 

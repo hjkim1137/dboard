@@ -7,7 +7,9 @@
 
     <button class="profileInner">
       <% if(currentUser.img) { %>
-         <img class="navProfile" src="<%= currentUser.img %>"></img>
+         <div class="navProfile">
+            <img src="<%= currentUser.img %>" class="userProfile">
+         </div>
           <p><%= currentUser.username %></p>
       <% } else { %>
           <img class="navProfile" src="/profile.png"></img>
@@ -38,6 +40,11 @@ let profile = document.querySelector(".navProfile")
 profile.addEventListener("click", ()=> {
   dropdown.classList.toggle("active")
 })
+profile.addEventListener("blur", ()=> {
+  dropdown.classList.remove("active")
+})
+
+
 </script>
 
 <script>
