@@ -31,7 +31,7 @@ router.put('/', isLogin, async (req, res) => {
       { _id: new ObjectId(req.body.id), user: new ObjectId(req.user._id) },
       { $set: { title: req.body.title, content: req.body.content } }
     );
-    res.redirect('/list');
+    res.redirect('/list/total');
   } catch (e) {
     console.log(e);
   }
@@ -43,7 +43,7 @@ router.put('/', isLogin, async (req, res) => {
   try {
     await db.collection('post').updateOne({ _id: 1 }, { $inc: { like: 2 } });
     // $inc는 기존값에 +/- 하라는 뜻 예) 2-> +2, -2 -> -2
-    res.redirect('/list');
+    res.redirect('/list/total');
   } catch (e) {
     console.log(e);
   }

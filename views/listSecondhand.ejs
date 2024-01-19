@@ -31,10 +31,10 @@
 
         <div class="categoryContainer">
           <ul class="category">
-            <li class="categoryTotal"><a href="/list/total">전체</a></li> 
-            <li class="categorySecondhand"><a href="/list/secondhand">중고거래</a></li> 
-            <li class="categorySale"><a href="/list/sale">세일정보</a></li> 
-            <li class="categoryDailyTips"><a href="/list/tips">살림노하우</a></li> 
+            <a href="/list/total"><li>전체</li></a>
+            <a href="/list/secondhand"><li>중고거래</li></a>
+            <a href="/list/sale"><li>세일정보</li></a>
+            <a href="/list/tips"><li>살림노하우</li></a>
           </ul>
           <button class="writePost" onclick="window.location.href='/write'">
             글 작성하기 <img src="/edit2.png" />
@@ -49,6 +49,7 @@
               <div class="list-box" id="list-box">
                 <div class="list-box-left">
                   <div class="editNdelete">
+                    <div><%=secondhand[i].category%></div>
                     <a href="/detail/<%=secondhand[i]._id%>"
                       ><%=secondhand[i].title %></a
                     >
