@@ -1,5 +1,5 @@
 <div class="nav">
-  <div><a href="/list"><img src="/homelogo.png" class="logo" ></a></div>
+  <div><a href="/list/total"><img src="/homelogo.png" class="logo" ></a></div>
 
   <% if(currentUser) { %>
   <div class="profileBox">
@@ -37,14 +37,15 @@
 let dropdown = document.querySelector(".userDropdown")
 let profile = document.querySelector(".navProfile")
 
-profile.addEventListener("click", ()=> {
+if(profile) {
+  profile.addEventListener("click", ()=> {
   dropdown.classList.toggle("active")
 })
 profile.addEventListener("blur", ()=> {
   dropdown.classList.remove("active")
 })
 
-
+}
 </script>
 
 <script>

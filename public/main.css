@@ -5,6 +5,10 @@ body {
   font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Apple SD 산돌고딕 Neo',
     NotoSansCJKkr, Helvetica, '맑은 고딕', 'malgun gothic', sans-serif;
 }
+a {
+  text-decoration: none;
+  color: #a2a2a2;
+}
 
 .wholeWrapper {
   display: flex;
@@ -383,6 +387,19 @@ input {
 .writeContent {
   height: 200px;
 }
+.categoryBox {
+  display: flex;
+  margin-bottom: 8px;
+  gap: 8px;
+  align-items: center;
+}
+.selectCategory {
+  align-self: center;
+  border: 1px solid #dbdbdb;
+  box-sizing: border-box;
+  border-radius: 10px;
+  padding: 3px 5px;
+}
 .list-box {
   border-bottom: 1px solid#eee;
   margin-bottom: 7px;
@@ -393,7 +410,7 @@ input {
   margin-top: 10px;
   color: grey;
 }
-.list-box > h4 {
+.list-box > div {
   display: flex;
   justify-content: space-between;
 }
@@ -495,7 +512,7 @@ input {
 .deletePost,
 .deleteChat {
   cursor: pointer;
-  color: #121212;
+  color: #a2a2a2;
   font-size: 16px;
 }
 
@@ -631,7 +648,9 @@ input {
   margin: 3px 0px;
   background: #dbdbdb;
   border-radius: 3px;
+  cursor: pointer;
 }
+
 .writePost {
   height: 40px;
   cursor: pointer;

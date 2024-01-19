@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Myboard</title>
+    <link href="/main.css" rel="stylesheet" />
+  </head>
+
+  <body class="grey-bg">
+    <%- include('nav.ejs')%>
+
+    <div class="wholeWrapper">
+      <div class="wrapperGrid">
+        <div class="grid1">
+        <!-- 검색기능 -->
+        <div class="searchBox">
+          <input
+            name="search"
+            class="search"
+            placeholder="게시글을 검색하세요."
+            autofocus
+          />
+          <button class="searchBtn">검색하기</button>
+        </div>
+        <div class="listSummary">
+          <div class="totalPost">
+            <div>총 게시글 : <%=posts.length %></div>
+          </div>
+        </div>
+
+        <div class="categoryContainer">
+          <ul class="category">
+            <li class="categoryTotal"><a href="/list/total">전체</a></li> 
+            <li class="categorySecondhand"><a href="/list/secondhand">중고거래</a></li> 
+            <li class="categorySale"><a href="/list/sale">세일정보</a></li> 
+            <li class="categoryDailyTips"><a href="/list/tips">살림노하우</a></li> 
+          </ul>
+          <button class="writePost" onclick="window.location.href='/write'">
+            글 작성하기 <img src="/edit2.png" />
+          </button>
+        </div>
+      
+
+        <!-- 카테고리: 세일정보 -->
+        <div class="white-bg">
+          <% if(saleInfo.length >0) { %> 
+            <% for(let i=0; i<saleInfo.length;i++) { %>
+              <div class="list-box" id="list-box">
+                <div class="list-box-left">
+                  <div class="editNdelete">
+                    <a href="/detail/<%=saleInfo[i]._id%>"
+                      ><%=saleInfo[i].title %></a
+                    >
+                    <% for (const key in commentCount) { %>
+                      <% if (key === saleInfo[i]._id.toString()) { %>
+                        <span>(<%= commentCount[key] %>)</span>
+                      <% } %>
+                    <% } %>
+                    <div style="display: none" class="listWriterId">
+                      <%=saleInfo[i].user %>
+                    </div>
+                    <a href="/edit/<%=saleInfo[i]._id %>" class="editBtn"
+                      ><img src="/edit2.png" /> 수정</a
+                    >
+                    <span
+                      class="deletePost"
+                      data-postid="<%=saleInfo[i]._id %>"
+                      data-userid="<%=saleInfo[i].user%>"
+                      ><img src="/delete2.png" /> 삭제</span
+                    >
+                  </div>
+                  <span class="nameDate">
+                    <span class="username"><%=saleInfo[i].username%></span>
+                    <span class="date"><%=saleInfo[i].date%></span>
+                  </span>
+                </div>
+              </div>
+          <% } %> 
+        <% } %>
+
+          <!-- 왜인지 if-else가 안되어 if, if 사용 -->
+          <% if(saleInfo.length == 0) { %>
+          <div class="toWritePage">
+            <a href="/write">생성된 글이 없습니다. 첫 글을 발행해보세요!</a>
+          </div>
+          <% } %>
+        </div>
+
+        <!-- 페이지네이션 레이아웃-->
+        <div class="pageWrapper">
+          <a class="prevBtn">이전</a>
+          <div class="pageContainer"></div>
+          <a class="nextBtn">이후</a>
+        </div>
+
+        <!-- 검색기능 -->
+        <script>
+          document
+            .querySelector('.searchBtn')
+            .addEventListener('click', function () {
+              let userInput = document.querySelector('.search').value;
+              location.href = '/search?keyword=' + userInput;
+              // 이것과 동일한 기능: fetch('/search?keyword=' + userInput);
+            });
+        </script>
+
+        <!-- 게시물 날짜순 정렬하기 -->
+        <script>
+          let postdates = document.querySelectorAll('.date');
+
+          let postdatesArr = [];
+          postdates.forEach((date, idx) => {
+            let postdate = date.textContent;
+            postdatesArr.push({ originalIndex: idx, date: postdate });
+          });
+
+          // toSorted를 활용한 사본배열
+          const orderedDate = postdatesArr.toSorted(function (a, b) {
+            if (a.date < b.date) return 1;
+            if (a.date > b.date) return -1;
+            return 0;
+          });
+
+          // index를 기준으로 정렬
+          orderedDate.forEach((date, index) => {
+            date.newIndex = index; // 새로운 인덱스 추가
+          });
+
+          // 위의 정렬 기준에 따라서 list-box 정렬하기
+          let listboxes = document.querySelectorAll('.list-box');
+          listboxes.forEach((box) => {
+            // box.querySelector 하면 특정 한 개 박스의 ~
+            let newIndex = orderedDate.find(
+              (date) => date.date === box.querySelector('.date').textContent
+            ).newIndex;
+
+            // (중요) order 속성 적용하려면 listbox의 부모요소(white-bg)에 flex나 grid 적용되야 함
+            box.style.order = newIndex;
+          });
+        </script>
+
+        <!-- 페이지네이션 기능 -->
+        <script>
+          let pages = document.querySelector('.pageContainer');
+
+          // 총 페이지 갯수 계산
+          let postlimit = 20; // 한 페이지 당 보여줄 데이터 개수
+          let totalcount = "<%= saleInfo.length%>"
+          let totalCount = Number(totalcount); // 26
+          let totalpages = Math.ceil(totalCount / postlimit); // 3
+
+          let prevBtn = document.querySelector('.prevBtn');
+          let nextBtn = document.querySelector('.nextBtn');
+
+          // 현재 페이지 그룹 계산
+          let currentPage = 1;
+
+          // 페이지 기반으로 포스트 갱신(최신순 정렬 포함)
+          function updateDisplay (currentPage) {
+          listboxes.forEach((box) => {
+            let newIndex = orderedDate.find(
+              (date) => date.date === box.querySelector('.date').textContent
+            ).newIndex;
+
+            box.style.order = newIndex;
+            // 박스가 인덱스 범위안에 있으면 보여주고, 아니면 숨김
+            box.style.display = (newIndex >= (currentPage -1) * postlimit && newIndex < currentPage * postlimit) ? 'block' : 'none';
+          });
+          }
+
+          // 전체 페이지 수 및 현재 currentPage 업데이트하는 함수
+          function updatePage(currentPage, totalpages) {
+            let pages = document.querySelector('.pageContainer');
+            pages.innerHTML = ''; // 기존의 페이징 링크를 지움(안그러면 for문에 의해 page링크 3개씩 계속 생성됨)
+
+            for (let i = 1; i <= totalpages; i++) {
+              let pageLink = document.createElement('a');
+              pageLink.textContent = i;
+              pages.appendChild(pageLink);
+
+              // 페이지 버튼 클릭
+              pageLink.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                currentPage = i;
+                updateDisplay(currentPage);
+                updatePage(currentPage, totalpages);
+                updatePageBtn(currentPage, totalpages);
+              });
+              
+              // 현재 머무르고 있는 페이지 표시
+              if(i === currentPage) {
+                pageLink.classList.add("currentPage")
+              }
+            }
+
+          }
+
+          // 이전, 이후 버튼 보이기/숨김 업데이트 함수
+          function updatePageBtn(currentPage, totalpages) {
+            if (currentPage === 1) {
+              prevBtn.style.display = "none";
+            } else {
+              prevBtn.style.display = "block";
+            }
+
+            if (currentPage === totalpages) {
+              nextBtn.style.display = "none";
+            } else {
+              nextBtn.style.display = "block";
+            }
+          }
+
+          // 초기 설정
+          updateDisplay(currentPage); // 초기는 1
+          updatePage(currentPage, totalpages);
+          updatePageBtn(currentPage, totalpages);
+
+          // 이전, 이후 버튼 클릭 이벤트
+          prevBtn.addEventListener('click', function () {
+            if (currentPage > 1){
+              currentPage--;
+              updateDisplay(currentPage);
+              updatePage(currentPage, totalpages)
+              updatePageBtn(currentPage, totalpages);
+            }});
+
+          nextBtn.addEventListener('click', function () {
+            if (currentPage < totalpages) {
+              currentPage++;
+              updateDisplay(currentPage);
+              updatePage(currentPage, totalpages)
+              updatePageBtn(currentPage, totalpages);
+          }});
+
+        </script>
+          
+        <!-- 게시글 삭제하기 -->
+        <script>
+          let deleteBtns = document.querySelectorAll('.deletePost');
+
+          deleteBtns.forEach((btn, index) => {
+            let writerIds = document.querySelectorAll('.listWriterId');
+            let writerId = writerIds[index].textContent;
+            let editBtns = document.querySelectorAll('.editBtn');
+            let editBtn = editBtns[index];
+
+            // 공백대비해서 trim() 처리 해주기
+            // 글 작성자만 수정, 삭제 버튼 보이게 하기
+            if ('<%= loginUser %>' == writerId.trim()) {
+              btn.style.display = 'inline';
+              editBtn.style.display = 'inline';
+            } else {
+              btn.style.display = 'none';
+              editBtn.style.display = 'none';
+            }
+
+            btn.addEventListener('click', function (e) {
+              let postId = e.target.dataset.postid;
+
+              if (window.confirm('삭제하시겠습니까?')) {
+                fetch('/delete?docId=' + postId, {
+                  method: 'DELETE',
+                })
+                  .then((res) => res.text())
+                  .then((data) => {
+                    e.target.closest('#list-box').style.display = 'none';
+                  })
+                  .catch((error) => {
+                    console.error('오류 발생!!', error);
+                    e.target.closest('#list-box').style.display = 'inline';
+                  });
+              } else {
+                btn.style.display = 'inline'; // block 은 줄바꿈 돼서 쓰면 X
+              }
+            });
+          });
+        </script>
+
+        <!-- SSE 구현하기 -->
+        <!-- 남이 글을 올리면 새로고침 안해도 실시간으로 글을 받아볼 수 있음 -->
+        <script>
+          let eventSource = new EventSource('/stream/list'); // get 요청보냄
+          eventSource.addEventListener('msg', function (e) {
+            // 서버에서 msg명으로 이벤트 보낼 때마다 이 안의 코드가 실행됨
+            console.log(e.data);
+            let mydata = JSON.parse(e.data); // json을 array/object 형식으로 바꿔줌
+            document
+              .querySelector('.white-bg')
+              .insertAdjacentHTML(
+                'afterbegin',
+                `<div class="list-box"><h4>${mydata.title}<h4><p>${mydata.content}</p></div>`
+              );
+          });
+        </script>
+        </div>
+
+        <div class="grid2">
+          <div class="home">
+            <img src="/homelogo.png" class="homeImg" />
+            <div class="homeTitle">
+              <p class="homeCursor"></p>
+            </div>
+          </div>
+        <div class="white-bg">
+          <div class="grid2titleBox">
+            <div class="grid2Title">인기 TOP 게시물</div>
+            <div class="grid2subTitle">한주간 서비스에서 인기있던 게시물이에요!</div>
+          </div> 
+          <% if(commentCount) { %>
+            <% let commentArray = Object.entries(commentCount) %>
+            <% commentArray.sort((a,b) => b[1]-a[1]) %>
+            <% console.log('commentArray',commentArray) %>
+
+            <!-- 이부분 예외처리 -->
+            <!-- Cannot read properties of undefined (reading '0') -->
+            <% for(let m = 0; m < 8 && m < commentArray.length; m++) { %>
+              <% for(let l=0; l< posts.length; l++) { %>
+                <% if(commentArray[m][0]=== posts[l]._id.toString()) { %>
+                  <div class="grid2Box">
+                    <div class="rank"><%=m+1%></div>
+                    <div class="grid2Profile"><img src="<%=posts[l].userImage%>" alt="이미지"></div>
+                    
+                      <div class="topPosts">
+                        <a href="/detail/<%=posts[l]._id%>">
+                          <div class="topPostsTitle"><%=posts[l].title%></div>
+                          <div class="topPostsContent"><%=posts[l].content%></div>
+                        </a>
+                      </div>
+                  </div>
+                <% } %>
+              <% } %> 
+            <% } %>
+          <% } %>
+          </div>
+        </div>
+      </div>  
+      <%- include('footer.ejs')%>      
+    </div>
+    
+  </body>
+</html>
+
+<script>
+  // 말줄임 기능
+  let titles = document.querySelectorAll(".topPostsTitle")
+  let contents = document.querySelectorAll(".topPostsContent")
+  let length = 10
+
+  titles.forEach((title) =>{
+    let titleText = title.textContent
+    if(titleText.length > length) {
+      // substr(시작점, 시작점으로부터 추출하는 글자 개수)
+      titleText= titleText.substr(0, length) + "..."
+    }
+    title.textContent = titleText; // 변경된 값을 대체
+  })
+
+  contents.forEach((content) =>{
+    let contentText = content.textContent
+    if(contentText.length > length) {
+      contentText= contentText.substr(0, length-2) + "..."
+    }
+    content.textContent = contentText; // 변경된 값을 대체
+  })
+</script>
+
+<script>
+  const target = document.querySelector('.homeCursor');
+  const sentence = 'This is Meboard ! ';
+  const array = sentence.split('');
+
+  // 커서 깜빡임
+  function blink() {
+    target.classList.toggle('active');
+  }
+  setInterval(blink, 500);
+
+  // 내용 입력하기
+  function dynamic(arr) {
+    if (arr.length > 0) {
+      target.textContent += arr.shift();
+
+      setTimeout(() => {
+        dynamic(arr);
+      }, 80);
+    } else {
+      // arr 배열에 요소가 하나씩 제거되어 모두 사라지면,
+      setTimeout(reset, 3000); //3초후에 reset함수 실행
+    }
+  }
+  dynamic(array);
+
+  // 내용 지우고 다시 시작
+  function reset() {
+    target.textContent = '';
+    const resplit = sentence.split('');
+    dynamic(resplit);
+  }
+</script>

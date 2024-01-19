@@ -16,8 +16,18 @@
           action="/write/add"
           method="POST"
           enctype="multipart/form-data"
+          id="writeForm"
         >
           <h4 class="formbox-title">글쓰기</h4>
+
+          <div class="categoryBox">
+            <div>카테고리</div>
+            <select name="category">
+              <option value="중고거래">중고거래</option>
+              <option value="세일정보">세일정보</option>
+              <option value="살림노하우">살림노하우</option>
+            </select>
+          </div>
 
           <input name="title" placeholder="글 제목을 입력해주세요." />
           <input

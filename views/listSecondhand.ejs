@@ -25,77 +25,77 @@
         </div>
         <div class="listSummary">
           <div class="totalPost">
-            <div>총 게시글 : <%=boardPosts.length %></div>
+            <div>총 게시글 : <%=posts.length %></div>
           </div>
-
         </div>
 
         <div class="categoryContainer">
           <ul class="category">
-            <li>전체</li> 
-            <li>이벤트</li> 
-            <li>세일정보</li> 
-            <li>살림노하우</li> 
+            <li class="categoryTotal"><a href="/list/total">전체</a></li> 
+            <li class="categorySecondhand"><a href="/list/secondhand">중고거래</a></li> 
+            <li class="categorySale"><a href="/list/sale">세일정보</a></li> 
+            <li class="categoryDailyTips"><a href="/list/tips">살림노하우</a></li> 
           </ul>
           <button class="writePost" onclick="window.location.href='/write'">
             글 작성하기 <img src="/edit2.png" />
           </button>
         </div>
-        
+      
 
+        <!-- 카테고리: 중고거래 -->
         <div class="white-bg">
-          <% if(boardPosts.length >0) { %> 
-            <% for(let i=0; i<boardPosts.length;i++) { %>
+          <% if(secondhand.length >0) { %> 
+            <% for(let i=0; i<secondhand.length;i++) { %>
               <div class="list-box" id="list-box">
-                <h4>
+                <div class="list-box-left">
                   <div class="editNdelete">
-                    <a href="/detail/<%=boardPosts[i]._id%>"
-                      ><%=boardPosts[i].title %></a
+                    <a href="/detail/<%=secondhand[i]._id%>"
+                      ><%=secondhand[i].title %></a
                     >
                     <% for (const key in commentCount) { %>
-                      <% if (key === boardPosts[i]._id.toString()) { %>
+                      <% if (key === secondhand[i]._id.toString()) { %>
                         <span>(<%= commentCount[key] %>)</span>
                       <% } %>
                     <% } %>
                     <div style="display: none" class="listWriterId">
-                      <%=boardPosts[i].user %>
+                      <%=secondhand[i].user %>
                     </div>
-                    <a href="/edit/<%=boardPosts[i]._id %>" class="editBtn"
+                    <a href="/edit/<%=secondhand[i]._id %>" class="editBtn"
                       ><img src="/edit2.png" /> 수정</a
                     >
                     <span
                       class="deletePost"
-                      data-postid="<%=boardPosts[i]._id %>"
-                      data-userid="<%=boardPosts[i].user%>"
+                      data-postid="<%=secondhand[i]._id %>"
+                      data-userid="<%=secondhand[i].user%>"
                       ><img src="/delete2.png" /> 삭제</span
                     >
                   </div>
                   <span class="nameDate">
-                    <span class="username"><%=boardPosts[i].username%></span>
-                    <span class="date"><%=boardPosts[i].date%></span>
+                    <span class="username"><%=secondhand[i].username%></span>
+                    <span class="date"><%=secondhand[i].date%></span>
                   </span>
-                </h4>
+                </div>
               </div>
           <% } %> 
         <% } %>
 
           <!-- 왜인지 if-else가 안되어 if, if 사용 -->
-          <% if(boardPosts.length == 0) { %>
+          <% if(secondhand.length == 0) { %>
           <div class="toWritePage">
             <a href="/write">생성된 글이 없습니다. 첫 글을 발행해보세요!</a>
           </div>
           <% } %>
         </div>
 
-        <!-- 페이지네이션 만들기-->
+        <!-- 페이지네이션 레이아웃-->
         <div class="pageWrapper">
           <a class="prevBtn">이전</a>
           <div class="pageContainer"></div>
           <a class="nextBtn">이후</a>
         </div>
 
+        <!-- 검색기능 -->
         <script>
-          // 검색기능
           document
             .querySelector('.searchBtn')
             .addEventListener('click', function () {
@@ -105,8 +105,8 @@
             });
         </script>
 
+        <!-- 게시물 날짜순 정렬하기 -->
         <script>
-          // 게시물 날짜순 정렬하기
           let postdates = document.querySelectorAll('.date');
 
           let postdatesArr = [];
@@ -140,13 +140,13 @@
           });
         </script>
 
+        <!-- 페이지네이션 기능 -->
         <script>
-          // 페이지네이션 시작
           let pages = document.querySelector('.pageContainer');
 
           // 총 페이지 갯수 계산
           let postlimit = 20; // 한 페이지 당 보여줄 데이터 개수
-          let totalcount = '<%= boardPosts.length %>'; // 26
+          let totalcount = "<%= secondhand.length%>"
           let totalCount = Number(totalcount); // 26
           let totalpages = Math.ceil(totalCount / postlimit); // 3
 
@@ -236,8 +236,8 @@
 
         </script>
           
+        <!-- 게시글 삭제하기 -->
         <script>
-          // 게시글 삭제하기
           let deleteBtns = document.querySelectorAll('.deletePost');
 
           deleteBtns.forEach((btn, index) => {
@@ -307,28 +307,31 @@
           <div class="grid2titleBox">
             <div class="grid2Title">인기 TOP 게시물</div>
             <div class="grid2subTitle">한주간 서비스에서 인기있던 게시물이에요!</div>
-          </div>
-          <% let commentArray = Object.entries(commentCount) %>
-          <% commentArray.sort((a,b) => b[1]-a[1]) %>
-          <% console.log('commentArray',commentArray) %>
+          </div> 
+          <% if(commentCount) { %>
+            <% let commentArray = Object.entries(commentCount) %>
+            <% commentArray.sort((a,b) => b[1]-a[1]) %>
+            <% console.log('commentArray',commentArray) %>
 
-          <% for(let m=0; m< 8; m++) { %>
-            <% for(let l=0; l< boardPosts.length; l++) { %>
-              <% if(commentArray[m][0] === boardPosts[l]._id.toString()) { %>
-                <div class="grid2Box">
-                  <div class="rank"><%=m+1%></div>
-                  <div class="grid2Profile"><img src="<%=boardPosts[l].userImage%>" alt="이미지"></div>
-                  
-                    <div class="topPosts">
-                      <a href="/detail/<%=boardPosts[l]._id%>">
-                        <div class="topPostsTitle"><%=boardPosts[l].title%></div>
-                        <div class="topPostsContent"><%=boardPosts[l].content%></div>
-                      </a>
-                    </div>
-       
-                </div>
-              <% } %>
-            <% } %> 
+            <!-- 이부분 예외처리 -->
+            <!-- Cannot read properties of undefined (reading '0') -->
+            <% for(let m = 0; m < 8 && m < commentArray.length; m++) { %>
+              <% for(let l=0; l< posts.length; l++) { %>
+                <% if(commentArray[m][0]=== posts[l]._id.toString()) { %>
+                  <div class="grid2Box">
+                    <div class="rank"><%=m+1%></div>
+                    <div class="grid2Profile"><img src="<%=posts[l].userImage%>" alt="이미지"></div>
+                    
+                      <div class="topPosts">
+                        <a href="/detail/<%=posts[l]._id%>">
+                          <div class="topPostsTitle"><%=posts[l].title%></div>
+                          <div class="topPostsContent"><%=posts[l].content%></div>
+                        </a>
+                      </div>
+                  </div>
+                <% } %>
+              <% } %> 
+            <% } %>
           <% } %>
           </div>
         </div>
@@ -338,6 +341,30 @@
     
   </body>
 </html>
+
+<script>
+  // 말줄임 기능
+  let titles = document.querySelectorAll(".topPostsTitle")
+  let contents = document.querySelectorAll(".topPostsContent")
+  let length = 10
+
+  titles.forEach((title) =>{
+    let titleText = title.textContent
+    if(titleText.length > length) {
+      // substr(시작점, 시작점으로부터 추출하는 글자 개수)
+      titleText= titleText.substr(0, length) + "..."
+    }
+    title.textContent = titleText; // 변경된 값을 대체
+  })
+
+  contents.forEach((content) =>{
+    let contentText = content.textContent
+    if(contentText.length > length) {
+      contentText= contentText.substr(0, length-2) + "..."
+    }
+    content.textContent = contentText; // 변경된 값을 대체
+  })
+</script>
 
 <script>
   const target = document.querySelector('.homeCursor');

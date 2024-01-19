@@ -59,6 +59,7 @@ router.post('/add', upload.single('img1'), async (req, res) => {
       title: req.body.title,
       content: req.body.content,
       img: req.file ? req.file.location : null, // 이미지가 업로드된 경우에만 img 속성 추가
+      category: req.body.category,
       // post 시 user 정보도 함께 저장
       user: req.user._id,
       username: req.user.username,
