@@ -14,7 +14,7 @@
 <div class="white-bg">
   <% for(let i=0; i<chatlist.length; i++) { %>
     <div class="list-box" id="list-box">
-      <h4 class="title">
+      <h4>
         <a href="/chat/detail?roomid=<%= chatlist[i]._id %>"><%=chatlist[i].chatName %></a>
         <div style="display: none" class="listchatId"><%=chatlist[i]._id %></div>
         <span

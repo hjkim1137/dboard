@@ -33,6 +33,7 @@ router.get('/total', isLogin, async (req, res) => {
         commentCount[post._id] = comments.length; // 키와 밸류
       }
     }
+    console.log('commentCount', commentCount);
 
     return res.render('listTotal.ejs', {
       boardPosts: posts,

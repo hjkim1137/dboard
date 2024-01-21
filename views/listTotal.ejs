@@ -13,6 +13,7 @@
     <div class="wholeWrapper">
       <div class="wrapperGrid">
         <div class="grid1">
+
         <!-- 검색기능 -->
         <div class="searchBox">
           <input
@@ -23,11 +24,11 @@
           />
           <button class="searchBtn">검색하기</button>
         </div>
+
         <div class="listSummary">
           <div class="totalPost">
             <div>총 게시글 : <%=boardPosts.length %></div>
           </div>
-
         </div>
 
         <div class="categoryContainer">
@@ -51,7 +52,7 @@
                 <div class="list-box-left">
                   <div class="editNdelete">
                     <div><%=boardPosts[i].category%></div>
-                    <a href="/detail/<%=boardPosts[i]._id%>"
+                    <a class="mainTitle" href="/detail/<%=boardPosts[i]._id%>"
                       ><%=boardPosts[i].title %></a
                     >
                     <% for (const key in commentCount) { %>
@@ -311,12 +312,11 @@
             <div class="grid2subTitle">한주간 서비스에서 인기있던 게시물이에요!</div>
           </div> 
           <% if(commentCount) { %>
+            <!-- sort 메소드 사용을 위한 객체를 배열로 변경 -->
             <% let commentArray = Object.entries(commentCount) %>
             <% commentArray.sort((a,b) => b[1]-a[1]) %>
             <% console.log('commentArray',commentArray) %>
 
-            <!-- 이부분 예외처리 -->
-            <!-- Cannot read properties of undefined (reading '0') -->
             <% for(let m = 0; m < 8 && m < commentArray.length; m++) { %>
               <% for(let l=0; l< boardPosts.length; l++) { %>
                 <% if(commentArray[m][0]=== boardPosts[l]._id.toString()) { %>
@@ -340,20 +340,29 @@
       </div>  
       <%- include('footer.ejs')%>      
     </div>
-    
   </body>
 </html>
 
+<!-- 말줄임 기능 -->
 <script>
-  // 말줄임 기능
+  let mainTitles = document.querySelectorAll(".mainTitle")
   let titles = document.querySelectorAll(".topPostsTitle")
   let contents = document.querySelectorAll(".topPostsContent")
+  let mainLength = 26
   let length = 10
+
+  mainTitles.forEach((title) =>{
+    let titleText = title.textContent
+    if(titleText.length > mainLength) {
+      // substr(시작점, 시작점으로부터 추출하는 글자 개수)
+      titleText= titleText.substr(0, mainLength) + "..."
+    }
+    title.textContent = titleText; // 변경된 값을 대체
+  })
 
   titles.forEach((title) =>{
     let titleText = title.textContent
     if(titleText.length > length) {
-      // substr(시작점, 시작점으로부터 추출하는 글자 개수)
       titleText= titleText.substr(0, length) + "..."
     }
     title.textContent = titleText; // 변경된 값을 대체
@@ -368,6 +377,7 @@
   })
 </script>
 
+<!-- 배너 깜빡임 기능 -->
 <script>
   const target = document.querySelector('.homeCursor');
   const sentence = 'This is Dboard ! ';

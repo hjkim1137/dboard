@@ -414,7 +414,6 @@ input {
   border-bottom: 1px solid#eee;
   margin-bottom: 7px;
   padding: 5px 0;
-  text-align: center;
 }
 .list-box p {
   margin-top: 10px;
@@ -623,8 +622,7 @@ input {
   border-radius: 5px;
 }
 .result {
-  margin: 20px;
-  width: 1200px;
+  margin: 20px 0;
   font-size: 16px;
   font-weight: 500;
 }

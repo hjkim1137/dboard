@@ -1,11 +1,12 @@
 <div class="nav">
   <div>
-    <a href="/list/total" class="navLeft"><img src="/homelogo.png" class="logo"><span class="serviceName">Deboard</span></a>
+    <a href="/list/total" class="navLeft"><img src="/homelogo.png" class="logo"><span class="serviceName">Dboard</span></a>
   </div>
 
   <% if(currentUser) { %>
   <div class="profileBox">
     <button class="toggle">다크모드로 🌙</button>
+    <a href="/chat/list">채팅</a>
 
     <button class="profileInner">
       <% if(currentUser.img) { %>
@@ -20,7 +21,7 @@
     </button>
       <ul class="userDropdown">
         <li><a href="/mypage">마이페이지</a></li> 
-        <li><a href="/chat/list">채팅</a></li> 
+        
         <li><a href="/logout">로그아웃</a></li> 
       </ul>
   </div>

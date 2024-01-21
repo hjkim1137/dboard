@@ -44,7 +44,7 @@ connectDB
 // 3. 몽고 DB search Index 활용해 검색
 router.get('/', async (req, res) => {
   // 조건 여러개 넣을 수 있다.
-  let 검색조건 = [
+  let conditions = [
     {
       $search: {
         index: 'title_index', // 몽고 DB에서 만든 index 이름
@@ -56,36 +56,35 @@ router.get('/', async (req, res) => {
     // { $project: { title: 0 } }, // title 필드 숨기기:0, 보이기:1
   ];
 
-  try {
-    let result = await db.collection('post').aggregate(검색조건).toArray();
-    res.render('search.ejs', { boardPosts: result });
-  } catch (e) {
-    console.log(e);
-  }
-});
-
-// 3-1. 응용-검색 페이지네이션 만들기(오류 있음)
-router.get('/:pageId', async (req, res) => {
-  const keyword = req.query.keyword;
-
-  let conditions = [
-    {
-      $search: {
-        index: 'title_index',
-        text: {
-          query: keyword,
-          // 오류 : text.query is required(매번 검색하지 않고, 첫 검색어를 계속 활용하는 방안을 고민해야 함..)
-          path: 'title',
-        },
-      },
-    },
-    { $skip: (req.params.pageId - 1) * 5 },
-    { $limit: 5 },
-  ];
+  let commentCount = {};
 
   try {
-    let result = await db.collection('post').aggregate(conditions).toArray();
-    res.render('search.ejs', { boardPosts: result, userInput: keyword });
+    let posts = await db.collection('post').find().toArray();
+    let loginuser = req.user._id;
+
+    let searchedPosts = await db
+      .collection('post')
+      .aggregate(conditions)
+      .toArray();
+
+    // 게시글 당 댓글 수 구하기
+    for (const post of posts) {
+      let comments = await db
+        .collection('comment')
+        .find({ parentId: post._id })
+        .toArray();
+
+      // 댓글 달린 것만 보냄
+      if (comments.length > 0) {
+        commentCount[post._id] = comments.length; // 키와 밸류
+      }
+    }
+    return res.render('search.ejs', {
+      loginUser: loginuser,
+      boardPosts: posts,
+      searchedPosts: searchedPosts,
+      commentCount: commentCount,
+    });
   } catch (e) {
     console.log(e);
   }

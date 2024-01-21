@@ -50,7 +50,7 @@
                 <div class="list-box-left">
                   <div class="editNdelete">
                     <div><%=saleInfo[i].category%></div>
-                    <a href="/detail/<%=saleInfo[i]._id%>"
+                    <a class="mainTitle" href="/detail/<%=saleInfo[i]._id%>"
                       ><%=saleInfo[i].title %></a
                     >
                     <% for (const key in commentCount) { %>
@@ -345,9 +345,20 @@
 
 <script>
   // 말줄임 기능
+  let mainTitles = document.querySelectorAll(".mainTitle")
   let titles = document.querySelectorAll(".topPostsTitle")
   let contents = document.querySelectorAll(".topPostsContent")
+  let mainLength = 26
   let length = 10
+
+  mainTitles.forEach((title) =>{
+    let titleText = title.textContent
+    if(titleText.length > mainLength) {
+      // substr(시작점, 시작점으로부터 추출하는 글자 개수)
+      titleText= titleText.substr(0, mainLength) + "..."
+    }
+    title.textContent = titleText; // 변경된 값을 대체
+  })
 
   titles.forEach((title) =>{
     let titleText = title.textContent
@@ -369,7 +380,7 @@
 
 <script>
   const target = document.querySelector('.homeCursor');
-  const sentence = 'This is Meboard ! ';
+  const sentence = 'This is Dboard ! ';
   const array = sentence.split('');
 
   // 커서 깜빡임
