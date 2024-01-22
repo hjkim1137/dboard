@@ -63,15 +63,6 @@
                     <div style="display: none" class="listWriterId">
                       <%=boardPosts[i].user %>
                     </div>
-                    <a href="/edit/<%=boardPosts[i]._id %>" class="editBtn"
-                      ><img src="/edit2.png" /> 수정</a
-                    >
-                    <span
-                      class="deletePost"
-                      data-postid="<%=boardPosts[i]._id %>"
-                      data-userid="<%=boardPosts[i].user%>"
-                      ><img src="/delete2.png" /> 삭제</span
-                    >
                   </div>
                   <span class="nameDate">
                     <span class="username"><%=boardPosts[i].username%></span>
@@ -237,48 +228,6 @@
               updatePageBtn(currentPage, totalpages);
           }});
 
-        </script>
-          
-        <!-- 게시글 삭제하기 -->
-        <script>
-          let deleteBtns = document.querySelectorAll('.deletePost');
-
-          deleteBtns.forEach((btn, index) => {
-            let writerIds = document.querySelectorAll('.listWriterId');
-            let writerId = writerIds[index].textContent;
-            let editBtns = document.querySelectorAll('.editBtn');
-            let editBtn = editBtns[index];
-
-            // 공백대비해서 trim() 처리 해주기
-            // 글 작성자만 수정, 삭제 버튼 보이게 하기
-            if ('<%= loginUser %>' == writerId.trim()) {
-              btn.style.display = 'inline';
-              editBtn.style.display = 'inline';
-            } else {
-              btn.style.display = 'none';
-              editBtn.style.display = 'none';
-            }
-
-            btn.addEventListener('click', function (e) {
-              let postId = e.target.dataset.postid;
-
-              if (window.confirm('삭제하시겠습니까?')) {
-                fetch('/delete?docId=' + postId, {
-                  method: 'DELETE',
-                })
-                  .then((res) => res.text())
-                  .then((data) => {
-                    e.target.closest('#list-box').style.display = 'none';
-                  })
-                  .catch((error) => {
-                    console.error('오류 발생!!', error);
-                    e.target.closest('#list-box').style.display = 'inline';
-                  });
-              } else {
-                btn.style.display = 'inline'; // block 은 줄바꿈 돼서 쓰면 X
-              }
-            });
-          });
         </script>
 
         <!-- SSE 구현하기 -->

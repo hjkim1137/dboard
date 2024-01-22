@@ -265,6 +265,7 @@ input {
   color: #1e3b59;
 }
 .profileInner {
+  cursor: pointer;
   background: none;
   border: none;
   text-align: center;
@@ -288,6 +289,7 @@ input {
   border-radius: 0.25rem;
   z-index: 6;
   top: 95%;
+  right: 5px;
   display: flex;
   flex-direction: column;
   display: none;
@@ -365,7 +367,6 @@ input {
 }
 
 .white-bg {
-  height: 730px;
   width: 100%;
   max-width: 1200px;
   display: flex;
@@ -395,7 +396,7 @@ input {
   text-decoration: none;
 }
 .writeContent {
-  height: 200px;
+  min-height: 200px;
 }
 .categoryBox {
   display: flex;
@@ -496,7 +497,7 @@ input {
 }
 .form-box input {
   display: block;
-  min-width: 400px;
+  width: 100%;
   padding: 10px;
   font-size: 16px;
   border: 1px solid black;
@@ -634,10 +635,6 @@ input {
 .searched > div {
   align-self: center;
 }
-.listSummary {
-  display: flex;
-  justify-content: space-between;
-}
 .categoryContainer {
   display: flex;
   justify-content: space-between;
@@ -672,15 +669,33 @@ input {
   width: 14px;
 }
 .totalPost {
-  justify-content: start;
+  display: flex;
   color: #a2a2a2;
   margin-top: 10px;
   align-self: center;
 }
+.summary {
+  margin-top: 8px;
+  width: 1024px;
+}
+.totalPost > div {
+  justify-self: start;
+}
 /* list, search 페이지 검색 기능 끝 */
 
+.detailpgBg {
+  width: 1024px;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  padding: 15px 20px;
+  margin: 20px 0;
+  border-radius: 8px;
+  border: 1px solid #dbdbdb;
+}
 .detailpgContent {
-  margin: 15px 0;
+  border-top: 1px solid #dbdbdb;
+  padding: 20px 0;
 }
 .detailpgForm input {
   padding: 10px;
@@ -709,6 +724,8 @@ input {
 }
 
 .detailpgTitle {
+  padding: 10px 0;
+  align-items: center;
   display: flex;
   justify-content: space-between;
 }
@@ -747,10 +764,11 @@ input {
 /* 상세 페이지 댓글 기능 시작 */
 .comment-wrapper {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1024px;
   background: white;
   padding: 30px 20px;
   border-radius: 8px;
+  border: 1px solid #dbdbdb;
 }
 .comment-wrapper h4 {
   margin-bottom: 20px;
@@ -849,8 +867,7 @@ input {
   margin-top: 10px;
 }
 .noFirstChat {
-  display: flex;
-  justify-content: flex-end;
+  justify-content: flex-end !important;
 }
 
 /* 채팅방 시작  */
@@ -884,7 +901,7 @@ input {
 }
 .chat-form {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1024px;
   display: flex;
 }
 .chat-input {

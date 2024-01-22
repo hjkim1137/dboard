@@ -10,120 +10,122 @@
     <%- include('nav.ejs')%>
 
     <div class="wholeWrapper">
-<!-- 왜인지 if-else가 안되어 if, if 사용 -->
-<div class="white-bg">
-  <% for(let i=0; i<chatlist.length; i++) { %>
-    <div class="list-box" id="list-box">
-      <h4>
-        <a href="/chat/detail?roomid=<%= chatlist[i]._id %>"><%=chatlist[i].chatName %></a>
-        <div style="display: none" class="listchatId"><%=chatlist[i]._id %></div>
-        <span
-        class="deleteChat"
-        data-id="<%=chatlist[i]._id %>"
-        data-userid="<%=chatlist[i].user%>"
-      ><img src="/delete2.png"> 삭제</span>
-      </h4>
-    
-      <!-- true,false state 값으로 첫번째 chat이 없는 경우 방지하는 법 -->
-      <% let contentBoxExists = false %>
-
-      <% for(let j=0; j<lastChat.length; j++) { %>
-        <% if (lastChat[j].roomId.equals(chatlist[i]._id)) { %>
-
-          <% contentBoxExists = true %>
-          <div class="contentBox">
-            <p class="lastChat"><%= lastChat[j].chats %></p>
-            <p class="lastChat-date"><%= lastChat[j].date %></p>
-          </div>
-        <% } %>
-      <% } %>
-
-      <!-- 콘텐츠 부분(첫번째 chat이 없으면 chatroom이 생성된 시간을 불러옴) -->
-      <div class="noFirstChat">
-        <p class="room-date" style="<%= contentBoxExists ? 'display: none' : '' %>"><%=chatlist[i].date %></p>
+      <div class="summary">
+        <div class="totalPost"><div>참여 채팅룸: <%=chatlist.length %></div></div>
       </div>
+      <div class="wrapperGrid">
+        <div class="white-bg">
+          <% for(let i=0; i<chatlist.length; i++) { %>
+            <div class="list-box" id="list-box">
+              <h4>
+                <a href="/chat/detail?roomid=<%= chatlist[i]._id %>"><%=chatlist[i].chatName %></a>
+                <div style="display: none" class="listchatId"><%=chatlist[i]._id %></div>
+                <span
+                class="deleteChat"
+                data-id="<%=chatlist[i]._id %>"
+                data-userid="<%=chatlist[i].user%>"
+              ><img src="/delete2.png"> 삭제</span>
+              </h4>
+            
+              <!-- true,false state 값으로 첫번째 chat이 없는 경우 방지하는 법 -->
+              <% let contentBoxExists = false %>
 
-    </div>
-    <% } %>
-   
-  <% if(chatlist.length == 0) { %>
-    <div class="toChatlistPage">
-      <a href="/list/total">시작한 채팅이 없습니다. 첫 채팅을 시작해보세요!</a>
-    </div>
-  <% } %>
+              <% for(let j=0; j<lastChat.length; j++) { %>
+                <% if (lastChat[j].roomId.equals(chatlist[i]._id)) { %>
 
-  <!-- 서버에서 렌더링 하고 난 이후에 실행되는 부분 -->
-  <script>
-  // 채팅 날짜순 정렬하기
-  let chatdates = document.querySelectorAll(".lastChat-date")
+                  <% contentBoxExists = true %>
+                  <div class="contentBox">
+                    <p class="lastChat"><%= lastChat[j].chats %></p>
+                    <p class="lastChat-date"><%= lastChat[j].date %></p>
+                  </div>
+                <% } %>
+              <% } %>
 
-  let chatdatesArr =[]
-  chatdates.forEach((date, idx) => {
-    let chatdate = date.textContent;
-    chatdatesArr.push({originalIndex: idx, date:chatdate});
-  });
+              <!-- 콘텐츠 부분(첫번째 chat이 없으면 chatroom이 생성된 시간을 불러옴) -->
+              <div class="noFirstChat">
+                <p class="room-date" style="<%= contentBoxExists ? 'display: none' : '' %>"><%=chatlist[i].date %></p>
+              </div>
+            </div>
+            <% } %>
+          
+          <% if(chatlist.length == 0) { %>
+            <div class="toChatlistPage">
+              <a href="/list/total">시작한 채팅이 없습니다. 첫 채팅을 시작해보세요!</a>
+            </div>
+          <% } %>
 
-  //toSorted를 활용한 사본배열
-  const orderedDate = chatdatesArr.toSorted(function(a, b) {
-  if (a.date < b.date) return 1;
-  if (a.date > b.date) return -1;
-  return 0;
-  });
+          <!-- 서버에서 렌더링 하고 난 이후에 실행되는 부분 -->
+          <script>
+          // 채팅 날짜순 정렬하기
+          let chatdates = document.querySelectorAll(".lastChat-date")
 
-  // index를 기준으로 정렬
-  orderedDate.forEach((date, index) => {
-    date.newIndex = index; // 새로운 인덱스 추가
-  });
+          let chatdatesArr =[]
+          chatdates.forEach((date, idx) => {
+            let chatdate = date.textContent;
+            chatdatesArr.push({originalIndex: idx, date:chatdate});
+          });
 
-  // 위의 정렬 기준에 따라서 list-box 정렬하기
-  let listboxes = document.querySelectorAll(".list-box");
-    listboxes.forEach((box) => {
-    // box.querySelector 하면 특정 한 개 박스의 ~
-    let newIndex = orderedDate.find((date) => date.date === box.querySelector(".lastChat-date").textContent).newIndex;
-    // (중요) order 속성 적용하려면 listbox의 부모요소(white-bg)에 flex나 grid 적용되야 함
-    box.style.order = newIndex
-  });
-  </script>
+          //toSorted를 활용한 사본배열
+          const orderedDate = chatdatesArr.toSorted(function(a, b) {
+          if (a.date < b.date) return 1;
+          if (a.date > b.date) return -1;
+          return 0;
+          });
 
-  <script>
-  // 삭제 기능
-    let deleteBtns = document.querySelectorAll('.deleteChat');
+          // index를 기준으로 정렬
+          orderedDate.forEach((date, index) => {
+            date.newIndex = index; // 새로운 인덱스 추가
+          });
 
-    deleteBtns.forEach((btn, index) => {
-      let chatIds = document.querySelectorAll('.listchatId');
-      let chatIdValue = chatIds[index].innerText;
+          // 위의 정렬 기준에 따라서 list-box 정렬하기
+          let listboxes = document.querySelectorAll(".list-box");
+            listboxes.forEach((box) => {
+            // box.querySelector 하면 특정 한 개 박스의 ~
+            let newIndex = orderedDate.find((date) => date.date === box.querySelector(".lastChat-date").textContent).newIndex;
+            // (중요) order 속성 적용하려면 listbox의 부모요소(white-bg)에 flex나 grid 적용되야 함
+            box.style.order = newIndex
+          });
+          </script>
 
-      btn.addEventListener('click', function (e) {
-        if ('<%= loginUser%>' !== chatIdValue) {
-          btn.style.display = 'none';
-        } else {
-          btn.style.display = 'block';
-        }
+          <!-- 삭제기능 -->
+          <script>
+            let deleteBtns = document.querySelectorAll('.deleteChat');
 
-        let roomidis = e.target.dataset.id;
+            deleteBtns.forEach((btn, index) => {
+              let chatIds = document.querySelectorAll('.listchatId');
+              let chatIdValue = chatIds[index].innerText;
 
-        if (window.confirm('삭제하시겠습니까? 유저와 대화한 내용이 모두 삭제됩니다.')) {
-          fetch('/chat/list?roomId=' + roomidis, {
-            method: 'DELETE',
-          })
-            .then((res) => res.text())
-            .then((data) => {
-              e.target.closest('#list-box').style.display = 'none';
-            })
-            .catch((error) => {
-              console.error('오류 발생!!', error);
-              e.target.closest('#list-box').style.display = 'block';
+              btn.addEventListener('click', function (e) {
+                if ('<%= loginUser%>' !== chatIdValue) {
+                  btn.style.display = 'none';
+                } else {
+                  btn.style.display = 'block';
+                }
+
+                let roomidis = e.target.dataset.id;
+
+                if (window.confirm('삭제하시겠습니까? 유저와 대화한 내용이 모두 삭제됩니다.')) {
+                  fetch('/chat/list?roomId=' + roomidis, {
+                    method: 'DELETE',
+                  })
+                    .then((res) => res.text())
+                    .then((data) => {
+                      e.target.closest('#list-box').style.display = 'none';
+                    })
+                    .catch((error) => {
+                      console.error('오류 발생!!', error);
+                      e.target.closest('#list-box').style.display = 'block';
+                    });
+                } else {
+                  btn.style.display = 'inline';
+                }
+              });
             });
-        } else {
-          btn.style.display = 'inline';
-        }
-      });
-    });
-  </script>
-</div>
-<%- include('footer.ejs')%>
+          </script>
+        </div>
+      </div>
+        <%- include('footer.ejs')%>
     </div>
-    
   </body>
 </html>
 

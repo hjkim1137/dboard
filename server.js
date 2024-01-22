@@ -178,6 +178,7 @@ app.use('/detail', require('./routes/detail.js'));
 app.use('/delete', require('./routes/delete.js'));
 app.use('/register', require('./routes/register.js'));
 app.use('/mypage', require('./routes/mypage.js'));
+app.use('/mypost', require('./routes/mypost.js'));
 app.use('/list', require('./routes/list.js'));
 app.use('/search', require('./routes/search.js'));
 app.use('/chat', require('./routes/chat.js'));
