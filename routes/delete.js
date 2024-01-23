@@ -29,10 +29,21 @@ router.delete('/', isLogin, async (req, res) => {
       parentId: new ObjectId(req.query.docId),
       writerId: new ObjectId(req.user._id),
     });
+    res.send('게시글 삭제완료');
+  } catch (e) {
+    res.send('오류 발생 또는 삭제권한 없음');
+    console.log(e);
+  }
+});
 
-    return res.send('삭제완료');
-    // (참고) ajax 요청 사용시 새고로침 안하는게 장점이라 쓰는거라
-    // res.redirect, res.render 사용 안하는게 나음
+// 댓글 삭제기능
+router.delete('/comment', isLogin, async (req, res) => {
+  try {
+    await db.collection('comment').deleteOne({
+      _id: new ObjectId(req.query.commentId),
+      writerId: new ObjectId(req.user._id),
+    });
+    res.send('댓글 삭제완료');
   } catch (e) {
     res.send('오류 발생 또는 삭제권한 없음');
     console.log(e);

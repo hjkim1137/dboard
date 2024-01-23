@@ -25,11 +25,17 @@ router.get('/:id', isLogin, async (req, res) => {
       .collection('post')
       .findOne({ _id: new ObjectId(req.params.id) }); //db에 저장된 id와 대조
 
+    let loginuser = req.user ? new ObjectId(req.user._id) : null;
+
     let comment = await db
       .collection('comment')
       .find({ parentId: new ObjectId(req.params.id) })
       .toArray();
-    res.render('detail.ejs', { result: result, comment: comment });
+    res.render('detail.ejs', {
+      loginuser: loginuser.toString(),
+      result: result,
+      comment: comment,
+    });
 
     // null 처리(parameter가 길이는 맞는데 틀리는 경우 등)
     if (result == null || comment == null) {

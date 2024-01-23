@@ -693,6 +693,19 @@ input {
   border-radius: 8px;
   border: 1px solid #dbdbdb;
 }
+.detailpgEdit {
+  padding: 4px 0;
+  display: flex;
+  justify-content: flex-end;
+  color: #a2a2a2;
+  gap: 16px;
+}
+.detailpgEdit > a > img {
+  width: 14px;
+}
+.detailDeleteBtn {
+  cursor: pointer;
+}
 .detailpgContent {
   border-top: 1px solid #dbdbdb;
   padding: 20px 0;
@@ -783,9 +796,16 @@ input {
   margin-right: 10px;
 }
 .comment {
+  gap: 8px;
+  display: flex;
   color: #a2a2a2;
   font-size: 14px;
   align-self: center;
+}
+.deleteComment {
+  cursor: pointer;
+  color: #ff6d65;
+  margin-left: 16px;
 }
 .commentTitle {
   display: flex;
@@ -799,7 +819,6 @@ input {
 }
 .commentWriter {
   color: #1e3b59;
-  margin-right: 15px;
   font-weight: bold;
 }
 
