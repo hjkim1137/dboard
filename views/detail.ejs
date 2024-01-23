@@ -30,7 +30,7 @@
           </div>
         <% } %>
         
-        <p class="detailpgContent"><%=result.content %></p>
+        <textarea class="detailpgContent" disabled><%=result.content %></textarea>
         <img src="<%=result.img %>" class="detailpgImg"></img>
         <a href="/chat/request?writerId=<%=result.user%>&chatName=<%= result.title%>&postId=<%=result._id%>&writerImg=<%=result.userImage%>" class="gotoChat"> 글 작성자와 채팅하기 💬</a>
       </div>
@@ -75,12 +75,8 @@
   </body>
 </html>
 
-<!-- 삭제기능 -->
+<!-- 게시글 삭제기능 -->
 <script>
-// 게시글 삭제
-
-
-
 function deletePost(docId) {
   let isConfirmed = window.confirm('게시물을 삭제하시겠습니까?');
   if (isConfirmed) {
@@ -104,8 +100,10 @@ function deletePost(docId) {
     });
   }
 }
+</script>
 
-// 댓글 삭제
+<!-- 댓글 삭제 기능 -->
+<script>
 function deleteComment(commentId) {
   let isConfirmed = window.confirm('댓글을 삭제하시겠습니까?');
   if(isConfirmed) {

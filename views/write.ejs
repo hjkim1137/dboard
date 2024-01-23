@@ -10,38 +10,74 @@
     <%- include('nav.ejs')%>
 
     <div class="wholeWrapper">
-      <div class="white-bg">
-        <form
-          class="form-box"
-          action="/write/add"
-          method="POST"
-          enctype="multipart/form-data"
-          id="writeForm"
-        >
-          <h4 class="formbox-title">글쓰기</h4>
+      <div class="wrapperGrid">
+        <div class="white-bg">
+          <form
+            class="form-box"
+            action="/write/add"
+            method="POST"
+            enctype="multipart/form-data"
+            id="writeForm"
+          >
+            <h4 class="formbox-title">글쓰기</h4>
 
-          <div class="categoryBox">
-            <div>카테고리</div>
-            <select name="category">
-              <option value="중고거래">중고거래</option>
-              <option value="세일정보">세일정보</option>
-              <option value="살림노하우">살림노하우</option>
-            </select>
-          </div>
+            <div class="categoryBox">
+              <div>카테고리</div>
+              <select name="category">
+                <option value="중고거래">중고거래</option>
+                <option value="세일정보">세일정보</option>
+                <option value="살림노하우">살림노하우</option>
+              </select>
+            </div>
 
-          <input name="title" placeholder="글 제목을 입력해주세요." />
-          <input
-            name="content"
-            placeholder="글 내용을 입력해주세요."
-            class="writeContent"
-          />
-          <input type="file" name="img1" accept="image/*" multiple />
-          <div class="form-box-btn">
-            <button type="submit" class="submitBtn">전송</button>
-          </div>
-        </form>
+            <input
+              name="title"
+              placeholder="글 제목을 입력해주세요."
+              class="input"
+            />
+            <textarea
+              name="content"
+              placeholder="글 내용을 입력해주세요."
+              class="writeContent input"
+            ></textarea>
+            <input
+              class="input"
+              type="file"
+              name="img1"
+              accept="image/*"
+              multiple
+            />
+            <div class="form-box-btn">
+              <button type="submit" class="submitBtn">전송</button>
+            </div>
+          </form>
+        </div>
       </div>
       <%- include('footer.ejs')%>
     </div>
   </body>
 </html>
+
+<!-- 게시글 전송 기능 -->
+<script>
+  let inputs = document.querySelectorAll('.input');
+
+  inputs.forEach((input) => {
+    // 1. 엔터키로 전송 막기, 줄바꿈하기
+    input.addEventListener('keydown', function (e) {
+      if (e.keyCode === 13) {
+        e.preventDefault();
+        input.value += '\n';
+      }
+    });
+
+    // 2.전송 버튼 클릭으로 메세지 전송
+    input.addEventListener('click', function (e) {
+      if (value.trim() == '') {
+        e.preventDefault();
+      } else {
+        document.querySelector('.submitBtn').click();
+      }
+    });
+  });
+</script>
