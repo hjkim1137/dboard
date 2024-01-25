@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Myboard</title>
     <link href="/main.css" rel="stylesheet" />
+    <link href="/main2.css" rel="stylesheet" />
   </head>
-  <body class="grey-bg">
-    <%- include('nav.ejs')%>
+  <body class="lightLayout">
+    <%- include('header.ejs')%>
 
-    <div class="wholeWrapper">
       <form class="loginRegisterBox" action="/register" method="POST" enctype="multipart/form-data">
         <h4 class="formbox-title">회원가입</h4>
-        <div class="imgWrapper">
-          <img class="nullImg"></img>
+        <div class="imgwrapper-100">
+          <img class="nullImg-100"></img>
         </div>
-        <input onchange="setThumbnail(event)" type="file" name="img1" accept="image/*" multiple  class="file"/>
+        <input onchange="setThumbnail(event)" type="file" name="img1" accept="image/*" multiple  class="form-box-file"/>
           
         <!-- 이미지 미리보기 -->
         <script>
@@ -23,7 +23,7 @@
             let reader = new FileReader()
 
             reader.onload = function(event) {
-              let img = document.querySelector(".nullImg")
+              let img = document.querySelector(".nullImg-100")
               // 이미지파일 -> base64로 인코딩된 문자열로 저장
               img.setAttribute("src", event.target.result)
             }
@@ -42,12 +42,11 @@
           type="password"
           placeholder="비밀번호를 다시 입력하세요."
         />
-        <div class="form-box-btn">
-          <button type="submit" class="submitBtn">가입하기</button>
+        <div class="form-box-btnContainer">
+          <button type="submit" class="customBtn">가입하기</button>
         </div>
       </form>
       <%- include('footer.ejs')%>
-    </div>
-    
+ 
   </body>
 </html>

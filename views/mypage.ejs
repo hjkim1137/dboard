@@ -5,114 +5,113 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Myboard</title>
     <link href="/main.css" rel="stylesheet" />
+    <link href="/main2.css" rel="stylesheet" />
   </head>
-  <body class="grey-bg">
-    <%- include('nav.ejs')%>
+  <body class="lightLayout">
+    <%- include('header.ejs')%>
 
-    <div class="wholeWrapper">
-      <div class="wrapperGrid">
-        <div class="white-bg">
-          <form
-            class="form-box"
-            action="/mypage/edit?_method=PUT"
-            method="POST"
-            enctype="multipart/form-data"
-          >
-            <h4 class="formbox-title">마이페이지</h4>
-            <div class="deleteImg">X</div>
-            <div class="imgWrapper">
-              <% if(result.img) { %>
-              <img src="<%= result.img %>" class="myImg" />
-              <% } else { %>
-              <img class="nullImg" src="/profile.png" />
-              <% } %>
-            </div>
-            <input
-              onchange="setThumbnail(event)"
-              class="file"
-              type="file"
-              name="img1"
-              accept="image/*"
-              multiple
-            />
-            <input class="sameImg" type="hidden" name="sameimg" value="" />
+    <div class="wrapperGrid">
+      <div class="white-bg">
+        <form
+          class="form-box"
+          action="/mypage/edit?_method=PUT"
+          method="POST"
+          enctype="multipart/form-data"
+        >
+          <h4 class="formbox-title">마이페이지</h4>
+          <div class="myDeleteImg">X</div>
+          <div class="imgwrapper-100">
+            <% if(result.img) { %>
+            <img src="<%= result.img %>" class="myImg" />
+            <% } else { %>
+            <img class="nullImg-100" src="/profile.png" />
+            <% } %>
+          </div>
+          <input
+            onchange="setThumbnail(event)"
+            class="form-box-file"
+            type="file"
+            name="img1"
+            accept="image/*"
+            multiple
+          />
+          <input class="sameImg" type="hidden" name="sameimg" value="" />
 
-            <!-- 이미지 업로드, 프리뷰, 수정, 삭제 -->
-            <script>
-              let img = document.querySelector('.myImg');
-              let nullImg = document.querySelector('.nullImg');
-              let file = document.querySelector('.file');
-              let sameImg = document.querySelector('.sameImg');
+          <!-- 이미지 업로드, 프리뷰, 수정, 삭제 -->
+          <script>
+            let img = document.querySelector('.myImg');
+            let nullImg = document.querySelector('.nullImg-100');
+            let file = document.querySelector('.file');
+            let sameImg = document.querySelector('.sameImg');
 
-              if ('<%= result.img%>') {
-                let src = img.getAttribute('src');
-                // 기존 저장된 이미지를 수정하지 않는 경우
-                if (src == '<%= result.img%>') {
-                  console.log('이미지가 수정되지 않았습니다.');
-                  sameImg.setAttribute('value', '<%= result.img%>');
-                  console.log(
-                    '서버에 보내는 이미지주소',
-                    sameImg.getAttribute('value')
-                  );
-                }
+            if ('<%= result.img%>') {
+              let src = img.getAttribute('src');
+              // 기존 저장된 이미지를 수정하지 않는 경우
+              if (src == '<%= result.img%>') {
+                console.log('이미지가 수정되지 않았습니다.');
+                sameImg.setAttribute('value', '<%= result.img%>');
+                console.log(
+                  '서버에 보내는 이미지주소',
+                  sameImg.getAttribute('value')
+                );
               }
+            }
 
-              // 파일 업로드 및 이미지 프리뷰
-              function setThumbnail(event) {
-                let reader = new FileReader();
+            // 파일 업로드 및 이미지 프리뷰
+            function setThumbnail(event) {
+              let reader = new FileReader();
 
-                // 이미지파일 -> base64로 인코딩된 문자열로 저장
-                reader.onload = function (event) {
-                  // 기존 저장된 이미지를 교체
-                  if ('<%= result.img%>') {
-                    img.setAttribute('src', event.target.result);
-                    // 신규 이미지 생성
-                  } else {
-                    nullImg.setAttribute('src', event.target.result);
-                  }
-                };
-                // onload를 트리거 시킴
-                reader.readAsDataURL(event.target.files[0]);
-              }
-
-              // 미리보기 이미지 삭제
-              document
-                .querySelector('.deleteImg')
-                .addEventListener('click', deleteImg);
-
-              function deleteImg() {
-                // 기존 저장된 이미지가 있다면
+              // 이미지파일 -> base64로 인코딩된 문자열로 저장
+              reader.onload = function (event) {
+                // 기존 저장된 이미지를 교체
                 if ('<%= result.img%>') {
-                  img.removeAttribute('src');
-                  img.setAttribute('src', '/profile.png');
-                  // 기존 저장된 이미지가 없다면
+                  img.setAttribute('src', event.target.result);
+                  // 신규 이미지 생성
                 } else {
-                  nullImg.removeAttribute('src');
-                  nullImg.setAttribute('src', '/profile.png');
+                  nullImg.setAttribute('src', event.target.result);
                 }
-                file.value = null; // 이미지 파일 삭제
-                sameImg.setAttribute('value', '');
-              }
-            </script>
+              };
+              // onload를 트리거 시킴
+              reader.readAsDataURL(event.target.files[0]);
+            }
 
-            <input name="username" value="<%=result.username %>" disabled />
-            <input
-              name="password"
-              type="password"
-              placeholder="수정할 비밀번호 입력"
-            />
-            <input
-              name="password2"
-              type="password"
-              placeholder="비밀번호 재입력"
-            />
-            <div class="form-box-btn">
-              <button type="submit" class="submitBtn">정보 수정하기</button>
-            </div>
-          </form>
-        </div>
+            // 미리보기 이미지 삭제
+            document
+              .querySelector('.myDeleteImg')
+              .addEventListener('click', myDeleteImg);
+
+            function myDeleteImg() {
+              // 기존 저장된 이미지가 있다면
+              if ('<%= result.img%>') {
+                img.removeAttribute('src');
+                img.setAttribute('src', '/profile.png');
+                // 기존 저장된 이미지가 없다면
+              } else {
+                nullImg.removeAttribute('src');
+                nullImg.setAttribute('src', '/profile.png');
+              }
+              file.value = null; // 이미지 파일 삭제
+              sameImg.setAttribute('value', '');
+            }
+          </script>
+
+          <input name="username" value="<%=result.username %>" disabled />
+          <input
+            name="password"
+            type="password"
+            placeholder="수정할 비밀번호 입력"
+          />
+          <input
+            name="password2"
+            type="password"
+            placeholder="비밀번호 재입력"
+          />
+          <div class="form-box-btnContainer">
+            <button type="submit" class="customBtn">정보 수정하기</button>
+          </div>
+        </form>
       </div>
-      <%- include('footer.ejs')%>
     </div>
+    <%- include('footer.ejs')%>
   </body>
 </html>

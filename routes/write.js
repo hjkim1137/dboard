@@ -59,14 +59,14 @@ router.post('/add', upload.single('img1'), async (req, res) => {
       title: req.body.title,
       content: req.body.content,
       img: req.file ? req.file.location : null, // 이미지가 업로드된 경우에만 img 속성 추가
-      category: req.body.category,
+      category: req.body.homeCategory,
       // post 시 user 정보도 함께 저장
       user: req.user._id,
       username: req.user.username,
       userImage: req.user.img,
       date: formatDate2(),
     });
-    res.redirect('/list/total');
+    res.redirect('/home');
   } catch (e) {
     console.log(e);
     res.status(500).send('서버 에러남');

@@ -5,29 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Myboard</title>
     <link href="/main.css" rel="stylesheet" />
+    <link href="/main2.css" rel="stylesheet" />
   </head>
-  <body class="grey-bg">
-    <%- include('nav.ejs')%>
+  <body class="lightLayout">
+    <%- include('header.ejs')%>
     <!-- 전송 버튼 누르면 서버로 전송, 서버는 확인 후 DB 수정 -->
     <!-- method-override 사용하면 /edit?_method=PUT 사용 가능 -->
 
-    <div class="wholeWrapper">
-      <div class="wrapperGrid">
-        <div class="white-bg">
-          <form class="form-box" action="/edit?_method=PUT" method="POST">
-            <h4 class="formbox-title">수정하기</h4>
-            <input name="id" value="<%= result._id %>" style="display: none" />
-            <input name="title" value="<%= result.title %>" />
-            <textarea class="writeContent" name="content">
+    <div class="wrapperGrid">
+      <div class="white-bg">
+        <form class="form-box" action="/edit?_method=PUT" method="POST">
+          <h4 class="formbox-title">수정하기</h4>
+          <input name="id" value="<%= result._id %>" style="display: none" />
+          <input name="title" value="<%= result.title %>" />
+          <textarea class="writeContent" name="content">
 <%= result.content %></textarea
-            >
-            <div class="form-box-btn">
-              <button type="submit">전송</button>
-            </div>
-          </form>
-        </div>
+          >
+          <div class="form-box-btnContainer">
+            <button type="submit">전송</button>
+          </div>
+        </form>
       </div>
-      <%- include('footer.ejs')%>
     </div>
+    <%- include('footer.ejs')%>
   </body>
 </html>

@@ -5,26 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Myboard</title>
     <link href="/main.css" rel="stylesheet" />
+    <link href="/main2.css" rel="stylesheet" />
   </head>
 
-  <body class="grey-bg">
-    <%- include('nav.ejs')%>
+  <body class="lightLayout">
+    <%- include('header.ejs')%>
 
-    <div class="wholeWrapper">
-      <div class="summary">
-        <div class="totalPost">
-          <div>작성한 게시글 : <%=myposts.length %></div>
-        </div>
-      </div>
+  <div class="summary">
+    <div class="totalPost">
+      <div>작성한 게시글 : <%=myposts.length %></div>
+    </div>
+  </div>
       <div class="wrapperGrid">
       
         <!-- 카테고리: 전체-->
         <div class="white-bg">
           <% if(myposts.length >0) { %> 
             <% for(let i=0; i<myposts.length;i++) { %>
-              <div class="list-box" id="list-box">
-                <div class="list-box-left">
-                  <div class="editNdelete">
+              <div class="listBox" id="list-box">
+                <div class="listBox-left">
+                  <div class="listBox-left-inner">
                     <div><%=myposts[i].category%></div>
                     <a class="mainTitle" href="/detail/<%=myposts[i]._id%>"
                       ><%=myposts[i].title %></a
@@ -41,15 +41,15 @@
                       ><img src="/edit2.png" /> 수정</a
                     >
                     <span
-                      class="deletePost"
+                      class="deleteThing"
                       data-postid="<%=myposts[i]._id %>"
                       data-userid="<%=myposts[i].user%>"
                       ><img src="/delete2.png" /> 삭제</span
                     >
                   </div>
-                  <span class="nameDate">
-                    <span class="username"><%=myposts[i].username%></span>
-                    <span class="date"><%=myposts[i].date%></span>
+                  <span class="listNameDate">
+                    <span class="listUsername"><%=myposts[i].username%></span>
+                    <span class="listDate"><%=myposts[i].date%></span>
                   </span>
                 </div>
               </div>
@@ -64,21 +64,9 @@
           <% } %>
         </div>
 
-
-        <!-- 검색기능 -->
-        <script>
-          document
-            .querySelector('.searchBtn')
-            .addEventListener('click', function () {
-              let userInput = document.querySelector('.search').value;
-              location.href = '/search?keyword=' + userInput;
-              // 이것과 동일한 기능: fetch('/search?keyword=' + userInput);
-            });
-        </script>
-
         <!-- 게시물 날짜순 정렬하기 -->
         <script>
-          let postdates = document.querySelectorAll('.date');
+          let postdates = document.querySelectorAll('.listDate');
 
           let postdatesArr = [];
           postdates.forEach((date, idx) => {
@@ -98,12 +86,12 @@
             date.newIndex = index; // 새로운 인덱스 추가
           });
 
-          // 위의 정렬 기준에 따라서 list-box 정렬하기
-          let listboxes = document.querySelectorAll('.list-box');
+          // 위의 정렬 기준에 따라서 listBox 정렬하기
+          let listboxes = document.querySelectorAll('.listBox');
           listboxes.forEach((box) => {
             // box.querySelector 하면 특정 한 개 박스의 ~
             let newIndex = orderedDate.find(
-              (date) => date.date === box.querySelector('.date').textContent
+              (date) => date.date === box.querySelector('.listDate').textContent
             ).newIndex;
 
             // (중요) order 속성 적용하려면 listbox의 부모요소(white-bg)에 flex나 grid 적용되야 함
@@ -115,7 +103,7 @@
           
         <!-- 게시글 삭제하기 -->
         <script>
-          let deleteBtns = document.querySelectorAll('.deletePost');
+          let deleteBtns = document.querySelectorAll('.deleteThing');
 
           deleteBtns.forEach((btn, index) => {
             let writerIds = document.querySelectorAll('.listWriterId');
@@ -183,7 +171,7 @@
   function updateDisplay (currentPage) {
   listboxes.forEach((box) => {
     let newIndex = orderedDate.find(
-      (date) => date.date === box.querySelector('.date').textContent
+      (date) => date.date === box.querySelector('.listDate').textContent
     ).newIndex;
 
     box.style.order = newIndex;
@@ -258,9 +246,7 @@
   }});
 
 </script>
-      
-      <%- include('footer.ejs')%>      
-    </div>
+ <%- include('footer.ejs')%>      
   </body>
 </html>
 

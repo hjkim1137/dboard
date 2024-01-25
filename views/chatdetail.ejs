@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Myboard</title>
     <link href="/main.css" rel="stylesheet" />
+    <link href="/main2.css" rel="stylesheet" />
   </head>
-  <body class="grey-bg">
-    <%- include('nav.ejs')%>
+  <body class="lightLayout">
+    <%- include('header.ejs')%>
 
-    <div class="wholeWrapper">
       <div class="wrapperGrid">
       <div class="white-bg">
         <div class="chat-screen">
@@ -31,7 +31,7 @@
                   <% if(userimg && userimg.length >0) { %>
                     <img src="<%=userimg%>" class="userIMG">
                    <% } else { %>
-                    <img class="chatNullImg" src="/profile.png">
+                    <img class="nullImg-30" src="/profile.png">
                   <% } %>
 
                   <div class="yourChat"><%= chats[i].userName %>: <%= chats[i].chats %></div>
@@ -40,7 +40,7 @@
                   <% if(yourimg && yourimg.length >0) { %>
                   <img src="<%=yourimg%>" class="writerIMG">
                   <% } else { %>
-                    <img class="chatNullImg" src="/profile.png">
+                    <img class="nullImg-30" src="/profile.png">
                   <% } %>
 
                   <div class="writerChat"><%= chats[i].userName %>: <%= chats[i].chats %></div>
@@ -56,7 +56,7 @@
   
       <div class="chat-form">
         <input class="chat-input" placeholder="메세지를 입력하세요." autofocus/>
-        <input class ="chat-button" type="button" value="전송"></input>
+        <input class ="customBtn" type="button" value="전송"></input>
       </div>
   
       <!-- 소켓 io 세팅 -->
@@ -79,7 +79,7 @@
         let userInput = document.querySelector('.chat-input')
   
         // 1.전송 버튼 클릭으로 메세지 전송
-        document.querySelector(".chat-button").addEventListener("click", function() {
+        document.querySelector(".customBtn").addEventListener("click", function() {
           if(userInput.value.trim() !== "") {
             sendchats()
           }
@@ -123,7 +123,7 @@
   
       </script>
     <%- include('footer.ejs')%>
-    </div>
+    
     
   </body>
 </html>

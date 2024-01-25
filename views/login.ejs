@@ -5,21 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Myboard</title>
     <link href="/main.css" rel="stylesheet" />
+    <link href="/main2.css" rel="stylesheet" />
   </head>
-  <body class="grey-bg">
-    <%- include('nav.ejs')%>
-    <div class="wholeWrapper">
-      <form class="loginRegisterBox" action="/login" method="POST">
-        <h4>로그인</h4>
-        <input name="username" />
-        <input
-          name="password"
-          type="password"
-          placeholder="8자 이상 입력하세요."
-        />
-        <button type="submit" class="submitBtn">로그인</button>
-      </form>
-      <%- include('footer.ejs')%>
-    </div>
+  <body class="lightLayout">
+    <%- include('header.ejs')%>
+
+    <form class="loginRegisterBox" action="/login" method="POST">
+      <h4>로그인</h4>
+      <input name="username" />
+      <input
+        name="password"
+        type="password"
+        placeholder="8자 이상 입력하세요."
+      />
+      <button type="submit" class="customBtn">로그인</button>
+    </form>
+    <%- include('footer.ejs')%>
   </body>
 </html>

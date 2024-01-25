@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Myboard</title>
     <link href="/main.css" rel="stylesheet" />
+    <link href="/main2.css" rel="stylesheet" />
   </head>
-  <body class="grey-bg">
-    <%- include('nav.ejs')%>
+  <body class="lightLayout">
+    <%- include('header.ejs')%>
 
-    <div class="wholeWrapper">
       <div class="detailpgBg">
         <div class="detailpgTitle">
           <h4><%=result.title %></h4>
@@ -17,13 +17,13 @@
             <% if(result.userImage) { %>
               <img src="<%= result.userImage %>"></img>
             <% } else { %>
-              <img class="detailNullImg" src="/profile.png"></img>
+              <img class="nullImg-30" src="/profile.png"></img>
             <% } %>
             <p><%=result.username%></p>
             <p><%=result.date%></p>
           </div>
         </div>
-        <% if(loginuser==result.user) { %>
+        <% if(String(loginuser)==result.user) { %>
           <div class="detailpgEdit">
             <a class="detailEditBtn" href="/edit/<%=result._id%>"><img src="/edit2.png"> 수정</a>
             <a class="detailDeleteBtn" onclick="deletePost('<%=result._id%>')"><img src="/delete2.png"> 삭제</a>
@@ -32,7 +32,7 @@
         
         <textarea class="detailpgContent" disabled><%=result.content %></textarea>
         <img src="<%=result.img %>" class="detailpgImg"></img>
-        <a href="/chat/request?writerId=<%=result.user%>&chatName=<%= result.title%>&postId=<%=result._id%>&writerImg=<%=result.userImage%>" class="gotoChat"> 글 작성자와 채팅하기 💬</a>
+        <a href="/chat/request?writerId=<%=result.user%>&chatName=<%= result.title%>&postId=<%=result._id%>&writerImg=<%=result.userImage%>" class="detailGotochat"> 글 작성자와 채팅하기 💬</a>
       </div>
       
       <div class="comment-wrapper">
@@ -49,12 +49,13 @@
                   <span class="commentWriter">글쓴이</span>
                   <div><%=comment[i].comment %></div>
                   <span><%=comment[i].date %></span>
-                  <span class="deleteComment" onclick="deleteComment('<%=comment[i]._id%>')">댓글삭제</span>
+                  <% if(comment[i].writerId==String(loginuser)) { %>
+                  <span class="deleteThing" onclick="deleteComment('<%=comment[i]._id%>')">댓글삭제</span>
+                  <% } %>
                 </div>
               <% } else { %>
                 <div><%=comment[i].comment %></div>
                 <span><%=comment[i].date %></span>
-                <span class="deleteComment">댓글삭제</span>
               <% } %>
             </div>
           <% } %>
@@ -66,11 +67,11 @@
         <input name="comment" placeholder="댓글을 작성하세요." autofocus/>
         <input name="parentId" 
         style="display: none" value="<%=result._id %>"/>
-        <button type="submit" class="submitBtn">댓글작성</button>
+        <button type="submit" class="customBtn">댓글작성</button>
         </form>
       </div>
       <%- include('footer.ejs')%>
-    </div>
+    
    
   </body>
 </html>
@@ -93,7 +94,7 @@ function deletePost(docId) {
     })
     .then((data) => {
       console.log('삭제 완료:', data);
-      window.location.href = "/list/total";
+      window.location.href = "/home";
     })
     .catch((error) => {
       console.error("오류 발생", error);

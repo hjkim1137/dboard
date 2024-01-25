@@ -1,21 +1,21 @@
-<div class="nav">
+<div class="header">
   <div>
-    <a href="/list/total" class="navLeft"><img src="/homelogo.png" class="logo"><span class="serviceName">Dboard</span></a>
+    <a href="/home" class="headerLeft"><img src="/homelogo.png" class="headerLogo"><span class="headerServiceName">Dboard</span></a>
   </div>
 
   <% if(currentUser) { %>
-  <div class="profileBox">
-    <button class="toggle">다크모드로 🌙</button>
+  <div class="headerProfileBox">
+    <button class="headerToggle">다크모드로 🌙</button>
     <a href="/chat/list">채팅</a>
 
-    <button class="profileInner">
+    <button class="headerProfileInner">
       <% if(currentUser.img) { %>
-         <div class="navProfile">
-            <img src="<%= currentUser.img %>" class="userProfile">
+         <div class="headerProfile">
+            <img src="<%= currentUser.img %>" class="headerUserProfile">
          </div>
           <p><%= currentUser.username %></p>
       <% } else { %>
-          <img class="navProfile" src="/profile.png"></img>
+          <img class="headerProfile" src="/profile.png"></img>
           <p><%= currentUser.username %></p>
       <% } %>
     </button>
@@ -27,10 +27,10 @@
   </div>
 
   <% } else { %>
-    <div class="profileBox">
-      <button class="toggle">다크모드로 🌙</button>
-      <a href="/login" class="navLoginRegister"><div>로그인</div></a>
-      <a href="/register" class="navLoginRegister"><div>회원가입</div></a>
+    <div class="headerProfileBox">
+      <button class="headerToggle">다크모드로 🌙</button>
+      <a href="/login" class="headerLoginRegister"><div>로그인</div></a>
+      <a href="/register" class="headerLoginRegister"><div>회원가입</div></a>
     </div>
   <% } %> 
 </div>
@@ -38,7 +38,7 @@
 <script>
 // 유저 드롭다운 토글
 let dropdown = document.querySelector(".userDropdown")
-let profile = document.querySelector(".profileInner")
+let profile = document.querySelector(".headerProfileInner")
 
 if(profile) {
   profile.addEventListener("click", ()=> {
@@ -51,14 +51,14 @@ if(profile) {
 <script>
 // 다크모드 관련
 let mode = localStorage.getItem('mode');
-let toggle = document.querySelector('.toggle');
+let toggle = document.querySelector('.headerToggle');
 let body = document.querySelector('body');
-let navIcons = document.querySelectorAll(".navIcon")
+let headerIcons = document.querySelectorAll(".headerIcon")
 
 // 화면 이동시에도 다크모드 유지
 if (mode === 'dark') {
   toggle.innerHTML = '일반모드로 ☀️';
-  body.classList.remove('grey-bg');
+  body.classList.remove('lightLayout');
   body.classList.add('dark-mode');
 } else {
   toggle.innerHTML = '다크모드로 🌙';
@@ -71,12 +71,12 @@ toggle.addEventListener('click', function () {
     localStorage.removeItem('mode', 'dark');
     toggle.innerHTML = '다크모드로 🌙';
     body.classList.remove('dark-mode');
-
+    body.classList.add('lightLayout');
 
   } else {
     localStorage.setItem('mode', 'dark');
     toggle.innerHTML = '일반모드로 ☀️';
-    body.classList.remove('grey-bg');
+    body.classList.remove('lightLayout');
     body.classList.add('dark-mode');
   }
 });

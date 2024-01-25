@@ -1,0 +1,639 @@
+/* ROOT */
+:root {
+  --dark-background-color: #1e1e20;
+  --dark-color: #272829;
+  --dark-color2: #313233;
+  --light-color: #fff;
+  --light-color2: #eee;
+  --light-color3: #cbd5e1;
+  --light-background-color: #f7fafc;
+  --light-hover-color: #1e3b59;
+  --black-color: #121212;
+  --gray-color: #a2a2a2;
+  --gray-color2: #dbdbdb;
+  --point-color: #ff565c;
+}
+
+/*  공통 레이아웃 */
+.lightLayout {
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.wrapperGrid {
+  width: 1024px;
+  display: flex;
+  gap: 48px;
+}
+.white-bg {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--light-color);
+  padding: 15px 20px;
+  margin: 20px 0;
+  border-radius: 8px;
+  border: 1px solid var(--gray-color2);
+}
+.white-bg > img {
+  max-width: 500px;
+  border-radius: 5px;
+}
+.white-bg a {
+  text-decoration: none;
+  font-size: 16px;
+}
+.listBox {
+  border-bottom: 1px solid var(--light-color2);
+  margin-bottom: 7px;
+  padding: 5px 0;
+}
+.listBox p {
+  margin-top: 10px;
+  color: grey;
+}
+.listBox > div {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* 각종 버튼 */
+.customBtn,
+.loginRegisterBox > button,
+.form-box-btnContainer > button {
+  padding: 8px 16px;
+  width: fit-content;
+  height: 40px;
+  cursor: pointer;
+  background: var(--gray-color2);
+  border: none;
+  border-radius: 5px;
+}
+.prevBtn:hover,
+.nextBtn:hover .customBtn:hover {
+  cursor: pointer;
+  background-color: var(--light-hover-color);
+  color: var(--light-color);
+  font-weight: 700;
+}
+
+/* 페이지네이션 요소 */
+.pageWrapper {
+  display: flex;
+}
+.pageWrapper {
+  max-width: 1200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+}
+.pageWrapper > a {
+  text-decoration: none;
+  cursor: pointer;
+}
+.pageContainer {
+  display: flex;
+  gap: 24px;
+}
+.pageContainer > a {
+  cursor: pointer;
+  margin: 18px 0;
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
+  color: var(--black-color);
+}
+.pageContainer > a:hover {
+  color: var(--light-hover-color);
+  font-weight: 700;
+}
+
+/* 이미지, nullImg 요소 */
+.imgWrapper-100 {
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  border: 1px solid var(--gray-color2);
+}
+.imgwrapper-100 > img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+}
+.nullImg-100 {
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  background-color: var(--gray-color2);
+}
+.nullImg-30 {
+  width: 30px;
+  height: 30px;
+  border-radius: 50px;
+  margin-right: 10px;
+  border: 1px solid var(--gray-color2);
+}
+
+/* alert 요소 */
+.toWritePage {
+  display: flex;
+  justify-content: center;
+  height: 60px;
+}
+.toWritePage > a {
+  align-self: center;
+  text-decoration: none;
+}
+.searched {
+  display: flex;
+  justify-content: center;
+  height: 60px;
+}
+.searched > div {
+  align-self: center;
+}
+.toChatlistPage {
+  display: flex;
+  justify-content: center;
+  height: 100px;
+}
+.toChatlistPage > a {
+  align-self: center;
+  text-decoration: none;
+}
+.noFirstChat {
+  justify-content: flex-end !important;
+}
+
+/* listBox 내 요소 관련 */
+.listBox-left-inner {
+  display: flex;
+  gap: 8px;
+}
+.listBox-left-inner > span,
+.listBox-left-inner > a {
+  font-size: 14px;
+}
+.listBox-left-inner > a > img,
+.listBox-left-inner > span > img {
+  width: 12px;
+}
+.listNameDate {
+  justify-content: flex-end;
+  text-align: left;
+  display: flex;
+  gap: 24px;
+}
+.listUsername {
+  text-align: left;
+  width: 30px;
+  color: var(--gray-color);
+  font-weight: 400;
+}
+.listDate {
+  width: 140px;
+  text-align: left;
+  color: var(--gray-color);
+  font-size: 14px;
+  font-weight: 400;
+}
+
+/* form-box 관련 요소 */
+.form-box {
+  background: white;
+  border-radius: 8px;
+}
+.formbox-title {
+  margin-bottom: 20px;
+}
+.form-box input,
+textarea {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+.form-box-btnContainer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 150px;
+}
+.form-box-file {
+  margin-top: 10px;
+}
+
+/* 삭제 관련 요소 */
+.deleteThing {
+  cursor: pointer;
+  color: var(--point-color);
+  font-size: 14px;
+}
+.deleteThing > img {
+  width: 14px;
+}
+.myDeleteImg {
+  cursor: pointer;
+  color: var(--gray-color);
+  margin-left: 100px;
+  font-weight: 500;
+}
+
+/* 검색 요소 */
+.searchBox {
+  gap: 8px;
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 20px;
+  display: flex;
+}
+.search {
+  width: 250px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  height: 40px;
+}
+
+/* 총 게시글 수 관련 */
+.totalPost {
+  display: flex;
+  color: var(--gray-color);
+  margin-top: 10px;
+  align-self: center;
+}
+.totalPost > div {
+  justify-self: start;
+}
+.summary {
+  margin-top: 8px;
+  width: 1024px;
+}
+
+/* 상세페이지 요소 1.본문 */
+.detailpgImg {
+  width: 300px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+.detailpgTitle {
+  padding: 10px 0;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+.detailpgTitle2 {
+  display: flex;
+  gap: 8px;
+}
+.detailpgTitle > p,
+.detailpgTitle2 > p {
+  color: var(--gray-color);
+  font-size: 14px;
+  align-self: center;
+}
+
+.detailpgTitle2 > img {
+  width: 25px;
+  height: 25px;
+  border-radius: 30px;
+  align-self: center;
+}
+.detailGotochat {
+  width: fit-content;
+  color: var(--black-color);
+}
+.detailGotochat:hover {
+  color: var(--gray-color);
+  font-weight: 500;
+}
+
+/* 상세 페이지 요소 2.댓글 */
+.comment-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 1024px;
+  background: white;
+  padding: 30px 20px;
+  border-radius: 8px;
+  border: 1px solid var(--gray-color2);
+}
+.comment-wrapper h4 {
+  margin-bottom: 20px;
+}
+.comment-box {
+  display: flex;
+  margin: 10px 0;
+}
+.comment-box > div {
+  margin-right: 10px;
+}
+.comment {
+  gap: 8px;
+  display: flex;
+  color: var(--gray-color);
+  font-size: 14px;
+  align-self: center;
+}
+
+.commentTitle {
+  display: flex;
+  width: 90px;
+  justify-content: space-between;
+}
+.commentsNum {
+  color: var(--gray-color);
+  font-size: 14px;
+  align-self: center;
+}
+.commentWriter {
+  color: var(--light-hover-color);
+  font-weight: bold;
+}
+.detailpgBg {
+  width: 1024px;
+  display: flex;
+  flex-direction: column;
+  background: var(--light-color);
+  padding: 15px 20px;
+  margin: 20px 0;
+  border-radius: 8px;
+  border: 1px solid var(--gray-color2);
+}
+.detailpgEdit {
+  padding: 4px 0;
+  display: flex;
+  justify-content: flex-end;
+  color: var(--gray-color);
+  gap: 16px;
+}
+.detailpgEdit > a > img {
+  width: 14px;
+}
+.detailpgForm {
+  display: flex;
+  gap: 8px;
+}
+.detailpgForm input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 400px;
+  height: 40px;
+}
+
+/* 채팅 페이지 요소 */
+.chat-screen {
+  width: 100%;
+}
+.mine {
+  display: flex;
+  margin-bottom: 10px;
+  justify-content: flex-end;
+}
+.mine > div {
+  padding: 10px;
+  border-radius: 12px;
+}
+.yours {
+  display: flex;
+  margin-bottom: 10px;
+}
+.yours > div {
+  padding: 10px;
+  background: var(--light-color2);
+  border-radius: 12px;
+}
+.chat-box > span {
+  align-self: center;
+  color: var(--gray-color);
+  font-size: 12px;
+  margin: 0 7px;
+}
+.chat-form {
+  gap: 8px;
+  width: 100%;
+  max-width: 1024px;
+  display: flex;
+}
+.chat-input {
+  padding: 10px;
+  border-radius: 15px;
+  width: 100%;
+  height: 40px;
+  border: 1px solid var(--gray-color);
+}
+.firstChat {
+  color: var(--gray-color);
+  font-size: 12px;
+  text-align: center;
+}
+.yourChat {
+  background-color: var(--light-hover-color);
+  color: var(--light-color);
+}
+.userIMG,
+.writerIMG {
+  width: 30px;
+  height: 30px;
+  border-radius: 50px;
+  align-self: center;
+  margin-right: 5px;
+  border: none;
+}
+.contentBox {
+  display: flex;
+  justify-content: space-between;
+}
+.contentBox > span {
+  color: var(--gray-color);
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+/* 홈페이지 요소 1. Grid1 */
+.homeGrid1 {
+  flex-basis: 65%;
+}
+.homeWritePost {
+  height: 40px;
+  cursor: pointer;
+  background: var(--light-hover-color);
+  color: var(--light-color);
+  border: none;
+  border-radius: 5px;
+  padding: 0 15px;
+}
+.homeWritePost > img {
+  width: 14px;
+}
+.homeCategoryContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.homeCategory {
+  display: flex;
+  list-style: none;
+  gap: 8px;
+  margin-top: 8px;
+}
+.homeCategory > a {
+  width: 65px;
+  text-align: center;
+  padding: 7px 14px;
+  margin: 3px 0px;
+  background: var(--gray-color2);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+/* 홈페이지 요소 2. Grid2 */
+.homeTitle {
+  color: var(--light-hover-color);
+  align-self: center;
+}
+.homeTitle .homeCursor {
+  position: relative;
+  display: inline-block;
+  font-size: 24px;
+  font-weight: 700;
+}
+.homeTitle .homeCursor::after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  right: -10px;
+  width: 4px;
+  height: 100%;
+  background-color: var(--light-hover-color);
+}
+.homeTitle .homeCursor.active::after {
+  display: none;
+}
+.homeBanner {
+  margin: 50px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.homeImg {
+  width: 50px;
+  padding: 10px;
+}
+.homeGrid2 {
+  flex-basis: 35%;
+}
+.homeGrid2titleBox {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.homeGrid2Title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+.homeGrid2subTitle {
+  color: var(--gray-color);
+}
+.homeGrid2Title > p {
+  font-size: 0.875rem;
+}
+.homeGrid2Box {
+  display: flex;
+  height: 80px;
+  padding: 0 16px;
+  gap: 0.75rem;
+  align-items: center;
+}
+.homeGrid2Box > a {
+  text-decoration: none;
+}
+.homeRank {
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+.homeGrid2Profile {
+  width: 40px;
+}
+.homeGrid2Profile > img {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--gray-color2);
+  border-radius: 50px;
+}
+.homeTopPosts {
+  display: flex;
+  flex-direction: column;
+}
+.homeTopPostsTitle {
+  font-weight: 700;
+}
+.homeTopPostsContent {
+  color: var(--gray-color);
+  font-size: 14px;
+}
+
+/* 수정페이지 요소 */
+.detailpgContent {
+  background-color: transparent;
+  border: none;
+  width: 100%;
+  min-height: 200px;
+  box-sizing: border-box;
+  resize: none; /* textarea 크기 조절 비활성화 */
+  font-size: 14px;
+}
+
+/* 글 작성 페이지 요소 */
+.writeCategoryBox {
+  display: flex;
+  margin-bottom: 8px;
+  gap: 8px;
+  align-items: center;
+}
+.writeContent {
+  width: 100%;
+  min-height: 200px;
+  box-sizing: border-box;
+  resize: none; /* textarea 크기 조절 비활성화 */
+  font-size: 14px;
+}
+
+/* login, register 페이지 */
+.loginRegisterBox {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 30px;
+  width: 500px;
+  background: white;
+  margin-top: 20px;
+  border-radius: 8px;
+}
+.loginRegisterBox > h4 {
+  margin-bottom: 20px;
+}
+.loginRegisterBox > input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}

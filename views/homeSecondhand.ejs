@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Myboard</title>
     <link href="/main.css" rel="stylesheet" />
+    <link href="/main2.css" rel="stylesheet" />
   </head>
 
-  <body class="grey-bg">
-    <%- include('nav.ejs')%>
+  <body class="lightLayout">
+    <%- include('header.ejs')%>
 
-    <div class="wholeWrapper">
       <div class="wrapperGrid">
-        <div class="grid1">
+        <div class="homeGrid1">
         <!-- 검색기능 -->
         <div class="searchBox">
           <input
@@ -21,22 +21,22 @@
             placeholder="게시글을 검색하세요."
             autofocus
           />
-          <button class="searchBtn">검색하기</button>
+          <button class="customBtn">검색하기</button>
         </div>
-        <div class="listSummary">
+
           <div class="totalPost">
             <div>총 게시글 : <%=posts.length %></div>
           </div>
-        </div>
 
-        <div class="categoryContainer">
-          <ul class="category">
-            <a href="/list/total"><li>전체</li></a>
-            <a href="/list/secondhand"><li>중고거래</li></a>
-            <a href="/list/sale"><li>세일정보</li></a>
-            <a href="/list/tips"><li>살림노하우</li></a>
+
+        <div class="homeCategoryContainer">
+          <ul class="homeCategory">
+            <a href="/home"><li>전체</li></a>
+            <a href="/home/secondhand"><li>중고거래</li></a>
+            <a href="/home/sale"><li>세일정보</li></a>
+            <a href="/home/tips"><li>살림노하우</li></a>
           </ul>
-          <button class="writePost" onclick="window.location.href='/write'">
+          <button class="homeWritePost" onclick="window.location.href='/write'">
             글 작성하기 <img src="/edit2.png" />
           </button>
         </div>
@@ -46,9 +46,9 @@
         <div class="white-bg">
           <% if(secondhand.length >0) { %> 
             <% for(let i=0; i<secondhand.length;i++) { %>
-              <div class="list-box" id="list-box">
-                <div class="list-box-left">
-                  <div class="editNdelete">
+              <div class="listBox" id="list-box">
+                <div class="listBox-left">
+                  <div class="listBox-left-inner">
                     <div><%=secondhand[i].category%></div>
                     <a class="mainTitle" href="/detail/<%=secondhand[i]._id%>"
                       ><%=secondhand[i].title %></a
@@ -62,9 +62,9 @@
                       <%=secondhand[i].user %>
                     </div>
                   </div>
-                  <span class="nameDate">
-                    <span class="username"><%=secondhand[i].username%></span>
-                    <span class="date"><%=secondhand[i].date%></span>
+                  <span class="listNameDate">
+                    <span class="listUsername"><%=secondhand[i].username%></span>
+                    <span class="listDate"><%=secondhand[i].date%></span>
                   </span>
                 </div>
               </div>
@@ -89,7 +89,7 @@
         <!-- 검색기능 -->
         <script>
           document
-            .querySelector('.searchBtn')
+            .querySelector('.customBtn')
             .addEventListener('click', function () {
               let userInput = document.querySelector('.search').value;
               location.href = '/search?keyword=' + userInput;
@@ -99,7 +99,7 @@
 
         <!-- 게시물 날짜순 정렬하기 -->
         <script>
-          let postdates = document.querySelectorAll('.date');
+          let postdates = document.querySelectorAll('.listDate');
 
           let postdatesArr = [];
           postdates.forEach((date, idx) => {
@@ -119,12 +119,12 @@
             date.newIndex = index; // 새로운 인덱스 추가
           });
 
-          // 위의 정렬 기준에 따라서 list-box 정렬하기
-          let listboxes = document.querySelectorAll('.list-box');
+          // 위의 정렬 기준에 따라서 listBox 정렬하기
+          let listboxes = document.querySelectorAll('.listBox');
           listboxes.forEach((box) => {
             // box.querySelector 하면 특정 한 개 박스의 ~
             let newIndex = orderedDate.find(
-              (date) => date.date === box.querySelector('.date').textContent
+              (date) => date.date === box.querySelector('.listDate').textContent
             ).newIndex;
 
             // (중요) order 속성 적용하려면 listbox의 부모요소(white-bg)에 flex나 grid 적용되야 함
@@ -152,7 +152,7 @@
           function updateDisplay (currentPage) {
           listboxes.forEach((box) => {
             let newIndex = orderedDate.find(
-              (date) => date.date === box.querySelector('.date').textContent
+              (date) => date.date === box.querySelector('.listDate').textContent
             ).newIndex;
 
             box.style.order = newIndex;
@@ -240,23 +240,23 @@
               .querySelector('.white-bg')
               .insertAdjacentHTML(
                 'afterbegin',
-                `<div class="list-box"><h4>${mydata.title}<h4><p>${mydata.content}</p></div>`
+                `<div class="listBox"><h4>${mydata.title}<h4><p>${mydata.content}</p></div>`
               );
           });
         </script>
         </div>
 
-        <div class="grid2">
-          <div class="home">
+        <div class="homeGrid2">
+          <div class="homeBanner">
             <img src="/homelogo.png" class="homeImg" />
             <div class="homeTitle">
               <p class="homeCursor"></p>
             </div>
           </div>
         <div class="white-bg">
-          <div class="grid2titleBox">
-            <div class="grid2Title">인기 TOP 게시물</div>
-            <div class="grid2subTitle">한주간 서비스에서 인기있던 게시물이에요!</div>
+          <div class="homeGrid2titleBox">
+            <div class="homeGrid2Title">인기 TOP 게시물</div>
+            <div class="homeGrid2subTitle">한주간 서비스에서 인기있던 게시물이에요!</div>
           </div> 
           <% if(commentCount) { %>
             <% let commentArray = Object.entries(commentCount) %>
@@ -268,14 +268,14 @@
             <% for(let m = 0; m < 8 && m < commentArray.length; m++) { %>
               <% for(let l=0; l< posts.length; l++) { %>
                 <% if(commentArray[m][0]=== posts[l]._id.toString()) { %>
-                  <div class="grid2Box">
-                    <div class="rank"><%=m+1%></div>
-                    <div class="grid2Profile"><img src="<%=posts[l].userImage%>" alt="이미지"></div>
+                  <div class="homeGrid2Box">
+                    <div class="homeRank"><%=m+1%></div>
+                    <div class="homeGrid2Profile"><img src="<%=posts[l].userImage%>" alt="이미지"></div>
                     
-                      <div class="topPosts">
+                      <div class="homeTopPosts">
                         <a href="/detail/<%=posts[l]._id%>">
-                          <div class="topPostsTitle"><%=posts[l].title%></div>
-                          <div class="topPostsContent"><%=posts[l].content%></div>
+                          <div class="homeTopPostsTitle"><%=posts[l].title%></div>
+                          <div class="homeTopPostsContent"><%=posts[l].content%></div>
                         </a>
                       </div>
                   </div>
@@ -287,7 +287,6 @@
         </div>
       </div>  
       <%- include('footer.ejs')%>      
-    </div>
     
   </body>
 </html>
@@ -295,8 +294,8 @@
 <script>
   // 말줄임 기능
   let mainTitles = document.querySelectorAll(".mainTitle")
-  let titles = document.querySelectorAll(".topPostsTitle")
-  let contents = document.querySelectorAll(".topPostsContent")
+  let titles = document.querySelectorAll(".homeTopPostsTitle")
+  let contents = document.querySelectorAll(".homeTopPostsContent")
   let mainLength = 26
   let length = 10
 

@@ -14,7 +14,7 @@ connectDB
   });
 
 // 카테고리 - 전체 페이지
-router.get('/total', isLogin, async (req, res) => {
+router.get('/', isLogin, async (req, res) => {
   let commentCount = {};
 
   try {
@@ -35,7 +35,7 @@ router.get('/total', isLogin, async (req, res) => {
     }
     console.log('commentCount', commentCount);
 
-    return res.render('listTotal.ejs', {
+    return res.render('home.ejs', {
       boardPosts: posts,
       loginUser: loginuser,
       commentCount: commentCount,
@@ -74,7 +74,7 @@ router.get('/secondhand', isLogin, async (req, res) => {
       }
     }
 
-    return res.render('listSecondhand.ejs', {
+    return res.render('homeSecondhand.ejs', {
       posts: posts,
       secondhand: secondhand,
       loginUser: loginuser,
@@ -114,7 +114,7 @@ router.get('/sale', isLogin, async (req, res) => {
       }
     }
 
-    return res.render('listSale.ejs', {
+    return res.render('homeSale.ejs', {
       posts: posts,
       saleInfo: saleInfo,
       loginUser: loginuser,
@@ -154,7 +154,7 @@ router.get('/tips', isLogin, async (req, res) => {
       }
     }
 
-    return res.render('listTips.ejs', {
+    return res.render('homeTips.ejs', {
       posts: posts,
       tips: tips,
       loginUser: loginuser,
@@ -179,7 +179,7 @@ router.get('/tips', isLogin, async (req, res) => {
 //     .skip((req.params.id - 1) * 5)
 //     .limit(5)
 //     .toArray();
-//   res.render('list.ejs', { boardPosts: result, loginUser: loginuser });
+//   res.render('home.ejs', { boardPosts: result, loginUser: loginuser });
 // });
 
 // // 다음 게시물 5개 보기 기능(장점: 매우 빠름, 단점: 다음 버튼으로 바꿔야함)
@@ -192,7 +192,7 @@ router.get('/tips', isLogin, async (req, res) => {
 //     .find({ _id: { $gt: new ObjectId(req.params.id) } })
 //     .limit(5)
 //     .toArray();
-//   res.render('list.ejs', { boardPosts: result, loginUser: loginuser });
+//   res.render('home.ejs', { boardPosts: result, loginUser: loginuser });
 // });
 
 module.exports = router;

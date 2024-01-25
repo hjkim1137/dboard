@@ -5,21 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Myboard</title>
     <link href="/main.css" rel="stylesheet" />
+    <link href="/main2.css" rel="stylesheet" />
   </head>
-  <body class="grey-bg">
-    <%- include('nav.ejs')%>
+  <body class="lightLayout">
+    <%- include('header.ejs')%>
 
-    <div class="wholeWrapper">
-      <div class="toLogin">
-        <img src="/error.png" class="errorLogo" />
+    <div class="toLoginBox">
+      <img src="/error.png" class="errorLogo" />
 
-        <div class="errorMsg">
-          로그인한 유저만 접근할 수 있는 페이지 입니다!
-        </div>
-        <a href="/login" class="tologinBtn">로그인 하러가기</a>
-      </div>
-      <%- include('footer.ejs')%>
+      <div class="errorMsg">로그인한 유저만 접근할 수 있는 페이지 입니다!</div>
+      <a href="/login" class="tologinBtn">로그인 하러가기</a>
     </div>
+    <%- include('footer.ejs')%>
   </body>
 </html>
 
@@ -34,7 +31,7 @@
     errorIcon.src = '/error.png';
   }
 
-  toggle.addEventListener('click', function () {
+  headerToggle.addEventListener('click', function () {
     if (body.classList.contains('dark-mode')) {
       errorIcon.src = '/error2.png';
     } else {

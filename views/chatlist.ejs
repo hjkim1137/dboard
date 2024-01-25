@@ -5,23 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Myboard</title>
     <link href="/main.css" rel="stylesheet" />
+    <link href="/main2.css" rel="stylesheet" />
   </head>
-  <body class="grey-bg">
-    <%- include('nav.ejs')%>
+  <body class="lightLayout">
+    <%- include('header.ejs')%>
 
-    <div class="wholeWrapper">
       <div class="summary">
         <div class="totalPost"><div>참여 채팅룸: <%=chatlist.length %></div></div>
       </div>
       <div class="wrapperGrid">
         <div class="white-bg">
           <% for(let i=0; i<chatlist.length; i++) { %>
-            <div class="list-box" id="list-box">
+            <div class="listBox" id="list-box">
               <h4>
                 <a href="/chat/detail?roomid=<%= chatlist[i]._id %>"><%=chatlist[i].chatName %></a>
                 <div style="display: none" class="listchatId"><%=chatlist[i]._id %></div>
                 <span
-                class="deleteChat"
+                class="deleteThing"
                 data-id="<%=chatlist[i]._id %>"
                 data-userid="<%=chatlist[i].user%>"
               ><img src="/delete2.png"> 삭제</span>
@@ -50,7 +50,7 @@
           
           <% if(chatlist.length == 0) { %>
             <div class="toChatlistPage">
-              <a href="/list/total">시작한 채팅이 없습니다. 첫 채팅을 시작해보세요!</a>
+              <a href="/home">시작한 채팅이 없습니다. 첫 채팅을 시작해보세요!</a>
             </div>
           <% } %>
 
@@ -77,8 +77,8 @@
             date.newIndex = index; // 새로운 인덱스 추가
           });
 
-          // 위의 정렬 기준에 따라서 list-box 정렬하기
-          let listboxes = document.querySelectorAll(".list-box");
+          // 위의 정렬 기준에 따라서 listBox 정렬하기
+          let listboxes = document.querySelectorAll(".listBox");
             listboxes.forEach((box) => {
             // box.querySelector 하면 특정 한 개 박스의 ~
             let newIndex = orderedDate.find((date) => date.date === box.querySelector(".lastChat-date").textContent).newIndex;
@@ -89,7 +89,7 @@
 
           <!-- 삭제기능 -->
           <script>
-            let deleteBtns = document.querySelectorAll('.deleteChat');
+            let deleteBtns = document.querySelectorAll('.deleteThing');
 
             deleteBtns.forEach((btn, index) => {
               let chatIds = document.querySelectorAll('.listchatId');
@@ -125,7 +125,7 @@
         </div>
       </div>
         <%- include('footer.ejs')%>
-    </div>
+    
   </body>
 </html>
 

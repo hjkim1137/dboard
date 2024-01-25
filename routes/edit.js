@@ -31,28 +31,28 @@ router.put('/', isLogin, async (req, res) => {
       { _id: new ObjectId(req.body.id), user: new ObjectId(req.user._id) },
       { $set: { title: req.body.title, content: req.body.content } }
     );
-    res.redirect('/list/total');
+    res.redirect('/detail/' + req.body.id);
   } catch (e) {
     console.log(e);
   }
 });
 
+module.exports = router;
+
 // 게시물 수정기능(DB 전송 - $inc)
-router.put('/', isLogin, async (req, res) => {
-  // 팁: 서버에서 정보를 찾을 수 없으면 - 유저에게 보내라고 하거나/DB에서 꺼내보거나
-  try {
-    await db.collection('post').updateOne({ _id: 1 }, { $inc: { like: 2 } });
-    // $inc는 기존값에 +/- 하라는 뜻 예) 2-> +2, -2 -> -2
-    res.redirect('/list/total');
-  } catch (e) {
-    console.log(e);
-  }
-});
+// router.put('/', isLogin, async (req, res) => {
+//   // 팁: 서버에서 정보를 찾을 수 없으면 - 유저에게 보내라고 하거나/DB에서 꺼내보거나
+//   try {
+//     await db.collection('post').updateOne({ _id: 1 }, { $inc: { like: 2 } });
+//     // $inc는 기존값에 +/- 하라는 뜻 예) 2-> +2, -2 -> -2
+//     res.redirect('/home');
+//   } catch (e) {
+//     console.log(e);
+//   }
+// });
 
 // 동시에 document 여러개 수정
 // await db.collection('post').updateMany({ _id: 1 }, { $set: { like: 2 } });
 
 // 동시에 document 여러개 수정 - 조건식 입력(like가 10 이상인 것 일괄 수정)
 // await db.collection('post').updateMany({ like:{$gt:10} }, { $set: { like: 2 } });
-
-module.exports = router;

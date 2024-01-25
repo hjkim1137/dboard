@@ -32,7 +32,7 @@ router.get('/:id', isLogin, async (req, res) => {
       .find({ parentId: new ObjectId(req.params.id) })
       .toArray();
     res.render('detail.ejs', {
-      loginuser: loginuser.toString(),
+      loginuser: loginuser,
       result: result,
       comment: comment,
     });
