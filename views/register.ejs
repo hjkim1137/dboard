@@ -10,43 +10,71 @@
   <body class="lightLayout">
     <%- include('header.ejs')%>
 
-      <form class="loginRegisterBox" action="/register" method="POST" enctype="multipart/form-data">
-        <h4 class="formbox-title">회원가입</h4>
-        <div class="imgwrapper-100">
-          <img class="nullImg-100"></img>
-        </div>
-        <input onchange="setThumbnail(event)" type="file" name="img1" accept="image/*" multiple  class="form-box-file"/>
-          
-        <!-- 이미지 미리보기 -->
-        <script>
-          function setThumbnail(event) {
-            let reader = new FileReader()
+    <form
+      class="loginRegisterBox"
+      action="/register"
+      method="POST"
+      enctype="multipart/form-data"
+    >
+      <h4 class="formbox-title">회원가입</h4>
+      <div class="myDeleteImg">X</div>
+      <div class="imgwrapper-100">
+        <img src="/profile.png" class="nullImg-100" />
+      </div>
+      <input
+        onchange="setThumbnail(event)"
+        type="file"
+        name="img1"
+        accept="image/*"
+        multiple
+        class="form-box-file"
+      />
+      <input class="nullImg" type="hidden" name="nullimg" value="" />
 
-            reader.onload = function(event) {
-              let img = document.querySelector(".nullImg-100")
-              // 이미지파일 -> base64로 인코딩된 문자열로 저장
-              img.setAttribute("src", event.target.result)
-            }
-            // onload를 트리거 시킴
-            reader.readAsDataURL(event.target.files[0])
-          }
-        </script>
-        <input name="username" / placeholder="ID를 입력하세요.">
-        <input
-          name="password"
-          type="password"
-          placeholder="8자 이상 비밀번호를 입력하세요."
-        />
-        <input
-          name="password2"
-          type="password"
-          placeholder="비밀번호를 다시 입력하세요."
-        />
-        <div class="form-box-btnContainer">
-          <button type="submit" class="customBtn">가입하기</button>
-        </div>
-      </form>
-      <%- include('footer.ejs')%>
- 
+      <!-- 이미지 미리보기 -->
+      <script>
+        let img = document.querySelector('.nullImg-100');
+        let nullImg = document.querySelector('.nullImg');
+
+        function setThumbnail(event) {
+          let reader = new FileReader();
+
+          reader.onload = function (event) {
+            // 이미지파일 -> base64로 인코딩된 문자열로 저장
+            img.setAttribute('src', event.target.result);
+            nullImg.setAttribute('value', event.target.result);
+          };
+          // onload를 트리거 시킴
+          reader.readAsDataURL(event.target.files[0]);
+        }
+
+        // 이미지 삭제하기
+        document
+          .querySelector('.myDeleteImg')
+          .addEventListener('click', myDeleteImg);
+
+        function myDeleteImg() {
+          img.removeAttribute('src');
+          img.setAttribute('src', '/profile.png');
+          nullImg.removeAttribute('value');
+        }
+      </script>
+
+      <input name="username" / placeholder="ID를 입력하세요.">
+      <input
+        name="password"
+        type="password"
+        placeholder="8자 이상 비밀번호를 입력하세요."
+      />
+      <input
+        name="password2"
+        type="password"
+        placeholder="비밀번호를 다시 입력하세요."
+      />
+      <div class="form-box-btnContainer">
+        <button type="submit" class="customBtn">가입하기</button>
+      </div>
+    </form>
+    <%- include('footer.ejs')%>
   </body>
 </html>

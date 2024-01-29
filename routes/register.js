@@ -59,14 +59,19 @@ router.post('/', isBlank, upload.single('img1'), async (req, res) => {
     }
     // 비밀번호 해싱하기
     let hash = await bcrypt.hash(req.body.password, 10);
+    let imageFile = req.file ? req.file.location : null;
+
+    if (!req.body.nullimg) {
+      imageFile = null;
+    }
 
     await db.collection('user').insertOne({
-      img: req.file ? req.file.location : null,
+      img: imageFile,
       username: req.body.username,
       password: hash,
       created: formatDate2(),
     });
-    res.redirect('/');
+    res.redirect('/login');
   } catch (e) {
     console.log(e);
     res.status(500).send('내부 서버 오류');

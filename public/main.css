@@ -211,6 +211,10 @@ button:hover {
   flex-direction: column;
   align-items: center;
 }
+.dark-mode .header {
+  background-color: var(--dark-background-color);
+  border-bottom: 1px solid var(--gray-color);
+}
 .dark-mode .homeTitle,
 .dark-mode .errorMsg {
   color: var(--gray-color);
@@ -285,18 +289,18 @@ button:hover {
 .tologinBtn {
   text-decoration: none;
   color: var(--gray-color);
-  font-size: 18px;
+  font-size: 16px;
 }
 .tologinBtn:hover {
   color: var(--light-hover-color);
   font-weight: 700;
 }
 .errorMsg {
-  font-size: 20px;
+  font-size: 16px;
   color: var(--light-hover-color);
   margin-bottom: 20px;
   font-weight: 500;
 }
 .errorLogo {
-  width: 300px;
+  width: 200px;
 }
