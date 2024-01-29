@@ -61,6 +61,15 @@ router.get('/list', isLogin, async (req, res) => {
 
       let chats = [];
 
+      // 생성된 채팅룸이 1개도 없는 경우에 대한 res 예외 처리(그렇지 않으면 무한 요청함)
+      if (chatlist.length == 0) {
+        res.render('chatList.ejs', {
+          chatlist: [],
+          loginUser: req.user._id,
+          lastChat: [],
+        });
+      }
+
       if (chatlist.length > 0) {
         // 각 채팅방의 ObjectId를 배열로 만듦
         const roomIds = chatlist.map((chat) => new ObjectId(chat._id));
@@ -84,14 +93,6 @@ router.get('/list', isLogin, async (req, res) => {
           chatlist: chatlist,
           loginUser: req.user._id,
           lastChat: chats,
-        });
-
-        // 생성된 채팅룸이 1개도 없는 경우에 대한 res 예외 처리(그렇지 않으면 무한 요청함)
-      } else {
-        res.render('chatList.ejs', {
-          chatlist: [],
-          loginUser: req.user._id,
-          lastChat: [],
         });
       }
     } catch (e) {
