@@ -66,7 +66,7 @@ router.post('/add', upload.single('img1'), async (req, res) => {
       userImage: req.user.img,
       date: formatDate2(),
     });
-    res.redirect('/home');
+    res.redirect('/');
   } catch (e) {
     console.log(e);
     res.status(500).send('서버 에러남');

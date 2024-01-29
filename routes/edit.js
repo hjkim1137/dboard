@@ -45,7 +45,7 @@ module.exports = router;
 //   try {
 //     await db.collection('post').updateOne({ _id: 1 }, { $inc: { like: 2 } });
 //     // $inc는 기존값에 +/- 하라는 뜻 예) 2-> +2, -2 -> -2
-//     res.redirect('/home');
+//     res.redirect('/');
 //   } catch (e) {
 //     console.log(e);
 //   }

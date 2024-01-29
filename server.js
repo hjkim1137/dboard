@@ -144,7 +144,7 @@ app.post('/login', isBlank, async (req, res, next) => {
     // req.login() => 유저가 전송버튼 누름-> passport.serializeUser 실행
     req.logIn(user, (err) => {
       if (err) return next(err); // 에러 있으면
-      res.redirect('/home'); // 에러 없으면
+      res.redirect('/'); // 에러 없으면
     });
   })(req, res, next);
 });
@@ -162,7 +162,7 @@ app.get('/login', async (req, res) => {
 app.get('/logout', async (req, res) => {
   req.logout((err) => {
     if (err) return next(err); // 에러 있으면
-    res.redirect('/home'); // 에러 없으면
+    res.redirect('/'); // 에러 없으면
   });
 });
 
@@ -179,7 +179,7 @@ app.use('/delete', require('./routes/delete.js'));
 app.use('/register', require('./routes/register.js'));
 app.use('/mypage', require('./routes/mypage.js'));
 app.use('/mypost', require('./routes/mypost.js'));
-app.use('/home', require('./routes/home.js'));
+app.use('/', require('./routes/home.js'));
 app.use('/search', require('./routes/search.js'));
 app.use('/chat', require('./routes/chat.js'));
 
