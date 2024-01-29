@@ -35,9 +35,9 @@
             <a href="/sale"><li>세일정보</li></a>
             <a href="/tips"><li>살림노하우</li></a>
           </ul>
-          <button class="homeWritePost" onclick="window.location.href='/write'">
+          <a class="homeWritePost" href="/write">
             글 작성하기 <img src="/edit2.png" />
-          </button>
+          </a>
         </div>
       
 
@@ -132,7 +132,6 @@
   </body>
 </html>
 
-
 <!-- 검색기능 -->
 <script>
   document
@@ -148,6 +147,13 @@
 <script>
   let postdates = document.querySelectorAll('.listDate');
 
+  // 게시글 날짜 년도까지만 보여주기
+  postdates.forEach((postDate)=> {
+    let text = postDate.textContent.substr(0,10)
+    postDate.textContent = text
+  })
+
+  // 게시글 날짜순 정렬 시작
   let postdatesArr = [];
   postdates.forEach((date, idx) => {
     let postdate = date.textContent;
@@ -178,6 +184,8 @@
     box.style.order = newIndex;
   });
 </script>
+
+
 
 <!-- 페이지네이션 기능 -->
 <script>
@@ -297,7 +305,7 @@
   let mainTitles = document.querySelectorAll(".mainTitle")
   let titles = document.querySelectorAll(".homeTopPostsTitle")
   let contents = document.querySelectorAll(".homeTopPostsContent")
-  let mainLength = 26
+  let mainLength = 24
   let length = 10
 
   mainTitles.forEach((title) =>{

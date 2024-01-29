@@ -16,12 +16,12 @@
 
 /*  공통 레이아웃 */
 .lightLayout {
-  padding-bottom: 10px;
   display: flex;
+  padding-bottom: 10px;
   flex-direction: column;
-  align-items: center;
 }
 .wrapperGrid {
+  margin: 0 auto;
   width: 1024px;
   display: flex;
   gap: 48px;
@@ -193,7 +193,6 @@
   font-weight: 400;
 }
 .listDate {
-  width: 140px;
   text-align: left;
   color: var(--gray-color);
   font-size: 14px;
@@ -468,13 +467,14 @@ textarea {
   flex-basis: 65%;
 }
 .homeWritePost {
-  height: 40px;
+  text-align: center;
   cursor: pointer;
   background: var(--light-hover-color);
   color: var(--light-color);
   border: none;
-  border-radius: 5px;
-  padding: 0 15px;
+  border-radius: 3px;
+  padding: 7px 14px;
+  margin-top: 8px;
 }
 .homeWritePost > img {
   width: 14px;
@@ -636,4 +636,31 @@ textarea {
   border: 1px solid black;
   border-radius: 5px;
   margin-bottom: 10px;
+}
+
+@media (max-width: 1200px) {
+  .wrapperGrid {
+    max-width: 850px;
+  }
+}
+
+@media (max-width: 992px) {
+  .wrapperGrid {
+    max-width: 760px;
+  }
+}
+
+@media (max-width: 768px) {
+  .wrapperGrid {
+    max-width: 540px;
+  }
+}
+
+@media (max-width: 320px) {
+  .wrapperGrid {
+    width: 296px;
+  }
+  .homeGrid2 {
+    display: none;
+  }
 }

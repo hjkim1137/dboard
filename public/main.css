@@ -58,14 +58,13 @@ button:hover {
 
 /* 1.header */
 .header {
-  width: 100%;
   z-index: 5;
   position: sticky;
   top: 0;
   padding: 10px 20px;
   height: 55px;
   display: flex;
-  gap: 48px;
+  gap: 16px;
   background-color: var(--light-color);
   align-items: center;
   border-bottom: 1px solid var(--gray-color2);
@@ -112,12 +111,10 @@ button:hover {
 .headerToggle {
   color: var(--gray-color);
   align-self: center;
-  min-width: 100px;
-  height: 36px;
   cursor: pointer;
   margin-left: 10px;
-  border: 1.5px solid var(--gray-color2);
-  border-radius: 5px;
+  border: none;
+  background-color: transparent;
 }
 .headerProfileInner {
   gap: 16px;
@@ -151,10 +148,8 @@ button:hover {
   border-radius: 50px;
 }
 .headerProfileBox {
-  flex-grow: 1;
   display: flex;
-  justify-content: flex-end;
-  gap: 36px;
+  gap: 32px;
   height: 45px;
   align-items: center;
 }
@@ -248,7 +243,6 @@ button:hover {
 .dark-mode .writerChat {
   background-color: var(--gray-color);
 }
-.dark-mode .headerToggle,
 .dark-mode .loginRegisterBox > button .dark-mode,
 .dark-mode .customBtn {
   background-color: var(--dark-color2);
@@ -303,4 +297,31 @@ button:hover {
 }
 .errorLogo {
   width: 200px;
+}
+
+@media (max-width: 1200px) {
+  .wrapperGrid {
+    max-width: 850px;
+  }
+}
+
+@media (max-width: 992px) {
+  .wrapperGrid {
+    max-width: 760px;
+  }
+}
+
+@media (max-width: 768px) {
+  .wrapperGrid {
+    max-width: 540px;
+  }
+}
+
+@media (max-width: 320px) {
+  .wrapperGrid {
+    width: 296px;
+  }
+  .homeGrid2 {
+    display: none;
+  }
 }
