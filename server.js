@@ -47,9 +47,9 @@ connectDB
     changeStream = db.collection('post').watch(condition);
 
     // 서버 시작 코드
-    server.listen(process.env.PORT, '0.0.0.0', () => {
+    server.listen(process.env.PORT, () => {
       // console.log(`http://localhost:${process.env.PORT} 에서 서버 실행중`);
-      console.log(`http://0.0.0.0:${process.env.PORT} 에서 서버 실행중`);
+      console.log(`http://${process.env.PORT} 에서 서버 실행중`);
     });
   })
   .catch((err) => {
