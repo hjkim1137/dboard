@@ -94,12 +94,7 @@ button:hover {
 .header > a:hover {
   color: var(--light-hover-color);
 }
-.headerProfile {
-  cursor: pointer;
-  align-self: center;
-  background-color: var(--light-color);
-  border: none;
-}
+
 .headerLoginRegister {
   display: flex;
   align-items: center;
@@ -113,13 +108,7 @@ button:hover {
   font-weight: 700;
   font-size: 21px;
 }
-.headerUserProfile {
-  width: 30px;
-  height: 30px;
-  border-radius: 50px;
-  margin-right: 10px;
-  border: 1px solid var(--gray-color2);
-}
+
 .headerToggle {
   color: var(--gray-color);
   align-self: center;
@@ -130,15 +119,8 @@ button:hover {
   border: 1.5px solid var(--gray-color2);
   border-radius: 5px;
 }
-.headerProfileBox {
-  flex-grow: 1;
-  display: flex;
-  justify-content: flex-end;
-  gap: 36px;
-  height: 45px;
-  align-items: center;
-}
 .headerProfileInner {
+  gap: 16px;
   cursor: pointer;
   background: none;
   border: none;
@@ -153,6 +135,28 @@ button:hover {
 .headerProfileInner > p {
   align-self: center;
   color: var(--gray-color);
+}
+.headerProfile {
+  width: 35px;
+  cursor: pointer;
+  align-self: center;
+
+  border: none;
+  border-radius: 50px;
+}
+.headerUserProfile {
+  border: 2px solid var(--gray-color2);
+  width: 35px;
+  height: 35px;
+  border-radius: 50px;
+}
+.headerProfileBox {
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 36px;
+  height: 45px;
+  align-items: center;
 }
 .headerLogo {
   width: 40px;

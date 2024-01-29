@@ -1,6 +1,11 @@
 <div class="header">
   <div>
-    <a href="/home" class="headerLeft"><img src="/homelogo.png" class="headerLogo"><span class="headerServiceName">Dboard</span></a>
+    <a href="/home" class="headerLeft"
+      ><img src="/homelogo.png" class="headerLogo" /><span
+        class="headerServiceName"
+        >Dboard</span
+      ></a
+    >
   </div>
 
   <% if(currentUser) { %>
@@ -10,74 +15,74 @@
 
     <button class="headerProfileInner">
       <% if(currentUser.img) { %>
-         <div class="headerProfile">
-            <img src="<%= currentUser.img %>" class="headerUserProfile">
-         </div>
-          <p><%= currentUser.username %></p>
+      <div class="headerProfile">
+        <img src="<%= currentUser.img %>" class="headerUserProfile" />
+      </div>
+      <p><%= currentUser.username %></p>
       <% } else { %>
-          <img class="headerProfile" src="/profile.png"></img>
-          <p><%= currentUser.username %></p>
+      <div class="headerProfile">
+        <img class="headerUserProfile" src="/profile.png" />
+      </div>
+      <p><%= currentUser.username %></p>
       <% } %>
     </button>
-      <ul class="userDropdown">
-        <li><a href="/mypage">마이페이지</a></li> 
-        <li><a href="/mypost">작성한 글</a></li> 
-        <li><a href="/logout">로그아웃</a></li> 
-      </ul>
+    <ul class="userDropdown">
+      <li><a href="/mypage">마이페이지</a></li>
+      <li><a href="/mypost">작성한 글</a></li>
+      <li><a href="/logout">로그아웃</a></li>
+    </ul>
   </div>
 
   <% } else { %>
-    <div class="headerProfileBox">
-      <button class="headerToggle">다크모드로 🌙</button>
-      <a href="/login" class="headerLoginRegister"><div>로그인</div></a>
-      <a href="/register" class="headerLoginRegister"><div>회원가입</div></a>
-    </div>
-  <% } %> 
+  <div class="headerProfileBox">
+    <button class="headerToggle">다크모드로 🌙</button>
+    <a href="/login" class="headerLoginRegister"><div>로그인</div></a>
+    <a href="/register" class="headerLoginRegister"><div>회원가입</div></a>
+  </div>
+  <% } %>
 </div>
 
 <script>
-// 유저 드롭다운 토글
-let dropdown = document.querySelector(".userDropdown")
-let profile = document.querySelector(".headerProfileInner")
+  // 유저 드롭다운 토글
+  let dropdown = document.querySelector('.userDropdown');
+  let profile = document.querySelector('.headerProfileInner');
 
-if(profile) {
-  profile.addEventListener("click", ()=> {
-  dropdown.classList.toggle("active")
-})
-
-}
+  if (profile) {
+    profile.addEventListener('click', () => {
+      dropdown.classList.toggle('active');
+    });
+  }
 </script>
 
 <script>
-// 다크모드 관련
-let mode = localStorage.getItem('mode');
-let toggle = document.querySelector('.headerToggle');
-let body = document.querySelector('body');
-let headerIcons = document.querySelectorAll(".headerIcon")
+  // 다크모드 관련
+  let mode = localStorage.getItem('mode');
+  let toggle = document.querySelector('.headerToggle');
+  let body = document.querySelector('body');
+  let headerIcons = document.querySelectorAll('.headerIcon');
 
-// 화면 이동시에도 다크모드 유지
-if (mode === 'dark') {
-  toggle.innerHTML = '일반모드로 ☀️';
-  body.classList.remove('lightLayout');
-  body.classList.add('dark-mode');
-} else {
-  toggle.innerHTML = '다크모드로 🌙';
-  body.classList.remove('dark-mode');
-}
-
-// 다크모드 버튼 눌렀을 때
-toggle.addEventListener('click', function () {
-  if (body.classList.contains('dark-mode')) {
-    localStorage.removeItem('mode', 'dark');
-    toggle.innerHTML = '다크모드로 🌙';
-    body.classList.remove('dark-mode');
-    body.classList.add('lightLayout');
-
-  } else {
-    localStorage.setItem('mode', 'dark');
+  // 화면 이동시에도 다크모드 유지
+  if (mode === 'dark') {
     toggle.innerHTML = '일반모드로 ☀️';
     body.classList.remove('lightLayout');
     body.classList.add('dark-mode');
+  } else {
+    toggle.innerHTML = '다크모드로 🌙';
+    body.classList.remove('dark-mode');
   }
-});
+
+  // 다크모드 버튼 눌렀을 때
+  toggle.addEventListener('click', function () {
+    if (body.classList.contains('dark-mode')) {
+      localStorage.removeItem('mode', 'dark');
+      toggle.innerHTML = '다크모드로 🌙';
+      body.classList.remove('dark-mode');
+      body.classList.add('lightLayout');
+    } else {
+      localStorage.setItem('mode', 'dark');
+      toggle.innerHTML = '일반모드로 ☀️';
+      body.classList.remove('lightLayout');
+      body.classList.add('dark-mode');
+    }
+  });
 </script>
