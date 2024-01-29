@@ -10,9 +10,17 @@
   <body class="lightLayout">
     <%- include('header.ejs')%>
 
+    <% if(chatlist.length >0) { %>
       <div class="summary">
         <div class="totalPost"><div>참여 채팅룸: <%=chatlist.length %></div></div>
-      </div>
+      </div> 
+    <% } else { %>
+      <div class="summary">
+        <div class="totalPost"><div>참여 채팅룸: 0</div></div>
+      </div> 
+    <% } %>
+
+    
       <div class="wrapperGrid">
         <div class="white-bg">
           <% for(let i=0; i<chatlist.length; i++) { %>
