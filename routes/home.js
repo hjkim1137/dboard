@@ -74,7 +74,7 @@ router.get('/secondhand', isLogin, async (req, res) => {
       }
     }
 
-    return res.render('homeSecondhand.ejs', {
+    return res.render('homesecondhand.ejs', {
       posts: posts,
       secondhand: secondhand,
       loginUser: loginuser,
@@ -114,7 +114,7 @@ router.get('/sale', isLogin, async (req, res) => {
       }
     }
 
-    return res.render('homeSale.ejs', {
+    return res.render('homesale.ejs', {
       posts: posts,
       saleInfo: saleInfo,
       loginUser: loginuser,
@@ -154,7 +154,7 @@ router.get('/tips', isLogin, async (req, res) => {
       }
     }
 
-    return res.render('homeTips.ejs', {
+    return res.render('hometips.ejs', {
       posts: posts,
       tips: tips,
       loginUser: loginuser,

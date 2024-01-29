@@ -63,7 +63,7 @@ router.get('/list', isLogin, async (req, res) => {
 
       // 생성된 채팅룸이 1개도 없는 경우에 대한 res 예외 처리(그렇지 않으면 무한 요청함)
       if (chatlist.length == 0) {
-        res.render('chatList.ejs', {
+        res.render('chatlist.ejs', {
           chatlist: [],
           loginUser: req.user._id,
           lastChat: [],
@@ -89,7 +89,7 @@ router.get('/list', isLogin, async (req, res) => {
         }
 
         // 현재 로그인한 유저가 속한 채팅방들을 꺼내어 Chalist로 렌더링
-        res.render('chatList.ejs', {
+        res.render('chatlist.ejs', {
           chatlist: chatlist,
           loginUser: req.user._id,
           lastChat: chats,
@@ -127,7 +127,7 @@ router.get('/detail', isLogin, async (req, res) => {
   }
   console.log('return 값:', showImage());
 
-  res.render('chatDetail.ejs', {
+  res.render('chatdetail.ejs', {
     chats: chats,
     // current info
     roomId: req.query.roomid,
