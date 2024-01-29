@@ -88,7 +88,7 @@ router.get('/list', isLogin, async (req, res) => {
 
         // 생성된 채팅룸이 1개도 없는 경우에 대한 res 예외 처리(그렇지 않으면 무한 요청함)
       } else {
-        return res.render('chatList.ejs', {
+        res.render('chatList.ejs', {
           chatlist: [],
           loginUser: req.user._id,
           lastChat: [],
