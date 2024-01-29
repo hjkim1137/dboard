@@ -115,14 +115,27 @@ passport.serializeUser((user, done) => {
 
 // 비효율 포인트: 현재는 모든 요청에 대해서 db 조회를 하고 있는데, 특정 API 한해 deserialize 실행 가능하게도 할 수 있다
 passport.deserializeUser(async (user, done) => {
-  let result = await db
-    .collection('user')
-    .findOne({ _id: new ObjectId(user.id) });
-  delete result.password; // 보안을 위해 user 비번 삭제
-  process.nextTick(() => {
-    // 내부 코드를 비동기적으로 처리해줌
-    return done(null, result); // result에 넣은게 API의 req.user에 들어감
-  });
+  try {
+    let result = await db
+      .collection('user')
+      .findOne({ _id: new ObjectId(user.id) });
+
+    if (result) {
+      // result가 유효한 경우에만 비밀번호 삭제
+      delete result.password; // 보안을 위해 user 비번 삭제
+
+      process.nextTick(() => {
+        // 내부 코드를 비동기적으로 처리해줌
+        return done(null, result); // result에 넣은 게 API의 req.user에 들어감
+      });
+    } else {
+      // 유효한 결과가 없는 경우 처리
+      return done(null, false);
+    }
+  } catch (error) {
+    console.error(error);
+    return done(error);
+  }
 });
 
 // req.isAuthenticated()- passport에서 제공하는 함수 (현재 로그인이 되어있으면 true, 아니면 false를 return)

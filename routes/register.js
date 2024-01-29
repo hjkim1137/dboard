@@ -42,34 +42,34 @@ router.get('/', (req, res) => {
   res.render('register.ejs');
 });
 
+// 응답을 보낸 후 함수 실행을 중지시키기 위해 각각 return
 router.post('/', isBlank, upload.single('img1'), async (req, res) => {
   try {
     let data = await db
       .collection('user')
       .findOne({ username: req.body.username });
     if (data) {
-      res.send('이미 존재하는 ID 입니다. 새로운 ID를 입력해주세요.');
-    } else {
-      if (req.body.password.length < 8) {
-        res.send('비밀번호를 8자 이상 입력하세요.');
-      }
-      if (req.body.password != req.body.password2) {
-        res.send('비밀번호가 일치하지 않습니다.');
-      } else {
-        // 비밀번호 해싱하기
-        let hash = await bcrypt.hash(req.body.password, 10);
-
-        await db.collection('user').insertOne({
-          img: req.file ? req.file.location : null,
-          username: req.body.username,
-          password: hash,
-          created: formatDate2(),
-        });
-        res.redirect('/');
-      }
+      return res.send('이미 존재하는 ID 입니다. 새로운 ID를 입력해주세요.');
     }
+    if (req.body.password.length < 8) {
+      return res.send('비밀번호를 8자 이상 입력하세요.');
+    }
+    if (req.body.password != req.body.password2) {
+      return res.send('비밀번호가 일치하지 않습니다.');
+    }
+    // 비밀번호 해싱하기
+    let hash = await bcrypt.hash(req.body.password, 10);
+
+    await db.collection('user').insertOne({
+      img: req.file ? req.file.location : null,
+      username: req.body.username,
+      password: hash,
+      created: formatDate2(),
+    });
+    res.redirect('/');
   } catch (e) {
     console.log(e);
+    res.status(500).send('내부 서버 오류');
   }
 });
 
