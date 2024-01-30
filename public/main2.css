@@ -658,6 +658,9 @@ textarea {
   span {
     font-size: 11px !important;
   }
+  .footer {
+    padding: 20px 16px;
+  }
 }
 
 @media (max-width: 768px) {

@@ -264,7 +264,6 @@ button:hover {
 /* footer  */
 .footer {
   margin: 10px 0;
-  width: 100%;
   text-align: center;
   font-size: 12px;
   line-height: 20px;
@@ -319,6 +318,9 @@ button:hover {
   a,
   span {
     font-size: 11px !important;
+  }
+  .footer {
+    padding: 20px 16px;
   }
 }
 
