@@ -16,10 +16,8 @@
       <div>작성한 게시글 : <%=myposts.length %></div>
     </div>
   </div>
-      <div class="wrapperGrid">
-      
+      <div class="detailpgBg">
         <!-- 카테고리: 전체-->
-        <div class="white-bg">
           <% if(myposts.length >0) { %> 
             <% for(let i=0; i<myposts.length;i++) { %>
               <div class="listBox" id="list-box">
@@ -62,7 +60,6 @@
             <a href="/write">생성된 글이 없습니다. 첫 글을 발행해보세요!</a>
           </div>
           <% } %>
-        </div>
 
         <!-- 게시물 날짜순 정렬하기 -->
         <script>
@@ -251,7 +248,7 @@
 <!-- 말줄임 기능 -->
 <script>
   let mainTitles = document.querySelectorAll(".mainTitle")
-  let mainLength = 26
+  let mainLength = 16
   let length = 10
 
   mainTitles.forEach((title) =>{

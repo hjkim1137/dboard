@@ -11,18 +11,13 @@
     <%- include('header.ejs')%>
 
     <% if(chatlist.length >0) { %>
-      <div class="summary">
-        <div class="totalPost"><div>참여 채팅룸: <%=chatlist.length %></div></div>
-      </div> 
+      <div class="summary">참여 채팅룸: <%=chatlist.length %></div> 
     <% } else { %>
-      <div class="summary">
-        <div class="totalPost"><div>참여 채팅룸: 0</div></div>
-      </div> 
+      <div class="summary">참여 채팅룸: 0</div> 
     <% } %>
 
     
-      <div class="wrapperGrid">
-        <div class="white-bg">
+      <div class="detailpgBg">
           <% for(let i=0; i<chatlist.length; i++) { %>
             <div class="listBox" id="list-box">
               <h4>
@@ -130,7 +125,7 @@
               });
             });
           </script>
-        </div>
+        
       </div>
         <%- include('footer.ejs')%>
     

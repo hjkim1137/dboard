@@ -10,8 +10,7 @@
   <body class="lightLayout">
     <%- include('header.ejs')%>
 
-      <div class="wrapperGrid">
-      <div class="white-bg">
+      <div class="detailpgBg">
         <div class="chat-screen">
           <% if(chats.length == 0) { %>
               <div class="firstChat">첫번째 채팅을 시작하세요!</div>
@@ -26,7 +25,7 @@
             <% for(let i=0; i<chats.length; i++) { %>
               <div class="chat-box <%= (chats[i].userId == String(requestedUserId)) ? 'mine' : 'yours' %>"> 
                 <% if(chats[i].userId == String(requestedUserId)) { %>
-                  <span><%= chats[i].date %></span>
+                  <span class="listDate"><%= chats[i].date %></span>
 
                   <% if(userimg && userimg.length >0) { %>
                     <img src="<%=userimg%>" class="userIMG">
@@ -51,7 +50,7 @@
             <% } %>
           <% } %>
         </div>
-      </div>
+      
       </div>
   
       <div class="chat-form">
@@ -123,7 +122,14 @@
   
       </script>
     <%- include('footer.ejs')%>
-    
-    
   </body>
 </html>
+
+<!-- 2024 -> 24로 표현 -->
+<script>
+  let chatdates = document.querySelectorAll('.listDate');
+  chatdates.forEach((chatdate) => {
+    let text = chatdate.textContent.substr(2)
+    chatdate.textContent = text
+  })
+</script>

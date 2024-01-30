@@ -263,18 +263,17 @@ textarea {
 }
 
 /* 총 게시글 수 관련 */
-.totalPost {
-  display: flex;
-  color: var(--gray-color);
-  margin-top: 10px;
-  align-self: center;
-}
-.totalPost > div {
-  justify-self: start;
-}
 .summary {
-  margin-top: 8px;
-  width: 1024px;
+  color: var(--gray-color);
+  margin: 16px;
+  display: flex;
+  align-items: center;
+}
+.totalPost {
+  color: var(--gray-color);
+  display: flex;
+  align-items: center;
+  margin: 4px 0;
 }
 
 /* 상세페이지 요소 1.본문 */
@@ -323,7 +322,7 @@ textarea {
   gap: 8px;
   margin: 0 16px;
   background: white;
-  padding: 30px 20px;
+  padding: 20px;
   border-radius: 8px;
   border: 1px solid var(--gray-color2);
 }
@@ -332,7 +331,6 @@ textarea {
 }
 .comment-box {
   display: flex;
-  margin: 10px 0;
 }
 .comment-box > div {
   margin-right: 10px;
@@ -346,9 +344,9 @@ textarea {
 }
 
 .commentTitle {
+  margin: 8px 0;
   display: flex;
-  width: 90px;
-  justify-content: space-between;
+  gap: 8px;
 }
 .commentsNum {
   color: var(--gray-color);
@@ -364,7 +362,7 @@ textarea {
   flex-direction: column;
   background: var(--light-color);
   padding: 15px 20px;
-  margin: 16px;
+  margin: 8px 16px;
   border-radius: 8px;
   border: 1px solid var(--gray-color2);
 }
@@ -381,6 +379,7 @@ textarea {
 .detailpgForm {
   display: flex;
   gap: 8px;
+  margin: 8px 0;
 }
 .detailpgForm input {
   padding: 10px;
@@ -421,9 +420,8 @@ textarea {
 }
 .chat-form {
   gap: 8px;
-  width: 100%;
-  max-width: 1024px;
   display: flex;
+  margin: 0 16px;
 }
 .chat-input {
   padding: 10px;
@@ -660,6 +658,9 @@ textarea {
   .footer {
     padding: 20px 16px;
   }
+  .userDropdown {
+    left: 250px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -699,11 +700,15 @@ textarea {
   .detailpgForm input {
     width: 180px;
   }
+  .userDropdown {
+    width: fit-content;
+    left: 210px;
+  }
 }
 
 @media (max-width: 320px) {
   .wrapperGrid {
-    width: 296px;
+    width: 276px;
   }
   .homeGrid1 {
     flex-basis: 100%;

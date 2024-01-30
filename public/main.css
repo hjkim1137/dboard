@@ -118,7 +118,7 @@ button:hover {
   background-color: transparent;
 }
 .headerProfileInner {
-  gap: 16px;
+  gap: 8px;
   cursor: pointer;
   background: none;
   border: none;
@@ -150,7 +150,7 @@ button:hover {
 }
 .headerProfileBox {
   display: flex;
-  gap: 32px;
+  gap: 24px;
   height: 45px;
   align-items: center;
 }
@@ -165,6 +165,8 @@ button:hover {
 
 /* 2.header-드롭다운 */
 .userDropdown {
+  display: none;
+  box-sizing: border-box;
   background-color: var(--light-color);
   width: 150px;
   font-size: 0.875rem;
@@ -172,13 +174,9 @@ button:hover {
   border-radius: 0.25rem;
   z-index: 6;
   top: 95%;
-  right: 5px;
-  display: flex;
-  flex-direction: column;
-  display: none;
+  left: 300px;
   position: absolute;
   text-align: center;
-  justify-content: center;
   box-shadow: 1px 1px 6px var(--gray-color2);
 }
 .userDropdown > li {
@@ -278,7 +276,7 @@ button:hover {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 90vh;
+  height: 60vh;
 }
 .tologinBtn {
   text-decoration: none;
@@ -324,6 +322,9 @@ button:hover {
   .footer {
     padding: 20px 16px;
   }
+  .userDropdown {
+    left: 250px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -349,6 +350,7 @@ button:hover {
   }
   .homeWritePost > img {
     width: 10px;
+    display: none;
   }
   .listNameDate {
     display: none;
@@ -363,11 +365,15 @@ button:hover {
   .detailpgForm input {
     width: 180px;
   }
+  .userDropdown {
+    width: fit-content;
+    left: 210px;
+  }
 }
 
 @media (max-width: 320px) {
   .wrapperGrid {
-    width: 296px;
+    width: 276px;
   }
   .homeGrid1 {
     flex-basis: 100%;
@@ -386,5 +392,8 @@ button:hover {
   }
   .detailpgForm input {
     width: 140px;
+  }
+  .userDropdown > li {
+    padding: 4px 8px;
   }
 }
