@@ -320,8 +320,7 @@ textarea {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  width: 100%;
-  max-width: 1024px;
+  margin: 0 16px;
   background: white;
   padding: 30px 20px;
   border-radius: 8px;
@@ -360,12 +359,11 @@ textarea {
   font-weight: bold;
 }
 .detailpgBg {
-  width: 1024px;
   display: flex;
   flex-direction: column;
   background: var(--light-color);
   padding: 15px 20px;
-  margin: 20px 0;
+  margin: 16px;
   border-radius: 8px;
   border: 1px solid var(--gray-color2);
 }
@@ -594,8 +592,6 @@ textarea {
 .detailpgContent {
   background-color: transparent;
   border: none;
-  width: 100%;
-  min-height: 200px;
   box-sizing: border-box;
   resize: none; /* textarea 크기 조절 비활성화 */
   font-size: 14px;
@@ -655,7 +651,8 @@ textarea {
   }
   div,
   a,
-  span {
+  span,
+  button {
     font-size: 11px !important;
   }
   .footer {
@@ -690,9 +687,15 @@ textarea {
   .listNameDate {
     display: none;
   }
+  .customBtn {
+    padding: 4px 8px;
+  }
   .loginRegisterBox {
     margin: 8px;
     width: auto;
+  }
+  .detailpgForm input {
+    width: 300px;
   }
 }
 

@@ -20,7 +20,7 @@
               <img class="nullImg-30" src="/profile.png"></img>
             <% } %>
             <p><%=result.username%></p>
-            <p><%=result.date%></p>
+            <p class="listDate"><%=result.date%></p>
           </div>
         </div>
         <% if(String(loginuser)==result.user) { %>
@@ -76,6 +76,26 @@
   </body>
 </html>
 
+<!-- 내용물 크기에 맞게 textarea 크기 늘리기 -->
+<script>
+   function resize() {
+        let textarea = document.querySelector(".detailpgContent")
+        textarea.style.height= 0
+        let scrollHeight = textarea.scrollHeight;
+        textarea.style.height = scrollHeight+ "px";
+    }
+    window.addEventListener("load", resize);
+    window.onresize = resize;
+</script>
+
+<!-- 게시글 날짜 년도까지만 보여주기 -->
+<script>
+let postdate = document.querySelector('.listDate');
+
+let text = postdate.textContent.substr(0,10)
+postdate.textContent = text
+</script>
+ 
 <!-- 게시글 삭제기능 -->
 <script>
 function deletePost(docId) {

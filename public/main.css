@@ -316,7 +316,8 @@ button:hover {
   }
   div,
   a,
-  span {
+  span,
+  button {
     font-size: 11px !important;
   }
   .footer {
@@ -351,9 +352,15 @@ button:hover {
   .listNameDate {
     display: none;
   }
+  .customBtn {
+    padding: 4px 8px;
+  }
   .loginRegisterBox {
     margin: 8px;
     width: auto;
+  }
+  .detailpgForm input {
+    width: 300px;
   }
 }
 
