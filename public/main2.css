@@ -16,9 +16,7 @@
 
 /*  공통 레이아웃 */
 .lightLayout {
-  width: 100%;
   display: flex;
-  padding-bottom: 10px;
   flex-direction: column;
 }
 .wrapperGrid {
@@ -59,11 +57,10 @@
 
 /* 각종 버튼 */
 .customBtn,
-.loginRegisterBox > button,
-.form-box-btnContainer > button {
-  padding: 8px 16px;
+.loginRegisterBox > button {
+  padding: 4px 16px;
   width: fit-content;
-  height: 40px;
+  height: 36px;
   cursor: pointer;
   background: var(--gray-color2);
   border: none;
@@ -421,12 +418,13 @@ textarea {
 .chat-form {
   gap: 8px;
   display: flex;
+  justify-content: flex-end;
   margin: 0 16px;
 }
 .chat-input {
   padding: 10px;
   border-radius: 15px;
-  width: 100%;
+  width: 50%;
   height: 40px;
   border: 1px solid var(--gray-color);
 }
@@ -547,6 +545,7 @@ textarea {
 }
 .homeGrid2subTitle {
   color: var(--gray-color);
+  font-size: 12px;
 }
 .homeGrid2Title > p {
   font-size: 0.875rem;

@@ -12,7 +12,7 @@
   <div class="headerProfileBox">
     <a class="headerToggle">다크모드로 🌙</a>
     <a href="/chat/list">채팅</a>
-    <button class="headerProfileInner">
+    <a class="headerProfileInner">
       <% if(currentUser.img) { %>
       <p><%= currentUser.username %></p>
       <div class="headerProfile">
@@ -24,7 +24,7 @@
         <img class="headerUserProfile" src="/profile.png" />
       </div>
       <% } %>
-    </button>
+    </a>
 
     <ul class="userDropdown">
       <li><a href="/mypage">마이페이지</a></li>
