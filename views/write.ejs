@@ -10,48 +10,46 @@
   <body class="lightLayout">
     <%- include('header.ejs')%>
 
-    <div class="wrapperGrid">
-      <div class="white-bg">
-        <form
-          class="form-box"
-          action="/write/add"
-          method="POST"
-          enctype="multipart/form-data"
-          id="writeForm"
-        >
-          <h4 class="formbox-title">글쓰기</h4>
+    <div class="detailpgBg">
+      <form
+        class="form-box"
+        action="/write/add"
+        method="POST"
+        enctype="multipart/form-data"
+        id="writeForm"
+      >
+        <h4 class="formbox-title">글쓰기</h4>
 
-          <div class="writeCategoryBox">
-            <div>카테고리</div>
-            <select name="homeCategory">
-              <option value="중고거래">중고거래</option>
-              <option value="세일정보">세일정보</option>
-              <option value="살림노하우">살림노하우</option>
-            </select>
-          </div>
+        <div class="writeCategoryBox">
+          <div>카테고리</div>
+          <select name="homeCategory">
+            <option value="중고거래">중고거래</option>
+            <option value="세일정보">세일정보</option>
+            <option value="살림노하우">살림노하우</option>
+          </select>
+        </div>
 
-          <input
-            name="title"
-            placeholder="글 제목을 입력해주세요."
-            class="input"
-          />
-          <textarea
-            name="content"
-            placeholder="글 내용을 입력해주세요."
-            class="writeContent input"
-          ></textarea>
-          <input
-            class="input"
-            type="file"
-            name="img1"
-            accept="image/*"
-            multiple
-          />
-          <div class="form-box-btnContainer">
-            <button type="submit" class="customBtn">전송</button>
-          </div>
-        </form>
-      </div>
+        <input
+          name="title"
+          placeholder="글 제목을 입력해주세요."
+          class="input"
+        />
+        <textarea
+          name="content"
+          placeholder="글 내용을 입력해주세요."
+          class="writeContent input"
+        ></textarea>
+        <input
+          class="input"
+          type="file"
+          name="img1"
+          accept="image/*"
+          multiple
+        />
+        <div class="form-box-btnContainer">
+          <button type="submit" class="customBtn">전송</button>
+        </div>
+      </form>
     </div>
     <%- include('footer.ejs')%>
   </body>
