@@ -317,7 +317,8 @@ button:hover {
   div,
   a,
   span,
-  button {
+  button,
+  input {
     font-size: 11px !important;
   }
   .footer {
@@ -360,7 +361,7 @@ button:hover {
     width: auto;
   }
   .detailpgForm input {
-    width: 300px;
+    width: 180px;
   }
 }
 
@@ -379,5 +380,11 @@ button:hover {
   }
   .headerProfileInner > p {
     display: none;
+  }
+  .detailpgImg {
+    width: auto;
+  }
+  .detailpgForm input {
+    width: 140px;
   }
 }

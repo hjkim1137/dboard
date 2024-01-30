@@ -279,7 +279,7 @@ textarea {
 
 /* 상세페이지 요소 1.본문 */
 .detailpgImg {
-  width: 300px;
+  width: 200px;
   border-radius: 5px;
   margin-bottom: 20px;
 }
@@ -290,6 +290,7 @@ textarea {
   justify-content: space-between;
 }
 .detailpgTitle2 {
+  justify-content: flex-end;
   display: flex;
   gap: 8px;
 }
@@ -652,7 +653,8 @@ textarea {
   div,
   a,
   span,
-  button {
+  button,
+  input {
     font-size: 11px !important;
   }
   .footer {
@@ -695,7 +697,7 @@ textarea {
     width: auto;
   }
   .detailpgForm input {
-    width: 300px;
+    width: 180px;
   }
 }
 
@@ -714,5 +716,11 @@ textarea {
   }
   .headerProfileInner > p {
     display: none;
+  }
+  .detailpgImg {
+    width: auto;
+  }
+  .detailpgForm input {
+    width: 140px;
   }
 }

@@ -13,15 +13,15 @@
       <div class="detailpgBg">
         <div class="detailpgTitle">
           <h4><%=result.title %></h4>
-          <div class="detailpgTitle2">
-            <% if(result.userImage) { %>
-              <img src="<%= result.userImage %>"></img>
-            <% } else { %>
-              <img class="nullImg-30" src="/profile.png"></img>
-            <% } %>
-            <p><%=result.username%></p>
-            <p class="listDate"><%=result.date%></p>
-          </div>
+        </div>
+        <div class="detailpgTitle2">
+          <% if(result.userImage) { %>
+            <img src="<%= result.userImage %>"></img>
+          <% } else { %>
+            <img class="nullImg-30" src="/profile.png"></img>
+          <% } %>
+          <p><%=result.username%></p>
+          <p class="listDate"><%=result.date%></p>
         </div>
         <% if(String(loginuser)==result.user) { %>
           <div class="detailpgEdit">
