@@ -300,6 +300,8 @@ button:hover {
   width: 200px;
 }
 
+/* 미디어 쿼리 */
+
 @media (max-width: 1200px) {
   .wrapperGrid {
     max-width: 850px;
@@ -316,7 +318,7 @@ button:hover {
   div,
   a,
   span {
-    font-size: 10px !important;
+    font-size: 11px !important;
   }
 }
 
@@ -333,13 +335,12 @@ button:hover {
   .headerServiceName {
     display: none;
   }
-
   .homeCategory {
     gap: 4px;
   }
   .homeCategory > a,
   .homeWritePost {
-    font-size: 10px !important;
+    font-size: 11px !important;
     padding: 4px 6px;
   }
   .homeWritePost > img {
@@ -347,6 +348,10 @@ button:hover {
   }
   .listNameDate {
     display: none;
+  }
+  .loginRegisterBox {
+    margin: 8px;
+    width: auto;
   }
 }
 

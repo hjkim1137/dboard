@@ -638,6 +638,8 @@ textarea {
   margin-bottom: 10px;
 }
 
+/* 미디어 쿼리 */
+
 @media (max-width: 1200px) {
   .wrapperGrid {
     max-width: 850px;
@@ -654,7 +656,7 @@ textarea {
   div,
   a,
   span {
-    font-size: 10px !important;
+    font-size: 11px !important;
   }
 }
 
@@ -671,13 +673,12 @@ textarea {
   .headerServiceName {
     display: none;
   }
-
   .homeCategory {
     gap: 4px;
   }
   .homeCategory > a,
   .homeWritePost {
-    font-size: 10px !important;
+    font-size: 11px !important;
     padding: 4px 6px;
   }
   .homeWritePost > img {
@@ -685,6 +686,10 @@ textarea {
   }
   .listNameDate {
     display: none;
+  }
+  .loginRegisterBox {
+    margin: 8px;
+    width: auto;
   }
 }
 
