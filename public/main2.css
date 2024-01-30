@@ -464,6 +464,7 @@ textarea {
 /* 홈페이지 요소 1. Grid1 */
 .homeGrid1 {
   flex-basis: 65%;
+  margin: 8px;
 }
 .homeWritePost {
   text-align: center;
@@ -653,7 +654,7 @@ textarea {
   div,
   a,
   span {
-    font-size: 11px !important;
+    font-size: 10px !important;
   }
 }
 
