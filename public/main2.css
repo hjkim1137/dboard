@@ -668,6 +668,24 @@ textarea {
   .homeGrid2 {
     display: none;
   }
+  .headerServiceName {
+    display: none;
+  }
+
+  .homeCategory {
+    gap: 4px;
+  }
+  .homeCategory > a,
+  .homeWritePost {
+    font-size: 10px !important;
+    padding: 4px 6px;
+  }
+  .homeWritePost > img {
+    width: 10px;
+  }
+  .listNameDate {
+    display: none;
+  }
 }
 
 @media (max-width: 320px) {
@@ -683,21 +701,7 @@ textarea {
   .search {
     width: 180px;
   }
-  .headerToggle {
-    display: none;
-  }
-  .homeCategory {
-    gap: 4px;
-  }
-  .homeCategory > a,
-  .homeWritePost {
-    font-size: 10px !important;
-    padding: 4px 6px;
-  }
-  .homeWritePost > img {
-    width: 10px;
-  }
-  .listNameDate {
+  .headerProfileInner > p {
     display: none;
   }
 }
