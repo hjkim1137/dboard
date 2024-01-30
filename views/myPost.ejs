@@ -53,14 +53,13 @@
               </div>
           <% } %> 
         <% } %>
-
           <!-- 왜인지 if-else가 안되어 if, if 사용 -->
           <% if(myposts.length == 0) { %>
           <div class="toWritePage">
             <a href="/write">생성된 글이 없습니다. 첫 글을 발행해보세요!</a>
           </div>
           <% } %>
-
+          
         <!-- 게시물 날짜순 정렬하기 -->
         <script>
           let postdates = document.querySelectorAll('.listDate');
