@@ -70,10 +70,6 @@ button:hover {
   align-items: center;
   border-bottom: 1px solid var(--gray-color2);
 }
-.headerLeft {
-  display: flex;
-  gap: 5px;
-}
 .headerDetail {
   height: 45px;
   display: flex;
@@ -91,7 +87,8 @@ button:hover {
   color: var(--gray-color);
   font-size: 14px;
 }
-.header > a:hover {
+.headerProfileBox > a:hover,
+.headerProfileInner:hover {
   color: var(--light-hover-color);
 }
 
@@ -103,10 +100,10 @@ button:hover {
   width: 20px;
 }
 .headerServiceName {
-  color: var(--light-hover-color);
+  color: var(--light-hover-color) !important;
   align-self: center;
-  font-weight: 700;
-  font-size: 21px;
+  font-weight: 900;
+  font-size: 24px !important;
 }
 
 .headerToggle {
@@ -208,6 +205,9 @@ button:hover {
   background-color: var(--dark-background-color);
   border-bottom: 1px solid var(--dark-color);
 }
+.dark-mode .headerServiceName {
+  color: var(--gray-color) !important;
+}
 .dark-mode .footer {
   border-top: 1px solid var(--dark-color);
 }
@@ -245,7 +245,7 @@ button:hover {
 }
 .dark-mode .white-bg,
 .dark-mode .comment-wrapper,
-.dark-mode .detailpgBg,
+.dark-mode .innerLayout,
 .dark-mode .form-box,
 .dark-mode .loginRegisterBox {
   background-color: var(--dark-color2);
@@ -365,9 +365,7 @@ button:hover {
   .homeGrid2 {
     display: none;
   }
-  .headerServiceName {
-    display: none;
-  }
+
   .homeCategory {
     gap: 4px;
   }

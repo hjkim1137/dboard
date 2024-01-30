@@ -354,7 +354,7 @@ textarea {
   color: var(--light-hover-color);
   font-weight: bold;
 }
-.detailpgBg {
+.innerLayout {
   display: flex;
   flex-direction: column;
   background: var(--light-color);
@@ -666,9 +666,6 @@ textarea {
     flex-basis: 100%;
   }
   .homeGrid2 {
-    display: none;
-  }
-  .headerServiceName {
     display: none;
   }
   .homeCategory {
