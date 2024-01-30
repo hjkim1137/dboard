@@ -35,7 +35,7 @@
             <a href="/tips"><li>살림노하우</li></a>
           </ul>
           <button class="homeWritePost" onclick="window.location.href='/write'">
-            글 작성하기 <img src="/edit2.png" />
+            글 작성 <img src="/edit2.png" />
           </button>
         </div>
       
@@ -97,6 +97,12 @@
         <!-- 게시물 날짜순 정렬하기 -->
         <script>
           let postdates = document.querySelectorAll('.listDate');
+          
+          // 2024 -> 24로 바꾸기
+          postdates.forEach((postDate)=> {
+          let text = postDate.textContent.substr(2)
+          postDate.textContent = text
+        })
 
           let postdatesArr = [];
           postdates.forEach((date, idx) => {

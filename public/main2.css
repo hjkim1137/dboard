@@ -14,6 +14,18 @@
   --point-color: #ff565c;
 }
 
+/* hover 효과 */
+.prevBtn:hover,
+.nextBtn:hover .customBtn:hover {
+  font-weight: 700;
+}
+.pageContainer > a:hover {
+  font-weight: 700;
+}
+.detailGotochat:hover {
+  font-weight: 700;
+}
+
 /*  공통 레이아웃 */
 .lightLayout {
   display: flex;
@@ -48,7 +60,7 @@
 }
 .listBox p {
   margin-top: 10px;
-  color: grey;
+  color: var(--gray-color);
 }
 .listBox > div {
   display: flex;
@@ -65,13 +77,6 @@
   background: var(--gray-color2);
   border: none;
   border-radius: 5px;
-}
-.prevBtn:hover,
-.nextBtn:hover .customBtn:hover {
-  cursor: pointer;
-  background-color: var(--light-hover-color);
-  color: var(--light-color);
-  font-weight: 700;
 }
 
 /* 페이지네이션 요소 */
@@ -100,10 +105,6 @@
   text-decoration: none;
   font-size: 14px;
   color: var(--black-color);
-}
-.pageContainer > a:hover {
-  color: var(--light-hover-color);
-  font-weight: 700;
 }
 
 /* 이미지, nullImg 요소 */
@@ -307,10 +308,6 @@ textarea {
   width: fit-content;
   color: var(--black-color);
 }
-.detailGotochat:hover {
-  color: var(--gray-color);
-  font-weight: 500;
-}
 
 /* 상세 페이지 요소 2.댓글 */
 .comment-wrapper {
@@ -493,6 +490,7 @@ textarea {
   background: var(--gray-color2);
   border-radius: 3px;
   cursor: pointer;
+  color: var(--dark-color2);
 }
 
 /* 홈페이지 요소 2. Grid2 */
@@ -514,7 +512,7 @@ textarea {
   right: -10px;
   width: 4px;
   height: 100%;
-  background-color: var(--light-hover-color);
+  background-color: var(--gray-color);
 }
 .homeTitle .homeCursor.active::after {
   display: none;
@@ -668,6 +666,7 @@ textarea {
   .homeGrid2 {
     display: none;
   }
+
   .homeCategory {
     gap: 4px;
   }
@@ -678,12 +677,14 @@ textarea {
   }
   .homeWritePost > img {
     width: 10px;
+    display: none;
   }
   .listNameDate {
     display: none;
   }
   .customBtn {
-    padding: 4px 8px;
+    padding: 8px;
+    width: fit-content;
   }
   .loginRegisterBox {
     margin: 8px;
@@ -694,7 +695,7 @@ textarea {
   }
   .userDropdown {
     width: fit-content;
-    left: 210px;
+    left: 250px;
   }
 }
 
@@ -708,6 +709,9 @@ textarea {
   .homeGrid2 {
     display: none;
   }
+  .homeCategoryContainer {
+    display: none;
+  }
   .search {
     width: 180px;
   }
@@ -719,5 +723,9 @@ textarea {
   }
   .detailpgForm input {
     width: 140px;
+  }
+  .userDropdown {
+    width: 85px;
+    left: 210px;
   }
 }

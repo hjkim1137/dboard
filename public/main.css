@@ -41,19 +41,32 @@ a {
   text-decoration: none;
   color: var(--gray-color);
 }
-a:hover,
-button:hover {
-  cursor: pointer;
-}
 
 input,
 div {
   box-sizing: border-box;
 }
 
-button:hover {
-  background-color: var(--light-hover-color);
-  color: var(--light-color);
+/* hover 효과 */
+a:hover,
+button:hover,
+span:hover {
+  cursor: pointer;
+  font-weight: 700;
+}
+.headerProfileBox > a:hover,
+.headerProfileInner > p:hover,
+.userDropdown > li > a:hover,
+.headerToggle:hover {
+  font-weight: 700;
+  color: var(--dark-color2);
+}
+.dark-mode a:hover,
+.dark-mode button:hover,
+.dark-mode .headerProfileBox > a:hover,
+.dark-mode .headerProfileInner > p:hover {
+  color: var(--light-color3) !important;
+  font-weight: 700 !important;
 }
 
 /* 1.header */
@@ -86,10 +99,6 @@ button:hover {
   text-decoration: none;
   color: var(--gray-color);
   font-size: 14px;
-}
-.headerProfileBox > a:hover,
-.headerProfileInner:hover {
-  color: var(--light-hover-color);
 }
 
 .headerLoginRegister {
@@ -124,9 +133,7 @@ button:hover {
   display: flex;
   position: relative;
 }
-.headerProfileInner:hover {
-  background: none;
-}
+
 .headerProfileInner > p {
   align-self: center;
   color: var(--gray-color);
@@ -155,10 +162,6 @@ button:hover {
   width: 40px;
   height: 40px;
 }
-.logout:hover,
-.login:hover {
-  color: var(--light-hover-color);
-}
 
 /* 2.header-드롭다운 */
 .userDropdown {
@@ -171,7 +174,7 @@ button:hover {
   border-radius: 0.25rem;
   z-index: 6;
   top: 95%;
-  left: 300px;
+  left: 270px;
   position: absolute;
   text-align: center;
   box-shadow: 1px 1px 6px var(--gray-color2);
@@ -256,11 +259,7 @@ button:hover {
   background-color: var(--dark-color2);
   color: var(--gray-color);
 }
-.dark-mode .customBtn:hover,
-.dark-mode .homeWritePost:hover {
-  background-color: var(--dark-color2);
-  color: var(--light-color);
-}
+
 .dark-mode .yourChat {
   background-color: var(--dark-color);
   color: var(--gray-color2);
@@ -311,10 +310,7 @@ button:hover {
   color: var(--gray-color);
   font-size: 16px;
 }
-.tologinBtn:hover {
-  color: var(--light-hover-color);
-  font-weight: 700;
-}
+
 .errorMsg {
   font-size: 16px;
   color: var(--light-hover-color);
@@ -394,7 +390,7 @@ button:hover {
   }
   .userDropdown {
     width: fit-content;
-    left: 210px;
+    left: 250px;
   }
 }
 
@@ -406,6 +402,9 @@ button:hover {
     flex-basis: 100%;
   }
   .homeGrid2 {
+    display: none;
+  }
+  .homeCategoryContainer {
     display: none;
   }
   .search {
@@ -420,7 +419,8 @@ button:hover {
   .detailpgForm input {
     width: 140px;
   }
-  .userDropdown > li {
-    padding: 4px 8px;
+  .userDropdown {
+    width: 85px;
+    left: 210px;
   }
 }

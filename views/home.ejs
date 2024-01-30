@@ -35,7 +35,7 @@
             <a href="/tips"><li>살림노하우</li></a>
           </ul>
           <a class="homeWritePost" href="/write">
-            글 작성 <img src="/edit2.png" />
+            글 작성하기 <img src="/edit2.png" />
           </a>
         </div>
       
@@ -145,9 +145,9 @@
 <script>
   let postdates = document.querySelectorAll('.listDate');
 
-  // 게시글 날짜 년도까지만 보여주기
+  // 2024 -> 24로 바꾸기
   postdates.forEach((postDate)=> {
-    let text = postDate.textContent.substr(0,16)
+    let text = postDate.textContent.substr(2)
     postDate.textContent = text
   })
 

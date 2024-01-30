@@ -20,7 +20,7 @@
       <div class="innerLayout">
           <% for(let i=0; i<chatlist.length; i++) { %>
             <div class="listBox" id="list-box">
-              <h4>
+              <div>
                 <a href="/chat/detail?roomid=<%= chatlist[i]._id %>"><%=chatlist[i].chatName %></a>
                 <div style="display: none" class="listchatId"><%=chatlist[i]._id %></div>
                 <span
@@ -28,7 +28,7 @@
                 data-id="<%=chatlist[i]._id %>"
                 data-userid="<%=chatlist[i].user%>"
               ><img src="/delete2.png"> 삭제</span>
-              </h4>
+              </div>
             
               <!-- true,false state 값으로 첫번째 chat이 없는 경우 방지하는 법 -->
               <% let contentBoxExists = false %>
