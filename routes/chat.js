@@ -125,7 +125,7 @@ router.get('/detail', isLogin, async (req, res) => {
       return yourImg;
     } else return null;
   }
-  console.log('return 값:', showImage());
+  // console.log('return 값:', showImage());
 
   res.render('chatdetail.ejs', {
     chats: chats,

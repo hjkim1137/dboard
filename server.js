@@ -101,7 +101,7 @@ passport.use(
 
 // 1. passport.serializeUser() -> 로그인 성공 시 세션 보내주는 코드
 passport.serializeUser((user, done) => {
-  console.log('로그인중인 유저 정보', user); // user는 로그인중인 user
+  // console.log('로그인중인 유저 정보', user); // user는 로그인중인 user
   process.nextTick(() => {
     // 내부 코드를 비동기적으로 처리해줌
     done(null, { id: user._id, username: user.username });
@@ -166,7 +166,7 @@ app.post('/login', isBlank, async (req, res, next) => {
 // login 화면 get 요청하기
 // 현재 로그인된 유저 정보 출력은 API 들 안에서 req.user 하면됨
 app.get('/login', async (req, res) => {
-  console.log('현재 로그인한 유저정보', req.user);
+  // console.log('현재 로그인한 유저정보', req.user);
   // 로그인 이후에 /login 접속하면 req.user 콘솔에 찍힘. 로그인 전이면 undefined 뜸
   res.render('login.ejs');
 });
@@ -198,7 +198,7 @@ app.use('/chat', require('./routes/chat.js'));
 
 // 소켓 io 세팅
 io.on('connection', (socket) => {
-  console.log('websocket 연결됨');
+  // console.log('websocket 연결됨');
 
   // 2번
   socket.on('msg-send', async (data) => {
@@ -229,8 +229,6 @@ app.get('/stream/list', (req, res) => {
 
   // post 컬렉션의 doc 변동 사항 발생시(현재는 insert시만 조건) 안의 코드 실행됨
   changeStream.on('change', (result) => {
-    console.log('새로 추가된 doc', result.fullDocument); // 새로 추가된 doc
-
     // 형식 잘 맞춰서 보내야 함
     res.write('event: msg\n');
     res.write(`data: ${JSON.stringify(result.fullDocument)}\n\n`);

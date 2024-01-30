@@ -48,12 +48,7 @@
               let src = img.getAttribute('src');
               // 기존 저장된 이미지를 수정하지 않는 경우
               if (src == '<%= result.img%>') {
-                console.log('이미지가 수정되지 않았습니다.');
                 sameImg.setAttribute('value', '<%= result.img%>');
-                console.log(
-                  '서버에 보내는 이미지주소',
-                  sameImg.getAttribute('value')
-                );
               }
             }
 

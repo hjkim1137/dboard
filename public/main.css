@@ -58,6 +58,7 @@ button:hover {
 
 /* 1.header */
 .header {
+  width: 100%;
   z-index: 5;
   position: sticky;
   top: 0;
@@ -309,11 +310,25 @@ button:hover {
   .wrapperGrid {
     max-width: 760px;
   }
+  .homeCategory > a {
+    width: fit-content;
+  }
+  div,
+  a,
+  span {
+    font-size: 11px !important;
+  }
 }
 
 @media (max-width: 768px) {
   .wrapperGrid {
     max-width: 540px;
+  }
+  .homeGrid1 {
+    flex-basis: 100%;
+  }
+  .homeGrid2 {
+    display: none;
   }
 }
 
@@ -321,7 +336,30 @@ button:hover {
   .wrapperGrid {
     width: 296px;
   }
+  .homeGrid1 {
+    flex-basis: 100%;
+  }
   .homeGrid2 {
+    display: none;
+  }
+  .search {
+    width: 180px;
+  }
+  .headerToggle {
+    display: none;
+  }
+  .homeCategory {
+    gap: 4px;
+  }
+  .homeCategory > a,
+  .homeWritePost {
+    font-size: 10px !important;
+    padding: 4px 6px;
+  }
+  .homeWritePost > img {
+    width: 10px;
+  }
+  .listNameDate {
     display: none;
   }
 }

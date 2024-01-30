@@ -45,7 +45,7 @@ router.get('/', isLogin, async (req, res) => {
       let result = await db
         .collection('user')
         .findOne({ _id: new ObjectId(req.user._id) });
-      console.log('이미지 주소', result.img);
+
       return res.render('mypage.ejs', { result: result });
     } catch {
       res.send('로그인 후 이용해주세요.');

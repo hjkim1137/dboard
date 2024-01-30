@@ -15,7 +15,6 @@ connectDB
 
 // 게시물 삭제 기능
 router.delete('/', isLogin, async (req, res) => {
-  console.log(req.query);
   try {
     await db
       .collection('post')
