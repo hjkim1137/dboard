@@ -32,7 +32,7 @@
         
         <textarea class="detailpgContent" disabled><%=result.content %></textarea>
         <img src="<%=result.img %>" class="detailpgImg"></img>
-        <a href="/chat/request?writerId=<%=result.user%>&chatName=<%= result.title%>&postId=<%=result._id%>&writerImg=<%=result.userImage%>" class="detailGotochat"> 글 작성자와 채팅하기 💬</a>
+        <a href="/chat/request?writerId=<%=result.user%>&chatName=<%= result.title%>&postId=<%=result._id%>&writerImg=<%=result.userImage%>" class="detailGotochat"><div>글 작성자와 채팅하기</div></a>
       </div>
       
       <div class="comment-wrapper">
@@ -48,9 +48,9 @@
                 <div class="comment">
                   <span class="commentWriter">글쓴이</span>
                   <div><%=comment[i].comment %></div>
-                  <span><%=comment[i].date %></span>
+                  <span class="commentDate"><%=comment[i].date %></span>
                   <% if(comment[i].writerId==String(loginuser)) { %>
-                  <span class="deleteThing" onclick="deleteComment('<%=comment[i]._id%>')">댓글삭제</span>
+                  <span class="deleteThing" onclick="deleteComment('<%=comment[i]._id%>')">X</span>
                   <% } %>
                 </div>
               <% } else { %>
@@ -94,6 +94,13 @@ let postdate = document.querySelector('.listDate');
 
 let text = postdate.textContent.substr(0,10)
 postdate.textContent = text
+
+// 2024년 -> 24로 표현 
+  let commentdates = document.querySelectorAll('.commentDate');
+  commentdates.forEach((commentdate) => {
+    let text = commentdate.textContent.substr(2)
+    commentdate.textContent = text
+  })
 </script>
  
 <!-- 게시글 삭제기능 -->

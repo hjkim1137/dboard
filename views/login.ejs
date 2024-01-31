@@ -12,13 +12,15 @@
 
     <form class="loginRegisterBox" action="/login" method="POST">
       <h4>로그인</h4>
-      <input name="username" />
+      <input name="username" placeholder="아이디를 입력하세요." />
       <input
         name="password"
         type="password"
         placeholder="8자 이상 입력하세요."
       />
-      <button type="submit" class="customBtn">로그인</button>
+      <div class="form-box-btnContainer">
+        <button type="submit" class="customBtn">로그인</button>
+      </div>
     </form>
     <%- include('footer.ejs')%>
   </body>

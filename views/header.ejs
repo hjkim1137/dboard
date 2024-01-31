@@ -3,7 +3,7 @@
 
   <% if(currentUser) { %>
   <div class="headerProfileBox">
-    <a class="headerToggle">다크모드로 🌙</a>
+    <a class="headerToggle">다크모드 🌙</a>
     <a href="/chat/list">채팅</a>
     <a class="headerProfileInner">
       <% if(currentUser.img) { %>
@@ -28,7 +28,7 @@
 
   <% } else { %>
   <div class="headerProfileBox">
-    <a class="headerToggle">다크모드로 🌙</a>
+    <a class="headerToggle">다크모드 🌙</a>
     <a href="/login" class="headerLoginRegister"><div>로그인</div></a>
     <a href="/register" class="headerLoginRegister"><div>회원가입</div></a>
   </div>
@@ -56,11 +56,11 @@
 
   // 화면 이동시에도 다크모드 유지
   if (mode === 'dark') {
-    toggle.innerHTML = '일반모드로 ☀️';
+    toggle.innerHTML = '일반모드 ☀️';
     body.classList.remove('lightLayout');
     body.classList.add('dark-mode');
   } else {
-    toggle.innerHTML = '다크모드로 🌙';
+    toggle.innerHTML = '다크모드 🌙';
     body.classList.remove('dark-mode');
   }
 
@@ -68,12 +68,12 @@
   toggle.addEventListener('click', function () {
     if (body.classList.contains('dark-mode')) {
       localStorage.removeItem('mode', 'dark');
-      toggle.innerHTML = '다크모드로 🌙';
+      toggle.innerHTML = '다크모드 🌙';
       body.classList.remove('dark-mode');
       body.classList.add('lightLayout');
     } else {
       localStorage.setItem('mode', 'dark');
-      toggle.innerHTML = '일반모드로 ☀️';
+      toggle.innerHTML = '일반모드 ☀️';
       body.classList.remove('lightLayout');
       body.classList.add('dark-mode');
     }

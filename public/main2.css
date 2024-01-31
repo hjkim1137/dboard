@@ -22,8 +22,9 @@
 .pageContainer > a:hover {
   font-weight: 700;
 }
-.detailGotochat:hover {
+.detailGotochat > div:hover {
   font-weight: 700;
+  border: 2px solid var(--dark-color2);
 }
 
 /*  공통 레이아웃 */
@@ -68,15 +69,15 @@
 }
 
 /* 각종 버튼 */
-.customBtn,
-.loginRegisterBox > button {
+.customBtn {
   padding: 4px 16px;
+  height: 100%;
   width: fit-content;
-  height: 36px;
   cursor: pointer;
   background: var(--gray-color2);
   border: none;
   border-radius: 5px;
+  align-self: center;
 }
 
 /* 페이지네이션 요소 */
@@ -204,8 +205,7 @@
 .formbox-title {
   margin-bottom: 20px;
 }
-.form-box input,
-textarea {
+.form-box input {
   display: block;
   width: 100%;
   padding: 10px;
@@ -215,12 +215,11 @@ textarea {
   margin-bottom: 10px;
 }
 .form-box-btnContainer {
+  height: 36px;
   display: flex;
-  flex-direction: column;
   margin-top: 20px;
   border-radius: 5px;
   cursor: pointer;
-  width: 150px;
 }
 .form-box-file {
   margin-top: 10px;
@@ -246,8 +245,8 @@ textarea {
 .searchBox {
   gap: 8px;
   width: 100%;
-  max-width: 1200px;
-  margin-top: 20px;
+  height: 36px;
+  margin: 20px 0;
   display: flex;
 }
 .search {
@@ -256,8 +255,6 @@ textarea {
   font-size: 16px;
   border: 1px solid black;
   border-radius: 5px;
-  margin-bottom: 10px;
-  height: 40px;
 }
 
 /* 총 게시글 수 관련 */
@@ -305,8 +302,17 @@ textarea {
   align-self: center;
 }
 .detailGotochat {
-  width: fit-content;
-  color: var(--black-color);
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+}
+.detailGotochat > div {
+  color: var(--dark-color2);
+  border: 1px solid var(--dark-color2);
+  border-radius: 5px;
+  padding: 8px;
+  text-align: center;
+  box-shadow: 1px 1px 6px var(--light-color2);
 }
 
 /* 상세 페이지 요소 2.댓글 */
@@ -332,9 +338,11 @@ textarea {
 .comment {
   gap: 8px;
   display: flex;
-  color: var(--gray-color);
   font-size: 14px;
   align-self: center;
+}
+.commentDate {
+  color: var(--gray-color);
 }
 
 .commentTitle {
@@ -374,6 +382,7 @@ textarea {
   display: flex;
   gap: 8px;
   margin: 8px 0;
+  height: 40px;
 }
 .detailpgForm input {
   padding: 10px;
@@ -413,6 +422,7 @@ textarea {
   margin: 0 7px;
 }
 .chat-form {
+  height: 36px;
   gap: 8px;
   display: flex;
   justify-content: flex-end;
@@ -512,7 +522,6 @@ textarea {
   right: -10px;
   width: 4px;
   height: 100%;
-  background-color: var(--gray-color);
 }
 .homeTitle .homeCursor.active::after {
   display: none;
@@ -582,11 +591,15 @@ textarea {
 
 /* 수정페이지 요소 */
 .detailpgContent {
+  padding: 16px;
   background-color: transparent;
-  border: none;
+  border: 1px solid var(--gray-color2);
+  border-radius: 5px;
+  overflow-y: hidden;
   box-sizing: border-box;
   resize: none; /* textarea 크기 조절 비활성화 */
-  font-size: 14px;
+  font-size: 12px;
+  margin: 8px 0;
 }
 
 /* 글 작성 페이지 요소 */
@@ -624,6 +637,7 @@ textarea {
   border: 1px solid black;
   border-radius: 5px;
   margin-bottom: 10px;
+  background-color: none;
 }
 
 /* 미디어 쿼리 */
@@ -652,7 +666,7 @@ textarea {
     padding: 20px 16px;
   }
   .userDropdown {
-    left: 250px;
+    left: 240px;
   }
 }
 
@@ -666,7 +680,6 @@ textarea {
   .homeGrid2 {
     display: none;
   }
-
   .homeCategory {
     gap: 4px;
   }
@@ -692,10 +705,6 @@ textarea {
   }
   .detailpgForm input {
     width: 180px;
-  }
-  .userDropdown {
-    width: fit-content;
-    left: 250px;
   }
 }
 

@@ -21,6 +21,7 @@ body {
   background: var(--light-background-color);
   font-size: 0.875rem;
   font-family: 'Oswald', sans-serif;
+  word-spacing: -1px;
 }
 
 h4,
@@ -47,6 +48,10 @@ div {
   box-sizing: border-box;
 }
 
+textarea {
+  border-radius: 5px;
+}
+
 /* hover 효과 */
 a:hover,
 button:hover,
@@ -67,6 +72,15 @@ span:hover {
 .dark-mode .headerProfileInner > p:hover {
   color: var(--light-color3) !important;
   font-weight: 700 !important;
+}
+.dark-mode .detailGotochat > div {
+  color: var(--gray-color);
+  box-shadow: none;
+  border: 1px solid var(--gray-color);
+}
+.dark-mode .detailGotochat > div:hover {
+  font-weight: 700;
+  border: 2px solid var(--gray-color);
 }
 
 /* 1.header */
@@ -174,7 +188,7 @@ span:hover {
   border-radius: 0.25rem;
   z-index: 6;
   top: 95%;
-  left: 270px;
+  left: 260px;
   position: absolute;
   text-align: center;
   box-shadow: 1px 1px 6px var(--gray-color2);
@@ -200,7 +214,6 @@ span:hover {
 /* 3.다크모드 */
 .dark-mode {
   background-color: var(--dark-background-color);
-  padding-bottom: 10px;
   display: flex;
   flex-direction: column;
 }
@@ -208,26 +221,11 @@ span:hover {
   background-color: var(--dark-background-color);
   border-bottom: 1px solid var(--dark-color);
 }
-.dark-mode .headerServiceName {
-  color: var(--gray-color) !important;
-}
-.dark-mode .footer {
-  border-top: 1px solid var(--dark-color);
-}
-.dark-mode .homeTitle,
-.dark-mode .errorMsg,
-.dark-mode .pageContainer > a,
-.dark-mode .listBox-left-inner > div,
-.dark-mode .homeGrid2Title,
-.dark-mode .homeRank,
-.dark-mode .writeCategoryBox > div {
-  color: var(--gray-color);
-}
 .dark-mode input,
 .dark-mode textarea {
   background-color: var(--dark-color);
   color: var(--gray-color);
-  border: 1px solid black;
+  border: 1px solid var(--dark-color);
 }
 .dark-mode .userDropdown {
   background-color: var(--dark-color);
@@ -235,7 +233,6 @@ span:hover {
   border: 1px solid var(--dark-color2);
   box-shadow: 1px 1px 6px var(--dark-color);
 }
-
 .dark-mode button,
 .dark-mode .loginRegisterBox > button {
   border: 1px solid black;
@@ -243,8 +240,30 @@ span:hover {
   color: var(--gray-color);
   border-radius: 5px;
 }
+.dark-mode .footer {
+  border-top: 1px solid var(--dark-color);
+}
 .dark-mode .listBox {
   border-bottom: 1px solid var(--dark-color);
+}
+.dark-mode .headerServiceName {
+  color: var(--gray-color) !important;
+}
+.dark-mode .homeTitle,
+.dark-mode .errorMsg,
+.dark-mode .pageContainer > a,
+.dark-mode .listBox-left-inner > div,
+.dark-mode .homeGrid2Title,
+.dark-mode .homeRank,
+.dark-mode .writeCategoryBox > div,
+.dark-mode a,
+.dark-mode span,
+.dark-mode #page,
+.dark-mode .detailpgTitle,
+.dark-mode .commentTitle,
+.dark-mode .comment-box,
+.dark-mode h4 {
+  color: var(--gray-color);
 }
 .dark-mode .white-bg,
 .dark-mode .comment-wrapper,
@@ -255,35 +274,18 @@ span:hover {
   border: none;
 }
 .dark-mode .homeWritePost,
-.dark-mode .homeCategory > a {
+.dark-mode .homeCategory > a,
+.dark-mode .loginRegisterBox > button,
+.dark-mode .detailpgContent {
   background-color: var(--dark-color2);
   color: var(--gray-color);
 }
-
 .dark-mode .yourChat {
   background-color: var(--dark-color);
   color: var(--gray-color2);
 }
 .dark-mode .writerChat {
   background-color: var(--gray-color);
-}
-.dark-mode .loginRegisterBox > button .dark-mode {
-  background-color: var(--dark-color2);
-  color: var(--gray-color);
-}
-.dark-mode .detailpgContent {
-  background-color: var(--dark-color2);
-  color: var(--gray-color);
-  border: none;
-}
-.dark-mode a,
-.dark-mode span,
-.dark-mode #page,
-.dark-mode .detailpgTitle,
-.dark-mode .commentTitle,
-.dark-mode .comment-box,
-.dark-mode h4 {
-  color: var(--gray-color);
 }
 
 /* footer  */
@@ -347,7 +349,7 @@ span:hover {
     padding: 20px 16px;
   }
   .userDropdown {
-    left: 250px;
+    left: 240px;
   }
 }
 
@@ -361,7 +363,6 @@ span:hover {
   .homeGrid2 {
     display: none;
   }
-
   .homeCategory {
     gap: 4px;
   }
@@ -387,10 +388,6 @@ span:hover {
   }
   .detailpgForm input {
     width: 180px;
-  }
-  .userDropdown {
-    width: fit-content;
-    left: 250px;
   }
 }
 

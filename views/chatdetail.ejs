@@ -117,7 +117,7 @@
         socket.on('msg-send', function(data) {
           let parsedData = JSON.parse(data) // JSON 문자열 -> javascript 객체
           let chatScreen= document.querySelector('.chat-screen')
-          chatScreen.insertAdjacentHTML('beforeend',`<div class="chat-box"><div>${parsedData.msg}</div></div>`);
+          chatScreen.insertAdjacentHTML('beforeend', `<div class="chat-box" <div>${parsedData.msg}</div></div>`);
         });
   
       </script>

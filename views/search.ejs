@@ -82,6 +82,13 @@
               <a class="nextBtn">이후</a>
             </div>
 
+            <!-- 검색된 결과 없으면 페이지네이션 숨김 -->
+            <script>
+             if("<%= searchedPosts.length %>" == 0) {
+              document.querySelector(".pageWrapper").style.display="none"
+             }
+            </script>
+
             <!-- 검색기능 -->
             <script>
               document
