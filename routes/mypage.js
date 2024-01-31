@@ -87,7 +87,7 @@ router.put(
             },
           }
         );
-        return res.redirect('/');
+        return res.redirect('/login');
       }
     } catch (error) {
       console.error('에러메세지', error);
