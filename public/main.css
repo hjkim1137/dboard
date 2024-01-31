@@ -221,8 +221,7 @@ span:hover {
   background-color: var(--dark-background-color);
   border-bottom: 1px solid var(--dark-color);
 }
-.dark-mode input,
-.dark-mode textarea {
+.dark-mode input {
   background-color: var(--dark-color);
   color: var(--gray-color);
   border: 1px solid var(--dark-color);
@@ -239,6 +238,15 @@ span:hover {
   background-color: var(--dark-color);
   color: var(--gray-color);
   border-radius: 5px;
+}
+.dark-mode .detailpgTitle {
+  background-color: var(--dark-color);
+  border-bottom: none;
+  border-top: none;
+}
+
+.dark-mode .detailpgTitle2 {
+  border-bottom-color: var(--dark-color);
 }
 .dark-mode .footer {
   border-top: 1px solid var(--dark-color);
@@ -351,6 +359,9 @@ span:hover {
   .userDropdown {
     left: 240px;
   }
+  .listNameDate {
+    gap: 12px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -388,6 +399,9 @@ span:hover {
   }
   .detailpgForm input {
     width: 180px;
+  }
+  .listBox-left-inner {
+    flex-basis: 100%;
   }
 }
 

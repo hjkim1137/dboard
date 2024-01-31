@@ -15,6 +15,14 @@
     <div class="innerLayout">
       <form class="form-box" action="/edit?_method=PUT" method="POST">
         <h4 class="formbox-title">수정하기</h4>
+        <div class="writeCategoryBox">
+          <div>카테고리</div>
+          <select name="homeCategory">
+            <option value="중고거래">중고거래</option>
+            <option value="세일정보">세일정보</option>
+            <option value="살림노하우">살림노하우</option>
+          </select>
+        </div>
         <input name="id" value="<%= result._id %>" style="display: none" />
         <input class="editTitle" name="title" value="<%= result.title %>" />
         <textarea class="writeContent" name="content">

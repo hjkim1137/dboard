@@ -45,10 +45,9 @@
                   ><img src="/delete2.png" /> 삭제</span
                 >
               </div>
-              <span class="listNameDate">
-                <span class="listUsername"><%=myposts[i].username%></span>
-                <span class="listDate"><%=myposts[i].date%></span>
-              </span>
+              <div class="listNameDate">
+                <div class="listDate"><%=myposts[i].date%></div>
+              </div>
             </div>
           </div>
       <% } %> 
@@ -114,16 +113,6 @@ let writerIds = document.querySelectorAll('.listWriterId');
 let writerId = writerIds[index].textContent;
 let editBtns = document.querySelectorAll('.editBtn');
 let editBtn = editBtns[index];
-
-// 공백대비해서 trim() 처리 해주기
-// 글 작성자만 수정, 삭제 버튼 보이게 하기
-if (loginUser  == writerId.trim()) {
-btn.style.display = 'inline';
-editBtn.style.display = 'inline';
-} else {
-btn.style.display = 'none';
-editBtn.style.display = 'none';
-}
 
 btn.addEventListener('click', function (e) {
 let postId = e.target.dataset.postid;

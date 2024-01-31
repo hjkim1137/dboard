@@ -60,10 +60,10 @@
                       <%=boardPosts[i].user %>
                     </div>
                   </div>
-                  <span class="listNameDate">
-                    <span class="listUsername"><%=boardPosts[i].username%></span>
-                    <span class="listDate"><%=boardPosts[i].date%></span>
-                  </span>
+                  <div class="listNameDate">
+                    <div class="listUsername"><%=boardPosts[i].username%></div>
+                    <div class="listDate"><%=boardPosts[i].date%></div>
+                  </div>
                 </div>
               </div>
           <% } %> 
@@ -191,7 +191,7 @@
   let pages = document.querySelector('.pageContainer');
 
   // 총 페이지 갯수 계산
-  let postlimit = 20; // 한 페이지 당 보여줄 데이터 개수
+  let postlimit = 10; // 한 페이지 당 보여줄 데이터 개수
   let totalcount = "<%= boardPosts.length%>"
   let totalCount = Number(totalcount); // 26
   let totalpages = Math.ceil(totalCount / postlimit); // 3

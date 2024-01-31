@@ -7,6 +7,7 @@
   --light-color2: #eee;
   --light-color3: #cbd5e1;
   --light-background-color: #f7fafc;
+  --light-background-color2: #fcfcfc;
   --light-hover-color: #1e3b59;
   --black-color: #121212;
   --gray-color: #a2a2a2;
@@ -17,10 +18,10 @@
 /* hover 효과 */
 .prevBtn:hover,
 .nextBtn:hover .customBtn:hover {
-  font-weight: 700;
+  font-weight: 900;
 }
 .pageContainer > a:hover {
-  font-weight: 700;
+  font-weight: 900;
 }
 .detailGotochat > div:hover {
   font-weight: 700;
@@ -65,7 +66,6 @@
 }
 .listBox > div {
   display: flex;
-  justify-content: space-between;
 }
 
 /* 각종 버튼 */
@@ -169,6 +169,7 @@
 .listBox-left-inner {
   display: flex;
   gap: 8px;
+  flex-basis: 60%;
 }
 .listBox-left-inner > span,
 .listBox-left-inner > a {
@@ -179,10 +180,9 @@
   width: 12px;
 }
 .listNameDate {
-  justify-content: flex-end;
-  text-align: left;
   display: flex;
-  gap: 24px;
+  gap: 36px;
+  flex-basis: 40%;
 }
 .listUsername {
   text-align: left;
@@ -273,20 +273,25 @@
 
 /* 상세페이지 요소 1.본문 */
 .detailpgImg {
-  width: 200px;
-  border-radius: 5px;
-  margin-bottom: 20px;
+  max-width: 500px;
+  padding: 36px 0;
 }
 .detailpgTitle {
-  padding: 10px 0;
+  padding: 10px 8px;
   align-items: center;
   display: flex;
   justify-content: space-between;
+  background-color: var(--light-background-color2);
+  border-bottom: 1px solid var(--gray-color2);
+  border-top: 1px solid var(--gray-color2);
 }
+
 .detailpgTitle2 {
   justify-content: flex-end;
+  border-bottom: 1px solid var(--gray-color2);
   display: flex;
   gap: 8px;
+  padding: 8px 0;
 }
 .detailpgTitle > p,
 .detailpgTitle2 > p {
@@ -312,7 +317,6 @@
   border-radius: 5px;
   padding: 8px;
   text-align: center;
-  box-shadow: 1px 1px 6px var(--light-color2);
 }
 
 /* 상세 페이지 요소 2.댓글 */
@@ -331,15 +335,17 @@
 }
 .comment-box {
   display: flex;
+  align-items: center;
+  gap: 12px;
 }
-.comment-box > div {
+.comment-box {
   margin-right: 10px;
 }
 .comment {
   gap: 8px;
   display: flex;
   font-size: 14px;
-  align-self: center;
+  align-items: center;
 }
 .commentDate {
   color: var(--gray-color);
@@ -356,8 +362,11 @@
   align-self: center;
 }
 .commentWriter {
-  color: var(--light-hover-color);
-  font-weight: bold;
+  color: var(--light-color);
+  border-radius: 3px;
+  padding: 3px;
+  font-size: 10px !important;
+  background-color: var(--light-hover-color);
 }
 .innerLayout {
   display: flex;
@@ -369,7 +378,7 @@
   border: 1px solid var(--gray-color2);
 }
 .detailpgEdit {
-  padding: 4px 0;
+  padding: 8px 0;
   display: flex;
   justify-content: flex-end;
   color: var(--gray-color);
@@ -593,8 +602,7 @@
 .detailpgContent {
   padding: 16px;
   background-color: transparent;
-  border: 1px solid var(--gray-color2);
-  border-radius: 5px;
+  border: none;
   overflow-y: hidden;
   box-sizing: border-box;
   resize: none; /* textarea 크기 조절 비활성화 */
@@ -670,6 +678,9 @@
   .userDropdown {
     left: 240px;
   }
+  .listNameDate {
+    gap: 12px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -707,6 +718,9 @@
   }
   .detailpgForm input {
     width: 180px;
+  }
+  .listBox-left-inner {
+    flex-basis: 100%;
   }
 }
 

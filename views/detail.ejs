@@ -43,19 +43,26 @@
         
           <% for(let i=0; i<comment.length; i++) { %>
             <div class="comment-box">
-              <div><strong><%=comment[i].writer %></strong></div>
+              <strong><%=comment[i].writer %></strong>
+
+              <!-- 글 작성자가 댓글을 쓰는 경우 -->
               <% if(comment[i].writerId.equals(result.user)) { %>
                 <div class="comment">
                   <span class="commentWriter">글쓴이</span>
                   <div><%=comment[i].comment %></div>
-                  <span class="commentDate"><%=comment[i].date %></span>
+                  <div class="commentDate"><%=comment[i].date %></div>
                   <% if(comment[i].writerId==String(loginuser)) { %>
                   <span class="deleteThing" onclick="deleteComment('<%=comment[i]._id%>')">X</span>
                   <% } %>
                 </div>
+              <!-- 작성자가 아닌 유저가 댓글을 쓰는 경우 -->
               <% } else { %>
                 <div><%=comment[i].comment %></div>
-                <div><%=comment[i].date %></div>
+                <div class="commentDate"><%=comment[i].date %></div>
+                <!-- 작성자가 아닌 유저면서, 댓글 작성자가 로그인 유저와 일치하는 경우(내 댓글 삭제) -->
+                <% if(comment[i].writerId==String(loginuser)) { %>
+                  <span class="deleteThing" onclick="deleteComment('<%=comment[i]._id%>')">X</span>
+                <% } %>
               <% } %>
             </div>
           <% } %>
