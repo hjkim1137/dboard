@@ -15,9 +15,9 @@
 
 - 프론트엔드 : JavaScript, CSS
 - 서버: Node.js, EJS, AWS S3(이미지), PM2, Nodemon
-- 라이브러리 : Express, socket, passport, bcrypt
+- 라이브러리 : ExpressJS, Socket.IO, Passport.js, bcrypt
 - DB: MongoDB
-- 배포: GCP Compute Engine
+- 배포: Google Compute Engine
 
 ### 프로젝트 제작 기간
 
