@@ -175,7 +175,7 @@ app.get('/login', async (req, res) => {
 app.get('/logout', async (req, res) => {
   req.logout((err) => {
     if (err) return next(err); // 에러 있으면
-    res.redirect('/'); // 에러 없으면
+    res.redirect('/login'); // 에러 없으면
   });
 });
 

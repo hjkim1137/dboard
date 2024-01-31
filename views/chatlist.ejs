@@ -99,12 +99,6 @@
               let chatIdValue = chatIds[index].innerText;
 
               btn.addEventListener('click', function (e) {
-                if ('<%= loginUser%>' !== chatIdValue) {
-                  btn.style.display = 'none';
-                } else {
-                  btn.style.display = 'block';
-                }
-
                 let roomidis = e.target.dataset.id;
 
                 if (window.confirm('삭제하시겠습니까? 유저와 대화한 내용이 모두 삭제됩니다.')) {

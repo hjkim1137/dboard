@@ -610,11 +610,12 @@
   align-items: center;
 }
 .writeContent {
+  padding: 8px;
   width: 100%;
   min-height: 200px;
   box-sizing: border-box;
   resize: none; /* textarea 크기 조절 비활성화 */
-  font-size: 14px;
+  font-size: 12px;
 }
 
 /* login, register 페이지 */
@@ -627,6 +628,7 @@
   background: white;
   margin-top: 20px;
   border-radius: 8px;
+  border: 1px solid var(--gray-color2);
 }
 .loginRegisterBox > h4 {
   margin-bottom: 20px;

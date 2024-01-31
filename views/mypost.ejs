@@ -1,248 +1,253 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Myboard</title>
-    <link href="/main.css" rel="stylesheet" />
-    <link href="/main2.css" rel="stylesheet" />
-  </head>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Myboard</title>
+<link href="/main.css" rel="stylesheet" />
+<link href="/main2.css" rel="stylesheet" />
+</head>
 
-  <body class="lightLayout">
-    <%- include('header.ejs')%>
+<body class="lightLayout">
+<%- include('header.ejs')%>
 
-  <div class="summary">
-    <div class="totalPost">
-      <div>작성한 게시글 : <%=myposts.length %></div>
-    </div>
-  </div>
-      <div class="innerLayout">
-        <!-- 카테고리: 전체-->
-          <% if(myposts.length >0) { %> 
-            <% for(let i=0; i<myposts.length;i++) { %>
-              <div class="listBox" id="list-box">
-                <div class="listBox-left">
-                  <div class="listBox-left-inner">
-                    <div><%=myposts[i].category%></div>
-                    <a class="mainTitle" href="/detail/<%=myposts[i]._id%>"
-                      ><%=myposts[i].title %></a
-                    >
-                    <% for (const key in commentCount) { %>
-                      <% if (key === myposts[i]._id.toString()) { %>
-                        <span>(<%= commentCount[key] %>)</span>
-                      <% } %>
-                    <% } %>
-                    <div style="display: none" class="listWriterId">
-                      <%=myposts[i].user %>
-                    </div>
-                    <a href="/edit/<%=myposts[i]._id %>" class="editBtn"
-                      ><img src="/edit2.png" /> 수정</a
-                    >
-                    <span
-                      class="deleteThing"
-                      data-postid="<%=myposts[i]._id %>"
-                      data-userid="<%=myposts[i].user%>"
-                      ><img src="/delete2.png" /> 삭제</span
-                    >
-                  </div>
-                  <span class="listNameDate">
-                    <span class="listUsername"><%=myposts[i].username%></span>
-                    <span class="listDate"><%=myposts[i].date%></span>
-                  </span>
+<div class="summary">
+<div class="totalPost">
+  <div>작성한 게시글 : <%=myposts.length %></div>
+</div>
+</div>
+  <div class="innerLayout">
+    <!-- 카테고리: 전체-->
+      <% if(myposts.length >0) { %> 
+        <% for(let i=0; i<myposts.length;i++) { %>
+          <div class="listBox" id="list-box">
+            <div class="listBox-left">
+              <div class="listBox-left-inner">
+                <div><%=myposts[i].category%></div>
+                <a class="mainTitle" href="/detail/<%=myposts[i]._id%>"
+                  ><%=myposts[i].title %></a
+                >
+                <% for (const key in commentCount) { %>
+                  <% if (key === myposts[i]._id.toString()) { %>
+                    <span>(<%= commentCount[key] %>)</span>
+                  <% } %>
+                <% } %>
+                <div style="display: none" class="listWriterId">
+                  <%=myposts[i].user %>
                 </div>
+                <a href="/edit/<%=myposts[i]._id %>" class="editBtn"
+                  ><img src="/edit2.png" /> 수정</a
+                >
+                <span
+                  class="deleteThing"
+                  data-postid="<%=myposts[i]._id %>"
+                  data-userid="<%=myposts[i].user%>"
+                  ><img src="/delete2.png" /> 삭제</span
+                >
               </div>
-          <% } %> 
-        <% } %>
-          <!-- 왜인지 if-else가 안되어 if, if 사용 -->
-          <% if(myposts.length == 0) { %>
-          <div class="toWritePage">
-            <a href="/write">생성된 글이 없습니다. 첫 글을 발행해보세요!</a>
+              <span class="listNameDate">
+                <span class="listUsername"><%=myposts[i].username%></span>
+                <span class="listDate"><%=myposts[i].date%></span>
+              </span>
+            </div>
           </div>
-          <% } %>
-          
-        <!-- 게시물 날짜순 정렬하기 -->
-        <script>
-          let postdates = document.querySelectorAll('.listDate');
-
-          let postdatesArr = [];
-          postdates.forEach((date, idx) => {
-            let postdate = date.textContent;
-            postdatesArr.push({ originalIndex: idx, date: postdate });
-          });
-
-          // toSorted를 활용한 사본배열
-          const orderedDate = postdatesArr.toSorted(function (a, b) {
-            if (a.date < b.date) return 1;
-            if (a.date > b.date) return -1;
-            return 0;
-          });
-
-          // index를 기준으로 정렬
-          orderedDate.forEach((date, index) => {
-            date.newIndex = index; // 새로운 인덱스 추가
-          });
-
-          // 위의 정렬 기준에 따라서 listBox 정렬하기
-          let listboxes = document.querySelectorAll('.listBox');
-          listboxes.forEach((box) => {
-            // box.querySelector 하면 특정 한 개 박스의 ~
-            let newIndex = orderedDate.find(
-              (date) => date.date === box.querySelector('.listDate').textContent
-            ).newIndex;
-
-            // (중요) order 속성 적용하려면 listbox의 부모요소(white-bg)에 flex나 grid 적용되야 함
-            box.style.order = newIndex;
-          });
-        </script>
-  
-        <!-- 게시글 삭제하기 -->
-        <script>
-          let deleteBtns = document.querySelectorAll('.deleteThing');
-
-          deleteBtns.forEach((btn, index) => {
-            let writerIds = document.querySelectorAll('.listWriterId');
-            let writerId = writerIds[index].textContent;
-            let editBtns = document.querySelectorAll('.editBtn');
-            let editBtn = editBtns[index];
-
-            // 공백대비해서 trim() 처리 해주기
-            // 글 작성자만 수정, 삭제 버튼 보이게 하기
-            if ('<%= loginUser %>' == writerId.trim()) {
-              btn.style.display = 'inline';
-              editBtn.style.display = 'inline';
-            } else {
-              btn.style.display = 'none';
-              editBtn.style.display = 'none';
-            }
-
-            btn.addEventListener('click', function (e) {
-              let postId = e.target.dataset.postid;
-
-              if (window.confirm('삭제하시겠습니까?')) {
-                fetch('/delete?docId=' + postId, {
-                  method: 'DELETE',
-                })
-                  .then((res) => res.text())
-                  .then((data) => {
-                    e.target.closest('#list-box').style.display = 'none';
-                  })
-                  .catch((error) => {
-                    console.error('오류 발생!!', error);
-                    e.target.closest('#list-box').style.display = 'inline';
-                  });
-              } else {
-                btn.style.display = 'inline'; // block 은 줄바꿈 돼서 쓰면 X
-              }
-            });
-          });
-        </script>
-        
-      </div>  
-      <!-- 페이지네이션 레이아웃-->
-      <div class="pageWrapper">
-        <a class="prevBtn">이전</a>
-        <div class="pageContainer"></div>
-        <a class="nextBtn">이후</a>
+      <% } %> 
+    <% } %>
+      <!-- 왜인지 if-else가 안되어 if, if 사용 -->
+      <% if(myposts.length == 0) { %>
+      <div class="toWritePage">
+        <a href="/write">생성된 글이 없습니다. 첫 글을 발행해보세요!</a>
       </div>
- 
-<!-- 페이지네이션 기능 -->
- <script>
-  let pages = document.querySelector('.pageContainer');
+      <% } %>
+  </div>  
+  <!-- 페이지네이션 레이아웃-->
+  <div class="pageWrapper">
+    <a class="prevBtn">이전</a>
+    <div class="pageContainer"></div>
+    <a class="nextBtn">이후</a>
+  </div>
+<%- include('footer.ejs')%>      
+</body>
+</html>
 
-  // 총 페이지 갯수 계산
-  let postlimit = 20; // 한 페이지 당 보여줄 데이터 개수
-  let totalcount = "<%= myposts.length%>"
-  let totalCount = Number(totalcount); // 26
-  let totalpages = Math.ceil(totalCount / postlimit); // 3
+<!-- 게시물 날짜순 정렬하기 -->
+<script>
+  let postdates = document.querySelectorAll('.listDate');
 
-  let prevBtn = document.querySelector('.prevBtn');
-  let nextBtn = document.querySelector('.nextBtn');
+  let postdatesArr = [];
+  postdates.forEach((date, idx) => {
+    let postdate = date.textContent;
+    postdatesArr.push({ originalIndex: idx, date: postdate });
+  });
 
-  // 현재 페이지 그룹 계산
-  let currentPage = 1;
+  // toSorted를 활용한 사본배열
+  const orderedDate = postdatesArr.toSorted(function (a, b) {
+    if (a.date < b.date) return 1;
+    if (a.date > b.date) return -1;
+    return 0;
+  });
 
-  // 페이지 기반으로 포스트 갱신(최신순 정렬 포함)
-  function updateDisplay (currentPage) {
+  // index를 기준으로 정렬
+  orderedDate.forEach((date, index) => {
+    date.newIndex = index; // 새로운 인덱스 추가
+  });
+
+  // 위의 정렬 기준에 따라서 listBox 정렬하기
+  let listboxes = document.querySelectorAll('.listBox');
   listboxes.forEach((box) => {
+    // box.querySelector 하면 특정 한 개 박스의 ~
     let newIndex = orderedDate.find(
       (date) => date.date === box.querySelector('.listDate').textContent
     ).newIndex;
 
+    // (중요) order 속성 적용하려면 listbox의 부모요소(white-bg)에 flex나 grid 적용되야 함
     box.style.order = newIndex;
-    // 박스가 인덱스 범위안에 있으면 보여주고, 아니면 숨김
-    box.style.display = (newIndex >= (currentPage -1) * postlimit && newIndex < currentPage * postlimit) ? 'block' : 'none';
   });
+</script>
+
+<!-- 게시글 삭제하기 -->
+<script>
+let deleteBtns = document.querySelectorAll('.deleteThing');
+
+deleteBtns.forEach((btn, index) => {
+let writerIds = document.querySelectorAll('.listWriterId');
+let writerId = writerIds[index].textContent;
+let editBtns = document.querySelectorAll('.editBtn');
+let editBtn = editBtns[index];
+
+// 공백대비해서 trim() 처리 해주기
+// 글 작성자만 수정, 삭제 버튼 보이게 하기
+if (loginUser  == writerId.trim()) {
+btn.style.display = 'inline';
+editBtn.style.display = 'inline';
+} else {
+btn.style.display = 'none';
+editBtn.style.display = 'none';
+}
+
+btn.addEventListener('click', function (e) {
+let postId = e.target.dataset.postid;
+
+if (window.confirm('삭제하시겠습니까?')) {
+  fetch('/delete?docId=' + postId, {
+    method: 'DELETE',
+  })
+    .then((res) => res.text())
+    .then((data) => {
+      e.target.closest('#list-box').style.display = 'none';
+    })
+    .catch((error) => {
+      console.error('오류 발생!!', error);
+      e.target.closest('#list-box').style.display = 'inline';
+    });
+} else {
+  btn.style.display = 'inline'; // block 은 줄바꿈 돼서 쓰면 X
+}
+});
+});
+</script>
+
+<!-- 생성된 글 없으면 페이지네이션 숨김 -->
+<script>
+  if("<%= myposts.length %>" == 0) {
+    document.querySelector(".pageWrapper").style.display="none"
   }
+</script>
+  
+<!-- 페이지네이션 기능 -->
+<script>
+let pages = document.querySelector('.pageContainer');
 
-  // 전체 페이지 수 및 현재 currentPage 업데이트하는 함수
-  function updatePage(currentPage, totalpages) {
-    let pages = document.querySelector('.pageContainer');
-    pages.innerHTML = ''; // 기존의 페이징 링크를 지움(안그러면 for문에 의해 page링크 3개씩 계속 생성됨)
+// 총 페이지 갯수 계산
+let postlimit = 20; // 한 페이지 당 보여줄 데이터 개수
+let totalcount = "<%= myposts.length%>"
+let totalCount = Number(totalcount); // 26
+let totalpages = Math.ceil(totalCount / postlimit); // 3
 
-    for (let i = 1; i <= totalpages; i++) {
-      let pageLink = document.createElement('a');
-      pageLink.textContent = i;
-      pages.appendChild(pageLink);
+let prevBtn = document.querySelector('.prevBtn');
+let nextBtn = document.querySelector('.nextBtn');
 
-      // 페이지 버튼 클릭
-      pageLink.addEventListener('click', function (event) {
-        event.preventDefault();
+// 현재 페이지 그룹 계산
+let currentPage = 1;
 
-        currentPage = i;
-        updateDisplay(currentPage);
-        updatePage(currentPage, totalpages);
-        updatePageBtn(currentPage, totalpages);
-      });
-      
-      // 현재 머무르고 있는 페이지 표시
-      if(i === currentPage) {
-        pageLink.classList.add("currentPage")
-      }
-    }
+// 페이지 기반으로 포스트 갱신(최신순 정렬 포함)
+function updateDisplay (currentPage) {
+listboxes.forEach((box) => {
+  let newIndex = orderedDate.find(
+    (date) => date.date === box.querySelector('.listDate').textContent
+  ).newIndex;
 
-  }
+  box.style.order = newIndex;
+  // 박스가 인덱스 범위안에 있으면 보여주고, 아니면 숨김
+  box.style.display = (newIndex >= (currentPage -1) * postlimit && newIndex < currentPage * postlimit) ? 'block' : 'none';
+});
+}
 
-  // 이전, 이후 버튼 보이기/숨김 업데이트 함수
-  function updatePageBtn(currentPage, totalpages) {
-    if (currentPage === 1) {
-      prevBtn.style.display = "none";
-    } else {
-      prevBtn.style.display = "block";
-    }
+// 전체 페이지 수 및 현재 currentPage 업데이트하는 함수
+function updatePage(currentPage, totalpages) {
+  let pages = document.querySelector('.pageContainer');
+  pages.innerHTML = ''; // 기존의 페이징 링크를 지움(안그러면 for문에 의해 page링크 3개씩 계속 생성됨)
 
-    if (currentPage === totalpages) {
-      nextBtn.style.display = "none";
-    } else {
-      nextBtn.style.display = "block";
-    }
-  }
+  for (let i = 1; i <= totalpages; i++) {
+    let pageLink = document.createElement('a');
+    pageLink.textContent = i;
+    pages.appendChild(pageLink);
 
-  // 초기 설정
-  updateDisplay(currentPage); // 초기는 1
-  updatePage(currentPage, totalpages);
-  updatePageBtn(currentPage, totalpages);
+    // 페이지 버튼 클릭
+    pageLink.addEventListener('click', function (event) {
+      event.preventDefault();
 
-  // 이전, 이후 버튼 클릭 이벤트
-  prevBtn.addEventListener('click', function () {
-    if (currentPage > 1){
-      currentPage--;
+      currentPage = i;
       updateDisplay(currentPage);
-      updatePage(currentPage, totalpages)
+      updatePage(currentPage, totalpages);
       updatePageBtn(currentPage, totalpages);
-    }});
+    });
+    
+    // 현재 머무르고 있는 페이지 표시
+    if(i === currentPage) {
+      pageLink.classList.add("currentPage")
+    }
+  }
 
-  nextBtn.addEventListener('click', function () {
-    if (currentPage < totalpages) {
-      currentPage++;
-      updateDisplay(currentPage);
-      updatePage(currentPage, totalpages)
-      updatePageBtn(currentPage, totalpages);
+}
+
+// 이전, 이후 버튼 보이기/숨김 업데이트 함수
+function updatePageBtn(currentPage, totalpages) {
+  if (currentPage === 1) {
+    prevBtn.style.display = "none";
+  } else {
+    prevBtn.style.display = "block";
+  }
+
+  if (currentPage === totalpages) {
+    nextBtn.style.display = "none";
+  } else {
+    nextBtn.style.display = "block";
+  }
+}
+
+// 초기 설정
+updateDisplay(currentPage); // 초기는 1
+updatePage(currentPage, totalpages);
+updatePageBtn(currentPage, totalpages);
+
+// 이전, 이후 버튼 클릭 이벤트
+prevBtn.addEventListener('click', function () {
+  if (currentPage > 1){
+    currentPage--;
+    updateDisplay(currentPage);
+    updatePage(currentPage, totalpages)
+    updatePageBtn(currentPage, totalpages);
   }});
 
+nextBtn.addEventListener('click', function () {
+  if (currentPage < totalpages) {
+    currentPage++;
+    updateDisplay(currentPage);
+    updatePage(currentPage, totalpages)
+    updatePageBtn(currentPage, totalpages);
+}});
 </script>
- <%- include('footer.ejs')%>      
-  </body>
-</html>
 
 <!-- 말줄임 기능 -->
 <script>
