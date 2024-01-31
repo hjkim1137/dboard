@@ -66,6 +66,8 @@
 }
 .listBox > div {
   display: flex;
+  gap: 16px;
+  align-items: center;
 }
 
 /* 각종 버튼 */
@@ -184,16 +186,16 @@
   gap: 36px;
   flex-basis: 40%;
 }
-.listUsername {
-  text-align: left;
-  width: 30px;
-  color: var(--gray-color);
-  font-weight: 400;
-}
 .listDate {
   text-align: left;
   color: var(--gray-color);
   font-size: 14px;
+  font-weight: 400;
+}
+.listUsername {
+  text-align: left;
+  width: 30px;
+  color: var(--gray-color);
   font-weight: 400;
 }
 
@@ -650,6 +652,27 @@
   background-color: none;
 }
 
+/* mypost 페이지 */
+.mylistBox-left-inner {
+  display: flex;
+  gap: 8px;
+  flex-basis: 85%;
+}
+.mylistBox-left-inner > span,
+.mylistBox-left-inner > a {
+  font-size: 14px;
+}
+.mylistBox-left-inner > a > img,
+.mylistBox-left-inner > span > img {
+  width: 12px;
+}
+.mylistDate {
+  text-align: left;
+  color: var(--gray-color);
+  font-size: 14px;
+  font-weight: 400;
+}
+
 /* 미디어 쿼리 */
 
 @media (max-width: 1200px) {
@@ -680,6 +703,9 @@
   }
   .listNameDate {
     gap: 12px;
+  }
+  .mylistBox-left-inner {
+    flex-basis: 84%;
   }
 }
 
@@ -721,6 +747,9 @@
   }
   .listBox-left-inner {
     flex-basis: 100%;
+  }
+  .mylistNameDate {
+    display: none;
   }
 }
 

@@ -22,7 +22,7 @@
         <% for(let i=0; i<myposts.length;i++) { %>
           <div class="listBox" id="list-box">
             <div class="listBox-left">
-              <div class="listBox-left-inner">
+              <div class="mylistBox-left-inner">
                 <div><%=myposts[i].category%></div>
                 <a class="mainTitle" href="/detail/<%=myposts[i]._id%>"
                   ><%=myposts[i].title %></a
@@ -45,8 +45,8 @@
                   ><img src="/delete2.png" /> 삭제</span
                 >
               </div>
-              <div class="listNameDate">
-                <div class="listDate"><%=myposts[i].date%></div>
+              <div class="mylistNameDate">
+                <div class="mylistDate"><%=myposts[i].date%></div>
               </div>
             </div>
           </div>
@@ -71,7 +71,7 @@
 
 <!-- 게시물 날짜순 정렬하기 -->
 <script>
-  let postdates = document.querySelectorAll('.listDate');
+  let postdates = document.querySelectorAll('.mylistDate');
 
   let postdatesArr = [];
   postdates.forEach((date, idx) => {
@@ -96,7 +96,7 @@
   listboxes.forEach((box) => {
     // box.querySelector 하면 특정 한 개 박스의 ~
     let newIndex = orderedDate.find(
-      (date) => date.date === box.querySelector('.listDate').textContent
+      (date) => date.date === box.querySelector('.mylistDate').textContent
     ).newIndex;
 
     // (중요) order 속성 적용하려면 listbox의 부모요소(white-bg)에 flex나 grid 적용되야 함
@@ -163,7 +163,7 @@ let currentPage = 1;
 function updateDisplay (currentPage) {
 listboxes.forEach((box) => {
   let newIndex = orderedDate.find(
-    (date) => date.date === box.querySelector('.listDate').textContent
+    (date) => date.date === box.querySelector('.mylistDate').textContent
   ).newIndex;
 
   box.style.order = newIndex;

@@ -1,6 +1,5 @@
 const router = require('express').Router();
 let connectDB = require('../database');
-const { ObjectId } = require('mongodb');
 const { isLogin } = require('../middlewares/index');
 
 // monogoDB 연결
@@ -13,8 +12,6 @@ connectDB
     console.error('DB 연결 실패:', err);
   });
 
-// 채팅방 목록 페이지
-// 현재 채팅방에 속해있는 유저만 조회 하도록 수정
 router.get('/', isLogin, async (req, res) => {
   let commentCount = {};
 

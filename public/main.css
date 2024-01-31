@@ -221,10 +221,11 @@ span:hover {
   background-color: var(--dark-background-color);
   border-bottom: 1px solid var(--dark-color);
 }
-.dark-mode input {
+.dark-mode input,
+.dark-mode .writeContent {
   background-color: var(--dark-color);
   color: var(--gray-color);
-  border: 1px solid var(--dark-color);
+  border: 1px solid black;
 }
 .dark-mode .userDropdown {
   background-color: var(--dark-color);
@@ -260,6 +261,7 @@ span:hover {
 .dark-mode .homeTitle,
 .dark-mode .errorMsg,
 .dark-mode .pageContainer > a,
+.dark-mode .mylistBox-left-inner > div,
 .dark-mode .listBox-left-inner > div,
 .dark-mode .homeGrid2Title,
 .dark-mode .homeRank,
@@ -294,6 +296,12 @@ span:hover {
 }
 .dark-mode .writerChat {
   background-color: var(--gray-color);
+}
+.dark-mode .headerProfile > img {
+  border-color: var(--dark-color2);
+}
+.dark-mode .homeGrid2Profile > img {
+  border-color: var(--gray-color);
 }
 
 /* footer  */
@@ -362,6 +370,9 @@ span:hover {
   .listNameDate {
     gap: 12px;
   }
+  .mylistBox-left-inner {
+    flex-basis: 84%;
+  }
 }
 
 @media (max-width: 768px) {
@@ -402,6 +413,9 @@ span:hover {
   }
   .listBox-left-inner {
     flex-basis: 100%;
+  }
+  .mylistNameDate {
+    display: none;
   }
 }
 
