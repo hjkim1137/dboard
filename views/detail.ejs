@@ -48,7 +48,7 @@
               <!-- 글 작성자가 댓글을 쓰는 경우 -->
               <% if(comment[i].writerId.equals(result.user)) { %>
                 <div class="comment">
-                  <span class="commentWriter">글쓴이</span>
+                  <div class="commentWriter">글쓴이</div>
                   <div><%=comment[i].comment %></div>
                   <div class="commentDate"><%=comment[i].date %></div>
                   <% if(comment[i].writerId==String(loginuser)) { %>
