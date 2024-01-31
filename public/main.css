@@ -314,6 +314,9 @@ span:hover {
   padding: 20px 0;
   border-top: solid 1px var(--gray-color2);
 }
+.footer > div {
+  display: inline-block;
+}
 
 /* fail 페이지 */
 .toLoginBox {
