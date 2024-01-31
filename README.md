@@ -60,7 +60,7 @@
 #### 다크모드 지원
 ![다크모드](https://github.com/hjkim1137/node.js-MongoDB-prac/assets/127932075/532575fd-1210-475a-811a-2ff35b0dc427)
 
-#### 게시글 최신순 정렬
+#### 게시글/채팅 최신순 정렬
 ![게시글 최신순 정렬](https://github.com/hjkim1137/node.js-MongoDB-prac/assets/127932075/a1741461-2e72-452e-81f2-3fc932972de3)
 
 #### 게시글 카테고리화
