@@ -1,8 +1,3 @@
-### Test 계정
-
-- ID: admin
-- PW: 11111111 (1이 8개)
-
 ### 프로젝트 기획 배경
 
 - **백엔드 역량 강화를 위해 SSR**(Server Side Rendering) 게시판을 구현 하였음
